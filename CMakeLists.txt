@@ -1,11 +1,14 @@
 # <Copyright Holder>. Copyright (C) <Copyright Year(s)>. <License>.
 
+SET (CMAKE_CXX_COMPILER "/usr/local/bin/g++-5")
+SET (CMAKE_CXX_FLAGS "-std=c++1z")
+
 #
 # Project Properties
 #
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6.2)
-PROJECT (projectname)
-SET (APPLICATION_NAME "Project Name")
+PROJECT (game-engine)
+SET (APPLICATION_NAME "Gum Engine")
 SET (APPLICATION_CODENAME "${PROJECT_NAME}")
 SET (APPLICATION_COPYRIGHT_YEARS "2014")
 SET (APPLICATION_VERSION_MAJOR 1)
