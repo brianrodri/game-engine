@@ -5,6 +5,7 @@ SET (project_LIBS "")
 
 SET (project_BIN ${PROJECT_NAME})
 
+INCLUDE_DIRECTORIES("./inc")
 ADD_EXECUTABLE(${project_BIN} ${project_SRCS})
 
 TARGET_LINK_LIBRARIES(${project_BIN} ${project_LIBS})

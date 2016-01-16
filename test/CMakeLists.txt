@@ -10,6 +10,7 @@ INCLUDE_DIRECTORIES("${gmock_SOURCE_DIR}/include"
                     "${gtest_SOURCE_DIR}")
 
 INCLUDE_DIRECTORIES("../src")
+INCLUDE_DIRECTORIES("../src/inc")
 
 SET (test_SRCS
   ${test_SRCS}
