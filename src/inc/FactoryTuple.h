@@ -4,12 +4,6 @@
 #include <tuple>
 #include <type_traits>
 #include <utility>
-#include <boost/hana.hpp>
-#include <boost/hana/ext/std/tuple.hpp>
-
-// NAMESPACE ALIASES AND EXPANDERS
-namespace hana = boost::hana;
-using hana::literals::operator""_c;
 
 // FORWARD DECLARATIONS
 template <typename... T> class FactoryTuple;
@@ -126,16 +120,6 @@ private:
     template <std::ptrdiff_t V> 
     static constexpr auto ptrdiff_c = hana::integral_constant<std::ptrdiff_t, V>{};
 
-    struct offhelper {
-        constexpr offhelper() = default;
-
-        template <typename S, typename N>
-        constexpr auto operator()(S s, N n) const
-        {
-            return (((s + n[0_c] + n[1_c] - ptrdiff_c<1>) / n[1_c]) * n[1_c]);
-        }
-    };
-
     template <typename I = hana::integral_constant<std::size_t, sizeof...(T)>>
     static constexpr auto generate_member_offset(I i = {})
     {
@@ -144,7 +128,9 @@ private:
         constexpr auto sz = prepend(transform(tuple_t<T...>, sizeof_), hana::size_c<0>);
         constexpr auto al = append(transform(tuple_t<T...>, alignof_), hana::size_c<alignof_all>);
         constexpr auto seq = take(drop_front(zip(sz, al)), i);
-        return fold(seq, ptrdiff_c<0>, offhelper{});
+        return fold(seq, ptrdiff_c<0>, [](auto s, auto n) constexpr {
+            return ((s + n[0_c] + n[1_c] - ptrdiff_c<1>) / n[1_c]) * n[1_c];
+        });
     }
 
     std::aligned_union_t<generate_member_offset(), T..., char> m_memory;
