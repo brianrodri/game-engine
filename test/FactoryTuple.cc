@@ -37,12 +37,11 @@ TEST(FactoryTuple, ProperlyAllocated)
     EXPECT_EQ(actual[2_c], expected[2]);
 }
 
-/*
 TEST(FactoryTuple, BasicFactoryConstructs)
 {
     using std::literals::string_literals::operator""s;
-    auto makefoo = [](auto&) { return std::forward_as_tuple("foo"s); };
-    auto makebar = [](auto&) { return std::forward_as_tuple("bar"s); };
+    auto makefoo = [](auto&) { return std::forward_as_tuple("foo"); };
+    auto makebar = [](auto&) { return std::forward_as_tuple("bar"); };
 
     FactoryTuple<std::string, std::string> strpair{makefoo, makebar};
 
@@ -50,6 +49,7 @@ TEST(FactoryTuple, BasicFactoryConstructs)
     EXPECT_EQ(strpair[1_c], "bar");
 }
 
+/*
 TEST(FactoryTuple, ComplexFactoryConstructs)
 {
     auto simple = [](auto&) { return std::forward_as_tuple("down the pipe!"s); };
