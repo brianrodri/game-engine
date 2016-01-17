@@ -1,0 +1,1395 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		54A798605777421C82981FFB /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 2A0B450F99434D72B977872A /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				E1C67F8AE2B54D5085A07003 /* CMake Rules */,
+			);
+			dependencies = (
+				E2A54A3B97EA4E53A234DC35 /* PBXTargetDependency */,
+				3024FFCC4AC44564887AB399 /* PBXTargetDependency */,
+				CE6C58CFF95043AA8FDBE0B9 /* PBXTargetDependency */,
+				EFC72696C4C141D3BFB3BF1C /* PBXTargetDependency */,
+				8B540EF57C704CCE92F00381 /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		61E5E0459F5240FC91440B4B /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7B6C800F263649DFBF90B20D /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				8D05C9EC0C694428B9747FAE /* CMake Rules */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+		A2423E30099C4C4DB1860424 /* install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 52536D47CA7E4A20A11E6CFE /* Build configuration list for PBXAggregateTarget "install" */;
+			buildPhases = (
+				CFA675B5135949C288FE0D78 /* CMake PostBuild Rules */,
+			);
+			dependencies = (
+				4B57905010E8439D9186D98F /* PBXTargetDependency */,
+			);
+			name = install;
+			productName = install;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		064DA5FB166349EE8DA602F3 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock-all.cc */ = {isa = PBXBuildFile; fileRef = 9F9E2646196846F59EE32237 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock-all.cc */; settings = {COMPILER_FLAGS = ""; }; };
+		0B5174DE5A0E47CFA1A398BE /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = C2D0BE5A53DE486FA8BE7086 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */; settings = {COMPILER_FLAGS = ""; }; };
+		24584E573F3F4C72A91FF51A /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock_main.cc */ = {isa = PBXBuildFile; fileRef = D4676486A4F14A8C90E5AB50 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock_main.cc */; settings = {COMPILER_FLAGS = ""; }; };
+		34560F6117C74D1381118234 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = D9B068B0A1C642F8B1B28F40 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/CMakeLists.txt */; settings = {COMPILER_FLAGS = ""; }; };
+		8288562027A14D13BAA56347 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */ = {isa = PBXBuildFile; fileRef = 738954A5F5AB42DE8628033F /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */; settings = {COMPILER_FLAGS = ""; }; };
+		CD741DBF72AC4C7E9B9B13E3 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */ = {isa = PBXBuildFile; fileRef = CA06FC3BD38444B7AB57B7A9 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */; settings = {COMPILER_FLAGS = ""; }; };
+		D079B84AF3F5437788E2DCEB /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 0295BC66F5264585BED79E2C /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/CMakeLists.txt */; settings = {COMPILER_FLAGS = ""; }; };
+		D52FF15D65714FCA8C7E0AE6 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */ = {isa = PBXBuildFile; fileRef = 9BD2680F936D48B2BA02BAFE /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */; settings = {COMPILER_FLAGS = ""; }; };
+		D648BF469B284A5996A5B356 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest_main.cc */ = {isa = PBXBuildFile; fileRef = 08B9979E4DF84049903A73A7 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest_main.cc */; settings = {COMPILER_FLAGS = ""; }; };
+		D776B662EC2D446788481171 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock-all.cc */ = {isa = PBXBuildFile; fileRef = 4BFEE9BADCAC43619AA8526F /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock-all.cc */; settings = {COMPILER_FLAGS = ""; }; };
+		E5575C25FEB345B8AA0F0645 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 94B3DC270B664835B9AC32DD /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */; settings = {COMPILER_FLAGS = ""; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		1712A9D41C624985A0098427 = {
+			isa = PBXBuildStyle;
+		};
+		3F0D3E95375446FBAA5D93DF /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		4AB9DFFE663F4198AC175DE9 /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		885B7018A92C4685BADC44EB /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+		F173F6FF063A48C28ADD816A /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		19C1116BDCA74F4FA5661740 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6B969139ADA44248A95AD2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EDC02EBFC74F44ADAA0D47A3;
+			remoteInfo = gtest;
+		};
+		245AA69FB65740DBA463E0CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6B969139ADA44248A95AD2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EDC02EBFC74F44ADAA0D47A3;
+			remoteInfo = gtest;
+		};
+		39521EC1A2E84A44A1778612 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6B969139ADA44248A95AD2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61E5E0459F5240FC91440B4B;
+			remoteInfo = ZERO_CHECK;
+		};
+		3E476327B0514194878F80AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6B969139ADA44248A95AD2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C44B6721E3E4824A7713707;
+			remoteInfo = gtest_main;
+		};
+		B00AFA8F84044484AEF75A41 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6B969139ADA44248A95AD2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61E5E0459F5240FC91440B4B;
+			remoteInfo = ZERO_CHECK;
+		};
+		D5F77A1AE6574B66AB0B17C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6B969139ADA44248A95AD2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61E5E0459F5240FC91440B4B;
+			remoteInfo = ZERO_CHECK;
+		};
+		DD21FC94F7B347B8BFA7BDE6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6B969139ADA44248A95AD2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 54A798605777421C82981FFB;
+			remoteInfo = ALL_BUILD;
+		};
+		F0E0AEE883CF4E7BB22C2EBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6B969139ADA44248A95AD2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 75AF6DCA12094A42B4F8F641;
+			remoteInfo = gmock;
+		};
+		F530C3C81B574501BCB976E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6B969139ADA44248A95AD2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28117B4E32A6408BBB1CD02F;
+			remoteInfo = gmock_main;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0295BC66F5264585BED79E2C /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = gtest/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		08B9979E4DF84049903A73A7 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest_main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = gtest_main.cc; path = gtest/src/gtest_main.cc; sourceTree = SOURCE_ROOT; };
+		21EC4295F67C4C628AFDF043 /* gtest */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libgtest.a; refType = 0; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BFEE9BADCAC43619AA8526F /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock-all.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = "gmock-all.cc"; path = "src/gmock-all.cc"; sourceTree = SOURCE_ROOT; };
+		517AB58DE4404D0BACDF889B /* gtest_main */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libgtest_main.a; refType = 0; sourceTree = BUILT_PRODUCTS_DIR; };
+		738954A5F5AB42DE8628033F /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = "gtest-all.cc"; path = "gtest/src/gtest-all.cc"; sourceTree = SOURCE_ROOT; };
+		77BF393B4CDA4CCC8BE5F955 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		94B3DC270B664835B9AC32DD /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		9BD2680F936D48B2BA02BAFE /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = "gtest-all.cc"; path = "gtest/src/gtest-all.cc"; sourceTree = SOURCE_ROOT; };
+		9F55762611EC40A1AF929366 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		9F9E2646196846F59EE32237 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock-all.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = "gmock-all.cc"; path = "src/gmock-all.cc"; sourceTree = SOURCE_ROOT; };
+		C2D0BE5A53DE486FA8BE7086 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		C3185FCE9DB24A06B0E7CBB6 /* gmock */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libgmock.a; refType = 0; sourceTree = BUILT_PRODUCTS_DIR; };
+		C998DC5EFCD14AFABD2B00C0 /* gmock_main */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libgmock_main.a; refType = 0; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA06FC3BD38444B7AB57B7A9 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = "gtest-all.cc"; path = "gtest/src/gtest-all.cc"; sourceTree = SOURCE_ROOT; };
+		D4676486A4F14A8C90E5AB50 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock_main.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = gmock_main.cc; path = src/gmock_main.cc; sourceTree = SOURCE_ROOT; };
+		D9B068B0A1C642F8B1B28F40 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = gtest/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0A84F33F6F2F42BB9EB6F292 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				738954A5F5AB42DE8628033F /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */,
+				9F9E2646196846F59EE32237 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock-all.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		227BBA708F7741908B4555A0 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				08B9979E4DF84049903A73A7 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest_main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		24B4E0D9AB264172AC97E1FE /* gtest_main */ = {
+			isa = PBXGroup;
+			children = (
+				227BBA708F7741908B4555A0 /* Source Files */,
+				0295BC66F5264585BED79E2C /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/CMakeLists.txt */,
+			);
+			name = gtest_main;
+			sourceTree = "<group>";
+		};
+		28110A723D4B42CFBDE9E148 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				CA06FC3BD38444B7AB57B7A9 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */,
+				4BFEE9BADCAC43619AA8526F /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock-all.cc */,
+				D4676486A4F14A8C90E5AB50 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock_main.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		2C8E5C199BBF4F8ABFC146FE /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				9BD2680F936D48B2BA02BAFE /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		5A5E36385925413A9CC7BFC2 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				66DCB52168E34ABE8F55B60B /* CMake Rules */,
+				77BF393B4CDA4CCC8BE5F955 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		66A7DDD0B9EF493390107EAE /* ZERO_CHECK */ = {
+			isa = PBXGroup;
+			children = (
+				C36F2F3BA34048D8B419C143 /* CMake Rules */,
+				9F55762611EC40A1AF929366 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */,
+			);
+			name = ZERO_CHECK;
+			sourceTree = "<group>";
+		};
+		66DCB52168E34ABE8F55B60B /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		705F8E5666A04F909B22624A = {
+			isa = PBXGroup;
+			children = (
+				F09441AC2CF949EAAC99D7AE /* Sources */,
+				D5FC621BCEBB45EAB71DD3FC /* Resources */,
+				DE5DC332317349728D385557 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7336A20DAE4244F780110372 /* gmock */ = {
+			isa = PBXGroup;
+			children = (
+				0A84F33F6F2F42BB9EB6F292 /* Source Files */,
+				C2D0BE5A53DE486FA8BE7086 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */,
+			);
+			name = gmock;
+			sourceTree = "<group>";
+		};
+		8BFF3E0C57164649975653E2 /* gmock_main */ = {
+			isa = PBXGroup;
+			children = (
+				28110A723D4B42CFBDE9E148 /* Source Files */,
+				94B3DC270B664835B9AC32DD /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeLists.txt */,
+			);
+			name = gmock_main;
+			sourceTree = "<group>";
+		};
+		C36F2F3BA34048D8B419C143 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		D5FC621BCEBB45EAB71DD3FC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		DE5DC332317349728D385557 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C3185FCE9DB24A06B0E7CBB6 /* gmock */,
+				C998DC5EFCD14AFABD2B00C0 /* gmock_main */,
+				21EC4295F67C4C628AFDF043 /* gtest */,
+				517AB58DE4404D0BACDF889B /* gtest_main */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E140904489E9408CAFC3CC70 /* gtest */ = {
+			isa = PBXGroup;
+			children = (
+				2C8E5C199BBF4F8ABFC146FE /* Source Files */,
+				D9B068B0A1C642F8B1B28F40 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/CMakeLists.txt */,
+			);
+			name = gtest;
+			sourceTree = "<group>";
+		};
+		F09441AC2CF949EAAC99D7AE /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				66A7DDD0B9EF493390107EAE /* ZERO_CHECK */,
+				8BFF3E0C57164649975653E2 /* gmock_main */,
+				5A5E36385925413A9CC7BFC2 /* ALL_BUILD */,
+				7336A20DAE4244F780110372 /* gmock */,
+				24B4E0D9AB264172AC97E1FE /* gtest_main */,
+				E140904489E9408CAFC3CC70 /* gtest */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		28117B4E32A6408BBB1CD02F /* gmock_main */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B187305548604BB2BA899D27 /* Build configuration list for PBXNativeTarget "gmock_main" */;
+			buildPhases = (
+				425882D542CC42368E5E04EA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				98162ED35205453E80B1A5A8 /* PBXTargetDependency */,
+			);
+			name = gmock_main;
+			productName = gmock_main;
+			productReference = C998DC5EFCD14AFABD2B00C0 /* gmock_main */;
+			productType = "com.apple.product-type.library.static";
+		};
+		4C44B6721E3E4824A7713707 /* gtest_main */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A08B387F8FD54DA9BFFD8EB3 /* Build configuration list for PBXNativeTarget "gtest_main" */;
+			buildPhases = (
+				6399479FBEA8431689217F4B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				10BF1F4AC4214C1CB4808C2E /* PBXTargetDependency */,
+			);
+			name = gtest_main;
+			productName = gtest_main;
+			productReference = 517AB58DE4404D0BACDF889B /* gtest_main */;
+			productType = "com.apple.product-type.library.static";
+		};
+		75AF6DCA12094A42B4F8F641 /* gmock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19F54F62551E4F249253B83B /* Build configuration list for PBXNativeTarget "gmock" */;
+			buildPhases = (
+				07943E02F81140A48AA2324E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4C25FA030F0C41A3BF0DA442 /* PBXTargetDependency */,
+			);
+			name = gmock;
+			productName = gmock;
+			productReference = C3185FCE9DB24A06B0E7CBB6 /* gmock */;
+			productType = "com.apple.product-type.library.static";
+		};
+		EDC02EBFC74F44ADAA0D47A3 /* gtest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBE11913BE9A4430A4CCC1C9 /* Build configuration list for PBXNativeTarget "gtest" */;
+			buildPhases = (
+				6041D5DD03CA47B1A47B1D3B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gtest;
+			productName = gtest;
+			productReference = 21EC4295F67C4C628AFDF043 /* gtest */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B6B969139ADA44248A95AD2A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+			};
+			buildConfigurationList = 50F7F828856545FDB79792A3 /* Build configuration list for PBXProject "gmock" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				3F0D3E95375446FBAA5D93DF /* Debug */,
+				885B7018A92C4685BADC44EB /* Release */,
+				4AB9DFFE663F4198AC175DE9 /* MinSizeRel */,
+				F173F6FF063A48C28ADD816A /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 705F8E5666A04F909B22624A;
+			projectDirPath = .;
+			projectRoot = "";
+			targets = (
+				54A798605777421C82981FFB /* ALL_BUILD */,
+				61E5E0459F5240FC91440B4B /* ZERO_CHECK */,
+				75AF6DCA12094A42B4F8F641 /* gmock */,
+				28117B4E32A6408BBB1CD02F /* gmock_main */,
+				A2423E30099C4C4DB1860424 /* install */,
+				EDC02EBFC74F44ADAA0D47A3 /* gtest */,
+				4C44B6721E3E4824A7713707 /* gtest_main */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		12DFEF450F0F45F8A9434D9F = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		227636B96F2A4220984415D7 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		8D05C9EC0C694428B9747FAE /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0 -f /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeScripts/ZERO_CHECK_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		CFA675B5135949C288FE0D78 /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake PostBuild Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0 -f /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeScripts/install_postBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		DAAD22FBFF9340EAAF0C0EDE = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		E1C67F8AE2B54D5085A07003 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0 -f /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/CMakeScripts/ALL_BUILD_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		07943E02F81140A48AA2324E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8288562027A14D13BAA56347 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */,
+				064DA5FB166349EE8DA602F3 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock-all.cc */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		425882D542CC42368E5E04EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD741DBF72AC4C7E9B9B13E3 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */,
+				D776B662EC2D446788481171 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock-all.cc */,
+				24584E573F3F4C72A91FF51A /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/src/gmock_main.cc */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6041D5DD03CA47B1A47B1D3B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D52FF15D65714FCA8C7E0AE6 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest-all.cc */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6399479FBEA8431689217F4B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D648BF469B284A5996A5B356 /* /Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/src/gtest_main.cc */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		10BF1F4AC4214C1CB4808C2E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EDC02EBFC74F44ADAA0D47A3 /* gtest */;
+			targetProxy = 245AA69FB65740DBA463E0CD /* PBXContainerItemProxy */;
+		};
+		3024FFCC4AC44564887AB399 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28117B4E32A6408BBB1CD02F /* gmock_main */;
+			targetProxy = F530C3C81B574501BCB976E2 /* PBXContainerItemProxy */;
+		};
+		4B57905010E8439D9186D98F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 54A798605777421C82981FFB /* ALL_BUILD */;
+			targetProxy = DD21FC94F7B347B8BFA7BDE6 /* PBXContainerItemProxy */;
+		};
+		4C25FA030F0C41A3BF0DA442 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61E5E0459F5240FC91440B4B /* ZERO_CHECK */;
+			targetProxy = B00AFA8F84044484AEF75A41 /* PBXContainerItemProxy */;
+		};
+		8B540EF57C704CCE92F00381 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EDC02EBFC74F44ADAA0D47A3 /* gtest */;
+			targetProxy = 19C1116BDCA74F4FA5661740 /* PBXContainerItemProxy */;
+		};
+		98162ED35205453E80B1A5A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61E5E0459F5240FC91440B4B /* ZERO_CHECK */;
+			targetProxy = 39521EC1A2E84A44A1778612 /* PBXContainerItemProxy */;
+		};
+		CE6C58CFF95043AA8FDBE0B9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 75AF6DCA12094A42B4F8F641 /* gmock */;
+			targetProxy = F0E0AEE883CF4E7BB22C2EBE /* PBXContainerItemProxy */;
+		};
+		E2A54A3B97EA4E53A234DC35 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61E5E0459F5240FC91440B4B /* ZERO_CHECK */;
+			targetProxy = D5F77A1AE6574B66AB0B17C6 /* PBXContainerItemProxy */;
+		};
+		EFC72696C4C141D3BFB3BF1C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C44B6721E3E4824A7713707 /* gtest_main */;
+			targetProxy = 3E476327B0514194878F80AE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1A8FCE58A0C24996A38484DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Release;
+		};
+		23BFBBD5B73A4BA1A779F5A5 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/MinSizeRel";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gmock;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = MinSizeRel;
+		};
+		243430FC201E4F45BB20F397 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/Release";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gtest_main;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Release;
+		};
+		2D3A1EA605DB4D69BE9F9770 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/Release";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gmock_main;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Release;
+		};
+		381DFA53561345868EAAB0BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/Debug";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gtest_main;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Debug;
+		};
+		4B606EBB73F9465383C5FAEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Release;
+		};
+		4F587E7ECC334361BE7BEB46 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/MinSizeRel";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gtest_main;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = MinSizeRel;
+		};
+		68090E432BBC4385BA948057 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/Debug";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gmock;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Debug;
+		};
+		707C5532200040C7999E418E /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/RelWithDebInfo";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z        -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gmock;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = RelWithDebInfo;
+		};
+		70CA63BC459C432AA93243D2 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/RelWithDebInfo";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z        -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gmock_main;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = RelWithDebInfo;
+		};
+		78398942FD9944F9ABCB29F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/Release";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gmock;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Release;
+		};
+		7B308D27BC3944F8B663E30F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk;
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/build";
+			};
+			name = Debug;
+		};
+		84A47B37D255477D94E603E6 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = RelWithDebInfo;
+		};
+		8B28BAF2E44141D0AA82FF17 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/RelWithDebInfo";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z        -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gtest_main;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = RelWithDebInfo;
+		};
+		8F48F36FBB6644EF8D6EEBFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Debug;
+		};
+		9F7E0894DCB34450B5C11416 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk;
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/build";
+			};
+			name = RelWithDebInfo;
+		};
+		A8F95D31FFB0432E9D88CBAD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Release;
+		};
+		ABDEC9EEE8AE425BB1D89EE8 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/RelWithDebInfo";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z        -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gtest;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = RelWithDebInfo;
+		};
+		ABFC49C4134C4796B3F0D390 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/Release";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gtest;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Release;
+		};
+		ACCA84AE953A4FD1AE134A32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk;
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/build";
+			};
+			name = Release;
+		};
+		B057088CA43349D0867F354E /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = MinSizeRel;
+		};
+		B1E56904684340A190D47B24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Debug;
+		};
+		B28CAEBF269F4268A1D1DB11 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = RelWithDebInfo;
+		};
+		B52B0E2E61C14FA4A9FB156B /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/MinSizeRel";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gmock_main;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = MinSizeRel;
+		};
+		BE3CCA602A6A42C38EAE8E2C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/Debug";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gmock_main;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Debug;
+		};
+		D580C02339714550ACE01302 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/MinSizeRel";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -DNDEBUG  -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gtest;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = MinSizeRel;
+		};
+		EB82393D7783426D9EF5C321 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk;
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/build";
+			};
+			name = MinSizeRel;
+		};
+		EFEA7D19131A49BAAEE66ECA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/brian/Dropbox/projects/cpp/game-engine/lib/Debug";
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CPLUSPLUSFLAGS = " -std=c++1z     -std=c++1z  -DGTEST_HAS_PTHREAD=1    ";
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = gtest;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Debug;
+		};
+		F06FCB1B8E4A409A8A716DCE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = Debug;
+		};
+		F23402787C124B40A43FAE8D /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = MinSizeRel;
+		};
+		F8E302836DFD43E7AFF9D69E /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = MinSizeRel;
+		};
+		FA43CC1461244AB88F7F1F18 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'", );
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/brian/Dropbox/projects/cpp/game-engine/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/GSL", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest/include", "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0/gtest", );
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/brian/Dropbox/projects/cpp/game-engine/thirdparty/gmock-1.7.0";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost", "-Wno-four-char-constants", "-Wno-unknown-pragmas", "$(inherited)", );
+			};
+			name = RelWithDebInfo;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		19F54F62551E4F249253B83B /* Build configuration list for PBXNativeTarget "gmock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68090E432BBC4385BA948057 /* Debug */,
+				78398942FD9944F9ABCB29F0 /* Release */,
+				23BFBBD5B73A4BA1A779F5A5 /* MinSizeRel */,
+				707C5532200040C7999E418E /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2A0B450F99434D72B977872A /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1E56904684340A190D47B24 /* Debug */,
+				1A8FCE58A0C24996A38484DD /* Release */,
+				F8E302836DFD43E7AFF9D69E /* MinSizeRel */,
+				FA43CC1461244AB88F7F1F18 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		50F7F828856545FDB79792A3 /* Build configuration list for PBXProject "gmock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B308D27BC3944F8B663E30F /* Debug */,
+				ACCA84AE953A4FD1AE134A32 /* Release */,
+				EB82393D7783426D9EF5C321 /* MinSizeRel */,
+				9F7E0894DCB34450B5C11416 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		52536D47CA7E4A20A11E6CFE /* Build configuration list for PBXAggregateTarget "install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F48F36FBB6644EF8D6EEBFD /* Debug */,
+				4B606EBB73F9465383C5FAEE /* Release */,
+				B057088CA43349D0867F354E /* MinSizeRel */,
+				84A47B37D255477D94E603E6 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7B6C800F263649DFBF90B20D /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F06FCB1B8E4A409A8A716DCE /* Debug */,
+				A8F95D31FFB0432E9D88CBAD /* Release */,
+				F23402787C124B40A43FAE8D /* MinSizeRel */,
+				B28CAEBF269F4268A1D1DB11 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A08B387F8FD54DA9BFFD8EB3 /* Build configuration list for PBXNativeTarget "gtest_main" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				381DFA53561345868EAAB0BA /* Debug */,
+				243430FC201E4F45BB20F397 /* Release */,
+				4F587E7ECC334361BE7BEB46 /* MinSizeRel */,
+				8B28BAF2E44141D0AA82FF17 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B187305548604BB2BA899D27 /* Build configuration list for PBXNativeTarget "gmock_main" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE3CCA602A6A42C38EAE8E2C /* Debug */,
+				2D3A1EA605DB4D69BE9F9770 /* Release */,
+				B52B0E2E61C14FA4A9FB156B /* MinSizeRel */,
+				70CA63BC459C432AA93243D2 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EBE11913BE9A4430A4CCC1C9 /* Build configuration list for PBXNativeTarget "gtest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFEA7D19131A49BAAEE66ECA /* Debug */,
+				ABFC49C4134C4796B3F0D390 /* Release */,
+				D580C02339714550ACE01302 /* MinSizeRel */,
+				ABDEC9EEE8AE425BB1D89EE8 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B6B969139ADA44248A95AD2A /* Project object */;
+}

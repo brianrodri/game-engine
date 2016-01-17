@@ -6,6 +6,7 @@
 #include <utility>
 #include <experimental/array>
 #include <experimental/string_view>
+#include <cstdlib>
 
 namespace stx = std::experimental;
 
@@ -48,7 +49,7 @@ public:
         //requires Function<F, Self&> && ...
     constexpr FactoryTuple(F&&... f)
     {
-        (ctor_impl(std::make_index_sequence<sizeof...(T)>(), std::forward<F>(f)), ...);
+        ctor_impl(std::index_sequence_for<T...>{}, std::forward<F>(f)...);
     }
 
     //! Destructor
@@ -79,6 +80,18 @@ public:
     const auto& take() const
     {
         return take<I>();
+    }
+
+    template <typename I>
+    auto& operator[](I i)
+    {
+        return id_to_ref(i);
+    }
+
+    template <typename I>
+    const auto& operator[](I i) const
+    {
+        return id_to_ref(i);
     }
 
     //! FactoryTuple must remain in-place to maintain valid references
@@ -132,10 +145,12 @@ private:
     constexpr void ctor_impl(std::index_sequence<I...>, F&&... fn)
     {
         (
-            makeMemoryHelper(id_to_ref(std::integral_constant<size_t, I>{})).factory_construct(
-                fn(*this)
-              , std::make_index_sequence<std::tuple_size<std::decay_t<std::result_of_t<F(Self&)>>>::value>{}
-                )
+            makeMemoryHelper(
+                id_to_ref(std::integral_constant<size_t, I>{})
+                ).factory_construct(
+                    fn(*this)
+                  , std::make_index_sequence<std::tuple_size<std::decay_t<std::result_of_t<F(Self&)>>>::value>{}
+                    )
           , ...
         );
     }
@@ -153,7 +168,7 @@ private:
     constexpr void dtor_impl(std::index_sequence<I...>)
     {
         (
-            makeMemoryHelper(id_to_ref(std::integral_constant<size_t, I>{})).destruct()
+            makeMemoryHelper(id_to_ref(std::integral_constant<size_t, sizeof...(T) - I - 1>{})).destruct()
           , ...
         );
     }
@@ -171,7 +186,7 @@ private:
         constexpr const size_t alignof_all_v = std::alignment_of<std::aligned_union_t<0, T..., char>>::value;
         constexpr std::array<size_t, sizeof...(T)+1> sz{0, sizeof(T)...}, al{alignof(T)..., alignof_all_v};
         size_t retval{0};
-        for (size_t i{0}; i != U + 1; ++i) {
+        for (size_t i{0}; i != (U + 1); ++i) {
             retval = ((retval + sz[i] + al[i] - 1) / al[i]) * al[i];
         }
         return retval;
