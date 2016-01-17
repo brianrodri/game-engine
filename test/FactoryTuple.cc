@@ -11,13 +11,15 @@ TEST(FactoryTuple, EmptyTuple)
     EXPECT_TRUE(true);
 }
 
-/*
 TEST(FactoryTuple, DefaultConstructs)
 {
     FactoryTuple<int, int> zeropair{};
     EXPECT_EQ(2*sizeof(int), sizeof(FactoryTuple<int, int>));
+    EXPECT_EQ(zeropair.take<0>(), 0);
+    EXPECT_EQ(zeropair.take<1>(), 0);
 }
 
+/*
 TEST(FactoryTuple, BasicFactoryConstructs)
 {
     auto makefoo = [](auto&) { return std::forward_as_tuple("foo"s); };

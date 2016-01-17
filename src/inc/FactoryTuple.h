@@ -57,6 +57,30 @@ public:
         dtor_impl(std::index_sequence_for<T...>{});
     }
 
+    template <typename I>
+    auto& take(I i)
+    {
+        return id_to_ref(i);
+    }
+
+    template <typename I>
+    const auto& take(I i) const
+    {
+        return take(i);
+    }
+
+    template <size_t I>
+    auto& take()
+    {
+        return id_to_ref(std::integral_constant<size_t, I>{});
+    }
+
+    template <size_t I>
+    const auto& take() const
+    {
+        return take<I>();
+    }
+
     //! FactoryTuple must remain in-place to maintain valid references
     FactoryTuple(Self const&) = delete;
     FactoryTuple(Self&&) = delete;
@@ -138,9 +162,7 @@ private:
     std::tuple_element_t<I, std::tuple<T...>>& id_to_ref(std::integral_constant<size_t, I> i)
     {
         using U = std::tuple_element_t<I, std::tuple<T...>>;
-        return *reinterpret_cast<U*>(
-            reinterpret_cast<char*>(&m_memory) + generate_member_offset(i)
-            );
+        return *reinterpret_cast<U*>(reinterpret_cast<char*>(&m_memory) + generate_member_offset(i));
     }
 
     template <size_t U = sizeof...(T)>
@@ -149,8 +171,8 @@ private:
         constexpr const size_t alignof_all_v = std::alignment_of<std::aligned_union_t<0, T..., char>>::value;
         constexpr std::array<size_t, sizeof...(T)+1> sz{0, sizeof(T)...}, al{alignof(T)..., alignof_all_v};
         size_t retval{0};
-        for (size_t i{1}; i != U + 1; ++i) {
-            retval = ((retval + sz[i-1] + al[i] - 1) / al[i]) * al[i];
+        for (size_t i{0}; i != U + 1; ++i) {
+            retval = ((retval + sz[i] + al[i] - 1) / al[i]) * al[i];
         }
         return retval;
     }
