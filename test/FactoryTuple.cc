@@ -12,29 +12,60 @@
 TEST(FactoryTuple, EmptyTuple)
 {
     FactoryTuple<> empty{};
-    EXPECT_TRUE(true);
+    EXPECT_EQ(1, sizeof(empty));
 }
 
 TEST(FactoryTuple, DefaultConstructs)
 {
-    FactoryTuple<int, int> zeropair{};
+    std::tuple<int, int> expected{0, 0};
+    FactoryTuple<int, int> actual{};
     EXPECT_EQ(2*sizeof(int), sizeof(FactoryTuple<int, int>));
-    EXPECT_EQ(zeropair[0_c], 0);
-    EXPECT_EQ(zeropair[1_c], 0);
+    EXPECT_EQ(expected, actual.to_tuple());
 }
 
-TEST(FactoryTuple, ProperlyAllocated)
+TEST(FactoryTuple, HomogeneousAssignment)
 {
-    std::array<int, 3> expected{2, 1, 3};
+    std::tuple<int, int, int> expected{2, 1, 3};
     FactoryTuple<int, int, int> actual{
-        [](auto& _) -> std::tuple<int> { return {2}; }
-      , [](auto& e) -> std::tuple<int> { return {e[0_c] - 1}; }
-      , [](auto& e) -> std::tuple<int> { return {e[1_c] + 2}; }
+        [&](auto& e) { return std::forward_as_tuple(std::get<0>(expected)); }
+      , [&](auto& e) { return std::forward_as_tuple(std::get<1>(expected)); }
+      , [&](auto& e) { return std::forward_as_tuple(std::get<2>(expected)); }
         };
-    EXPECT_EQ(sizeof(actual), sizeof(expected));
-    EXPECT_EQ(actual[0_c], expected[0]);
-    EXPECT_EQ(actual[1_c], expected[1]);
-    EXPECT_EQ(actual[2_c], expected[2]);
+    EXPECT_EQ(expected, actual.to_tuple());
+}
+
+TEST(FactoryTuple, HeterogeneousAssignment)
+{
+    std::tuple<int, double, long double> expected{1, 3.14, 2.71828};
+    FactoryTuple<int, double, long double> actual{
+        [&](auto& e) { return std::forward_as_tuple(std::get<0>(expected)); }
+      , [&](auto& e) { return std::forward_as_tuple(std::get<1>(expected)); }
+      , [&](auto& e) { return std::forward_as_tuple(std::get<2>(expected)); }
+        };
+    EXPECT_EQ(expected, actual.to_tuple());
+}
+
+/*
+TEST(FactoryTuple, HomogeneousProduction)
+{
+    std::tuple<int, int, int> expected{2, 1, 3};
+    FactoryTuple<int, int, int> actual{
+        [&](auto& e) { return std::forward_as_tuple(2); }
+      , [&](auto& e) { return std::forward_as_tuple(1); }
+      , [&](auto& e) { return std::forward_as_tuple(3); }
+        };
+    EXPECT_EQ(expected, actual.to_tuple());
+}
+
+TEST(FactoryTuple, HeterogeneousProduction)
+{
+    std::tuple<int, double, long double> expected{1, 3.14, 2.71828};
+    FactoryTuple<int, double, long double> actual{
+        [&](auto& e) { return std::forward_as_tuple(1); }
+      , [&](auto& e) { return std::forward_as_tuple(3.14); }
+      , [&](auto& e) { return std::forward_as_tuple(2.71828); }
+        };
+    EXPECT_EQ(expected, actual.to_tuple());
 }
 
 TEST(FactoryTuple, BasicFactoryConstructs)
@@ -49,10 +80,11 @@ TEST(FactoryTuple, BasicFactoryConstructs)
     EXPECT_EQ(strpair[1_c], "bar");
 }
 
-/*
 TEST(FactoryTuple, ComplexFactoryConstructs)
 {
-    auto simple = [](auto&) { return std::forward_as_tuple("down the pipe!"s); };
+    auto simple = [](auto& _) {
+        return std::forward_as_tuple("down the pipe!");
+    };
     auto dependant = [](auto& e) {
         std::string bottle{e[0_c]};
         bottle.replace(0, 4, "out");

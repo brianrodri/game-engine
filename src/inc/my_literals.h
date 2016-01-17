@@ -5,7 +5,7 @@
 #include <type_traits>
 
 template <typename I>
-constexpr size_t c_helper(I first, I last)
+constexpr size_t _c_helper(I first, I last)
 {
     size_t v{0};
     for (auto it = first; it != last; ++it) {
@@ -15,8 +15,8 @@ constexpr size_t c_helper(I first, I last)
 }
 
 template <char... C>
-constexpr auto operator "" _c ()
+constexpr auto operator ""_c ()
 {
     constexpr char str[]{C...};
-    return std::integral_constant<size_t, c_helper(str, str + sizeof...(C))>{};
+    return std::integral_constant<size_t, _c_helper(str, str + sizeof...(C))>{};
 }

@@ -1,18 +1,17 @@
 #ifndef _CPP1Z_GAME_ENGINE_FACTORY_TUPLE_H
 #define _CPP1Z_GAME_ENGINE_FACTORY_TUPLE_H
+#include <functional>
 #include <memory>
 #include <tuple>
 #include <type_traits>
 #include <utility>
 #include <experimental/array>
+#include <experimental/type_traits>
+#include <experimental/tuple>
 #include <experimental/string_view>
 #include <cstdlib>
 
 namespace stx = std::experimental;
-
-// FORWARD DECLARATIONS
-template <typename... T> class FactoryTuple;
-
 
 
 //! Constructs its tuple through factories that use a ref to `this`
@@ -24,17 +23,17 @@ template <typename... T> class FactoryTuple;
  */
 template <typename... T>
 class FactoryTuple {
-public:
-    using UnderlyingTuple = std::tuple<T...>;
     using Self = FactoryTuple<T...>;
+    static const constexpr auto IDXES = std::index_sequence_for<T...>{};
 
+public:
     //! Default Ctor
     /**
      * Only exists when all `T`s are default construible.
      */
     constexpr FactoryTuple()
     {
-        ctor_impl(std::index_sequence_for<T...>{});
+        ctor_impl(IDXES);
     }
 
     //! Factory Ctor
@@ -49,37 +48,35 @@ public:
         //requires Function<F, Self&> && ...
     constexpr FactoryTuple(F&&... f)
     {
-        ctor_impl(std::index_sequence_for<T...>{}, std::forward<F>(f)...);
+        static_assert(sizeof...(F) == sizeof...(T), "!");
+        ctor_impl(IDXES, std::forward<F>(f)...);
     }
 
     //! Destructor
     ~FactoryTuple()
     {
-        dtor_impl(std::index_sequence_for<T...>{});
+        dtor_impl(IDXES);
     }
 
-    template <typename I>
-    auto& take(I i)
+    //! FactoryTuple must remain in-place to maintain valid references
+    FactoryTuple(Self const&) = delete;
+    FactoryTuple(Self&&) = delete;
+    Self& operator=(Self const&) = delete;
+    Self& operator=(Self&&) = delete;
+
+    std::tuple<T&...> as_tuple()
     {
-        return id_to_ref(i);
+        return tie_refs_to(IDXES);
     }
 
-    template <typename I>
-    const auto& take(I i) const
+    std::tuple<const T&...> as_tuple() const
     {
-        return take(i);
+        return tie_refs_to(IDXES);
     }
 
-    template <size_t I>
-    auto& take()
+    auto to_tuple() const
     {
-        return id_to_ref(std::integral_constant<size_t, I>{});
-    }
-
-    template <size_t I>
-    const auto& take() const
-    {
-        return take<I>();
+        return make_vals_of(IDXES);
     }
 
     template <typename I>
@@ -94,97 +91,125 @@ public:
         return id_to_ref(i);
     }
 
-    //! FactoryTuple must remain in-place to maintain valid references
-    FactoryTuple(Self const&) = delete;
-    FactoryTuple(Self&&) = delete;
-    Self& operator=(Self const&) = delete;
-    Self& operator=(Self&&) = delete;
-
 private:
+    template <size_t... I>
+    auto tie_refs_to(std::index_sequence<I...> i)
+    {
+        return std::tie(id_to_ref(std::integral_constant<size_t, I>{})...);
+    }
+
+    template <size_t... I>
+    auto tie_refs_to(std::index_sequence<I...> i) const
+    {
+        return tie_refs_to(i);
+    }
+
+    template <size_t... I>
+    auto make_vals_of(std::index_sequence<I...> i) const
+    {
+        return std::make_tuple(id_to_ref(std::integral_constant<size_t, I>{})...);
+    }
+
+    template <size_t I>
+    friend struct MemoryHelper;
+
     //! Assists with compile-time construction semantics
-    template <typename U>
+    template <size_t I>
     struct MemoryHelper {
+    private:
+        using U = std::tuple_element_t<I, std::tuple<T...>>;
+        static constexpr auto i = std::integral_constant<size_t, I>{};
+
     public:
-        constexpr MemoryHelper (U& s) : p{&s}
+        MemoryHelper(Self& obj, std::integral_constant<size_t, I>) : myref{obj}
         {
         }
 
-        template <typename... A>
-        constexpr void explicit_construct(A&&... arg)
+        void default_construct()
         {
-            new(p) U{std::forward<A>(arg)...};
-        }
-
-        template <typename Tup, std::size_t... I>
-        constexpr void factory_construct(Tup&& args, std::index_sequence<I...>)
-        {
-            new(p) U{std::get<I>(std::forward<Tup>(args))...};
-        }
-
-        constexpr void default_construct()
-        {
+            U* p = &myref.get()[i];
             new(p) U{};
         }
 
-        constexpr void destruct()
+        template <typename... A>
+        void explicit_construct(A&&... arg)
         {
-            p->~U();
+            static_assert(stx::is_constructible_v<U, A...>);
+            U* p = &myref.get()[i];
+            new(p) U{std::forward<A>(arg)...};
+        }
+
+        template <typename F, std::size_t... J>
+        void factory_construct(F&& f, std::index_sequence<J...>)
+        {
+            auto yielding = f(myref.get());
+            using Y = std::decay_t<std::result_of_t<F(Self&)>>;
+            explicit_construct(std::forward<std::tuple_element_t<J, Y>>(std::get<J>(yielding))...);
+        }
+
+        void destruct()
+        {
+            myref.get()[i].~U();
         }
 
     private:
-        U* p;
+        std::reference_wrapper<Self> myref;
     };
 
-    template <typename U>
-    constexpr auto makeMemoryHelper(U& src)
+    template <typename I>
+    auto makeMemoryHelper(I i)
     {
-        return MemoryHelper<U>{src};
+        return MemoryHelper<i>{*this, i};
     }
 
-    template <size_t... I, typename... F>
-    constexpr void ctor_impl(std::index_sequence<I...>, F&&... fn)
+    template <typename... F, size_t... I>
+    void ctor_impl(std::index_sequence<I...>, F&&... fn)
     {
-        (
-            makeMemoryHelper(
-                id_to_ref(std::integral_constant<size_t, I>{})
-                ).factory_construct(
-                    fn(*this)
-                  , std::make_index_sequence<std::tuple_size<std::decay_t<std::result_of_t<F(Self&)>>>::value>{}
-                    )
-          , ...
-        );
-    }
-
-    template <size_t ...I>
-    constexpr void ctor_impl(std::index_sequence<I...>)
-    {
-        (
-            makeMemoryHelper(id_to_ref(std::integral_constant<size_t, I>{})).default_construct()
+        ( makeMemoryHelper(std::integral_constant<size_t, I>{}).factory_construct(
+             std::forward<F>(fn)
+           , std::make_index_sequence<std::tuple_size<std::decay_t<std::result_of_t<F(Self&)>>>::value>{}
+             )
           , ...
         );
     }
 
     template <size_t... I>
-    constexpr void dtor_impl(std::index_sequence<I...>)
+    void ctor_impl(std::index_sequence<I...>)
     {
         (
-            makeMemoryHelper(id_to_ref(std::integral_constant<size_t, sizeof...(T) - I - 1>{})).destruct()
+            makeMemoryHelper(std::integral_constant<size_t, I>{}).default_construct()
+          , ...
+        );
+    }
+
+    template <size_t... I>
+    void dtor_impl(std::index_sequence<I...>)
+    {
+        (
+            makeMemoryHelper(std::integral_constant<size_t, sizeof...(T) - I - 1>{}).destruct()
           , ...
         );
     }
 
     template <size_t I>
-    std::tuple_element_t<I, std::tuple<T...>>& id_to_ref(std::integral_constant<size_t, I> i)
+    auto& id_to_ref(std::integral_constant<size_t, I> i)
     {
         using U = std::tuple_element_t<I, std::tuple<T...>>;
-        return *reinterpret_cast<U*>(reinterpret_cast<char*>(&m_memory) + generate_member_offset(i));
+        return *reinterpret_cast<U*>(reinterpret_cast<char*>(&m_memory) + id_to_off(i));
+    }
+
+    template <size_t I>
+    const auto& id_to_ref(std::integral_constant<size_t, I> i) const
+    {
+        using U = std::tuple_element_t<I, std::tuple<T...>>;
+        return *reinterpret_cast<const U*>(reinterpret_cast<const char*>(&m_memory) + id_to_off(i));
     }
 
     template <size_t U = sizeof...(T)>
-    static constexpr size_t generate_member_offset(std::integral_constant<size_t, U> upto = {})
+    static constexpr size_t id_to_off(std::integral_constant<size_t, U> upto = {})
     {
-        constexpr const size_t alignof_all_v = std::alignment_of<std::aligned_union_t<0, T..., char>>::value;
-        constexpr std::array<size_t, sizeof...(T)+1> sz{0, sizeof(T)...}, al{alignof(T)..., alignof_all_v};
+        constexpr std::array<size_t, sizeof...(T)+1> sz{0, sizeof(T)...};
+        constexpr std::array<size_t, sizeof...(T)+1> al{alignof(T)..., stx::alignment_of_v<std::aligned_union_t<0, T..., char>>};
         size_t retval{0};
         for (size_t i{0}; i != (U + 1); ++i) {
             retval = ((retval + sz[i] + al[i] - 1) / al[i]) * al[i];
@@ -192,7 +217,28 @@ private:
         return retval;
     }
 
-    std::aligned_union_t<generate_member_offset(), T..., char> m_memory;
+    std::aligned_union_t<id_to_off(), T..., char> m_memory;
 };
+
+namespace std {
+
+template <typename... T, size_t I>
+constexpr auto& get(FactoryTuple<T...>& o)
+{
+    return o[std::integral_constant<size_t, I>{}];
+}
+
+template <typename... T, size_t I>
+constexpr const auto& get(const FactoryTuple<T...>& o)
+{
+    return o[std::integral_constant<size_t, I>{}];
+}
+
+template <typename... T>
+struct tuple_size<FactoryTuple<T...>> {
+    static constexpr size_t value = sizeof...(T);
+};
+
+} // namespace std
 
 #endif
