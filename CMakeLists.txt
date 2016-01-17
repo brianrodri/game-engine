@@ -1,8 +1,11 @@
 # Brian Rodriguez. Copyright (C) 2016. <License>.
 
-SET (CMAKE_C_COMPILER "/usr/local/bin/gcc-5")
-SET (CMAKE_CXX_COMPILER "/usr/local/bin/g++-5")
-SET (CMAKE_CXX_FLAGS "-std=c++1z")
+#
+# Compiler Options
+#
+SET (CMAKE_C_COMPILER "/usr/local/bin/gcc-6")
+SET (CMAKE_CXX_COMPILER "/usr/local/bin/g++-6")
+SET (CMAKE_CXX_FLAGS " -std=c++1z")
 SET (CMAKE_BUILD_TYPE "Debug")
 
 #
@@ -22,6 +25,7 @@ SET (APPLICATION_VENDOR_ID "com.treesun")
 SET (APPLICATION_VENDOR_NAME "Treesun Studios")
 SET (APPLICATION_VENDOR_URL "treesun.com")
 SET (APPLICATION_ID "${APPLICATION_VENDOR_ID}.${PROJECT_NAME}")
+SET (CMAKE_CXX_FLAGS " -std=c++1z")
 
 #
 # Debugging Options
@@ -44,6 +48,7 @@ LIST (APPEND CMAKE_PREFIX_PATH "${MAINFOLDER}/tools")
 LIST (APPEND CMAKE_PREFIX_PATH "${MAINFOLDER}/thirdparty")
 SET (CMAKE_MODULE_PATH "${MAINFOLDER}/tools/share/cmake")
 INCLUDE_DIRECTORIES("${MAINFOLDER}/include")
+INCLUDE_DIRECTORIES("${MAINFOLDER}/thirdparty/GSL")
 
 #
 # Configure Files
@@ -72,6 +77,7 @@ ENDFOREACH (CONFIGINPUT ${CONFIGINPUTS})
 
 # Add thirdparty directories first!
 ADD_SUBDIRECTORY(thirdparty/gmock-1.7.0)
+INCLUDE_DIRECTORIES("${MAINFOLDER}/thirdparty/GSL/include")
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(test)
 

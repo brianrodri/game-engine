@@ -4,6 +4,10 @@
 #include <tuple>
 #include <type_traits>
 #include <utility>
+#include <experimental/array>
+#include <experimental/string_view>
+
+namespace stx = std::experimental;
 
 // FORWARD DECLARATIONS
 template <typename... T> class FactoryTuple;
@@ -19,39 +23,9 @@ template <typename... T> class FactoryTuple;
  */
 template <typename... T>
 class FactoryTuple {
-private:
-template <typename U>
-struct manual_ctor {
-    U *ptr;
-
-    constexpr manual_ctor(U* p) : ptr{p} { }
-
-    constexpr void operator()() const
-    {
-        new(ptr) U{};
-    }
-
-    template <typename Tup>
-    constexpr void operator()(Tup&& t) const
-    {
-        ctor_helper(
-            std::forward<Tup>(t)
-          , std::make_index_sequence<std::tuple_size<Tup>::value>()
-            );
-    }
-
-private:
-    template <std::size_t... I>
-    constexpr void ctor_helper(std::tuple<T&&...>&& a, std::index_sequence<I...>) const
-    {
-        new(ptr) U{std::forward<T>(std::get<I>(a))...};
-    }
-};
-
 public:
     using UnderlyingTuple = std::tuple<T...>;
     using Self = FactoryTuple<T...>;
-    static constexpr auto TypeList = hana::tuple_t<T...>;
 
     //! Default Ctor
     /**
@@ -59,10 +33,7 @@ public:
      */
     constexpr FactoryTuple()
     {
-        hana::length(hana::tuple_t<T...>).times.with_index([=](auto i) {
-            using U = std::tuple_element_t<i, UnderlyingTuple>;
-            new(&((*this)[i])) U{};
-        });
+        ctor_impl(std::index_sequence_for<T...>{});
     }
 
     //! Factory Ctor
@@ -77,37 +48,13 @@ public:
         //requires Function<F, Self&> && ...
     constexpr FactoryTuple(F&&... f)
     {
-        auto factory = hana::make_tuple(std::forward<F>(f)...);
-        hana::length(hana::tuple_t<T...>).times.with_index([&](auto i) {
-            using U = std::tuple_element_t<i, UnderlyingTuple>;
-            manual_ctor<U>{&((*this)[i])}(factory[i](*this));
-        });
+        (ctor_impl(std::make_index_sequence<sizeof...(T)>(), std::forward<F>(f)), ...);
     }
 
     //! Destructor
     ~FactoryTuple()
     {
-        hana::length(hana::tuple_t<T...>).times.with_index([=](auto i) {
-            constexpr auto r = hana::length(hana::tuple_t<T...>) - i - hana::size_c<1>;
-            using U = std::tuple_element_t<r, UnderlyingTuple>;
-            (*this)[r].~U();
-        });
-    }
-
-    template <typename I>
-    constexpr auto& operator[](I i)
-    {
-        using U = std::tuple_element_t<i, UnderlyingTuple>;
-        constexpr std::ptrdiff_t off{generate_member_offset(i)};
-        return *reinterpret_cast<U*>(reinterpret_cast<unsigned char*>(&m_memory) + off);
-    }
-
-    template <typename I>
-    constexpr const auto& operator[](I i) const
-    {
-        using U = std::tuple_element_t<i, UnderlyingTuple>;
-        constexpr std::ptrdiff_t off{generate_member_offset(i)};
-        return *reinterpret_cast<U const*>(reinterpret_cast<unsigned char const*>(&m_memory) + off);
+        dtor_impl(std::index_sequence_for<T...>{});
     }
 
     //! FactoryTuple must remain in-place to maintain valid references
@@ -117,20 +64,95 @@ public:
     Self& operator=(Self&&) = delete;
 
 private:
-    template <std::ptrdiff_t V> 
-    static constexpr auto ptrdiff_c = hana::integral_constant<std::ptrdiff_t, V>{};
+    //! Assists with compile-time construction semantics
+    template <typename U>
+    struct MemoryHelper {
+    public:
+        constexpr MemoryHelper (U& s) : p{&s}
+        {
+        }
 
-    template <typename I = hana::integral_constant<std::size_t, sizeof...(T)>>
-    static constexpr auto generate_member_offset(I i = {})
+        template <typename... A>
+        constexpr void explicit_construct(A&&... arg)
+        {
+            new(p) U{std::forward<A>(arg)...};
+        }
+
+        template <typename Tup, std::size_t... I>
+        constexpr void factory_construct(Tup&& args, std::index_sequence<I...>)
+        {
+            new(p) U{std::get<I>(std::forward<Tup>(args))...};
+        }
+
+        constexpr void default_construct()
+        {
+            new(p) U{};
+        }
+
+        constexpr void destruct()
+        {
+            p->~U();
+        }
+
+    private:
+        U* p;
+    };
+
+    template <typename U>
+    constexpr auto makeMemoryHelper(U& src)
     {
-        using namespace hana;
-        constexpr std::size_t alignof_all = std::alignment_of<std::aligned_union_t<0, T..., char>>::value;
-        constexpr auto sz = prepend(transform(tuple_t<T...>, sizeof_), hana::size_c<0>);
-        constexpr auto al = append(transform(tuple_t<T...>, alignof_), hana::size_c<alignof_all>);
-        constexpr auto seq = take(drop_front(zip(sz, al)), i);
-        return fold(seq, ptrdiff_c<0>, [](auto s, auto n) constexpr {
-            return ((s + n[0_c] + n[1_c] - ptrdiff_c<1>) / n[1_c]) * n[1_c];
-        });
+        return MemoryHelper<U>{src};
+    }
+
+    template <size_t... I, typename... F>
+    constexpr void ctor_impl(std::index_sequence<I...>, F&&... fn)
+    {
+        (
+            makeMemoryHelper(id_to_ref(std::integral_constant<size_t, I>{})).factory_construct(
+                fn(*this)
+              , std::make_index_sequence<std::tuple_size<std::decay_t<std::result_of_t<F(Self&)>>>::value>{}
+                )
+          , ...
+        );
+    }
+
+    template <size_t ...I>
+    constexpr void ctor_impl(std::index_sequence<I...>)
+    {
+        (
+            makeMemoryHelper(id_to_ref(std::integral_constant<size_t, I>{})).default_construct()
+          , ...
+        );
+    }
+
+    template <size_t... I>
+    constexpr void dtor_impl(std::index_sequence<I...>)
+    {
+        (
+            makeMemoryHelper(id_to_ref(std::integral_constant<size_t, I>{})).destruct()
+          , ...
+        );
+    }
+
+    template <size_t I>
+    std::tuple_element_t<I, std::tuple<T...>>& id_to_ref(std::integral_constant<size_t, I> i)
+    {
+        using U = std::tuple_element_t<I, std::tuple<T...>>;
+        return *reinterpret_cast<U*>(
+            reinterpret_cast<char*>(&m_memory) + generate_member_offset(i)
+            );
+    }
+
+    template <size_t U = sizeof...(T)>
+    static constexpr size_t generate_member_offset(std::integral_constant<size_t, U> upto = {})
+    {
+        constexpr const size_t alignof_all_v = std::alignment_of<std::aligned_union_t<0, T..., char>>::value;
+        constexpr std::array<size_t, sizeof...(T)+1> sz{0, sizeof(T)...}, al{alignof(T)..., alignof_all_v};
+        size_t retval{0};
+        for (size_t i{1}; i != U + 1; ++i) {
+            retval = ((retval + sz[i-1] + al[i] - 1) / al[i]) * al[i];
+        }
+        return retval;
     }
 
     std::aligned_union_t<generate_member_offset(), T..., char> m_memory;

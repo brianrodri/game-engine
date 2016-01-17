@@ -1,17 +1,17 @@
-//#include "FactoryTuple.h"
+#include "FactoryTuple.h"
 #include <string>
 #include <tuple>
 #include <utility>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-/*
 TEST(FactoryTuple, EmptyTuple)
 {
     FactoryTuple<> empty{};
     EXPECT_TRUE(true);
 }
 
+/*
 TEST(FactoryTuple, DefaultConstructs)
 {
     FactoryTuple<int, int> zeropair{};
