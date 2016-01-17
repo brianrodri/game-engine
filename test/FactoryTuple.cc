@@ -23,7 +23,7 @@ TEST(FactoryTuple, DefaultConstructs)
     EXPECT_EQ(expected, actual.to_tuple());
 }
 
-TEST(FactoryTuple, HomogeneousAssignment)
+TEST(FactoryTuple, HomoAssignment)
 {
     std::tuple<int, int, int> expected{2, 1, 3};
     FactoryTuple<int, int, int> actual{
@@ -34,13 +34,30 @@ TEST(FactoryTuple, HomogeneousAssignment)
     EXPECT_EQ(expected, actual.to_tuple());
 }
 
-TEST(FactoryTuple, HeterogeneousAssignment)
+TEST(FactoryTuple, HeteroAssignment)
 {
     std::tuple<int, double, long double> expected{1, 3.14, 2.71828};
     FactoryTuple<int, double, long double> actual{
         [&](auto& e) { return std::forward_as_tuple(std::get<0>(expected)); }
       , [&](auto& e) { return std::forward_as_tuple(std::get<1>(expected)); }
       , [&](auto& e) { return std::forward_as_tuple(std::get<2>(expected)); }
+        };
+    EXPECT_EQ(expected, actual.to_tuple());
+}
+
+TEST(FactoryTuple, PaddedHeteroAssignment)
+{
+    std::tuple<int, char, float, char, char, double, int> expected{
+        1, 'a', 3.14, 'b', 'c', 2.71828, 0
+        };
+    FactoryTuple<int, char, float, char, char, double, int> actual{
+        [&](auto& e) { return std::forward_as_tuple(std::get<0>(expected)); }
+      , [&](auto& e) { return std::forward_as_tuple(std::get<1>(expected)); }
+      , [&](auto& e) { return std::forward_as_tuple(std::get<2>(expected)); }
+      , [&](auto& e) { return std::forward_as_tuple(std::get<3>(expected)); }
+      , [&](auto& e) { return std::forward_as_tuple(std::get<4>(expected)); }
+      , [&](auto& e) { return std::forward_as_tuple(std::get<5>(expected)); }
+      , [&](auto& e) { return std::forward_as_tuple(std::get<6>(expected)); }
         };
     EXPECT_EQ(expected, actual.to_tuple());
 }
