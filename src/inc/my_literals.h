@@ -22,3 +22,15 @@ constexpr auto operator ""_c ()
     constexpr char str[]{C...};
     return std::integral_constant<size_t, detail::_c_impl_(str, str + sizeof...(C))>{};
 }
+
+template <typename T>
+struct type_constant { using type = T; };
+
+template <typename T>
+constexpr auto type_c = type_constant<T>{};
+
+template <size_t I>
+using index_constant = std::integral_constant<size_t, I>;
+
+template <size_t I>
+constexpr auto index_c = index_constant<I>{};
