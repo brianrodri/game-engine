@@ -73,7 +73,7 @@ public:
         return tie(std::index_sequence_for<T...>{});
     }
 
-    constexpr auto to_tuple() const
+    constexpr auto make_tuple() const
     {
         return copy(std::index_sequence_for<T...>{});
     }
@@ -98,7 +98,7 @@ private:
     }
 
     template <size_t... I>
-    constexpr const auto tie(std::index_sequence<I...> i) const
+    constexpr auto tie(std::index_sequence<I...> i) const
     {
         return std::tie(id_to_ref(std::integral_constant<size_t, I>{})...);
     }
@@ -130,7 +130,7 @@ private:
     }
 
     template <size_t... I>
-    void call_destructor_w(std::index_sequence<I...>)
+    constexpr void call_destructor_w(std::index_sequence<I...>)
     {
         (destruct(std::integral_constant<size_t, sizeof...(T) - I - 1>{}), ...);
     }
@@ -154,7 +154,7 @@ private:
     }
 
     template <typename I>
-    void destruct(I i)
+    constexpr void destruct(I i)
     {
         using U = std::tuple_element_t<i, Tuple>;
         U* ptr = &id_to_ref(i);

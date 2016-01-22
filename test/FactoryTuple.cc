@@ -8,14 +8,13 @@
 #include <gmock/gmock.h>
 
 
-
-TEST(FactoryTuple, EmptyTuple)
+TEST(FactoryTuple, EmptyTupleExists)
 {
     FactoryTuple<> empty{};
     EXPECT_EQ(1, sizeof(empty));
 }
 
-TEST(FactoryTuple, DefaultConstructs)
+TEST(FactoryTuple, DefaultProduction)
 {
     std::tuple<int, int> expected{0, 0};
     FactoryTuple<int, int> actual{};
@@ -23,46 +22,7 @@ TEST(FactoryTuple, DefaultConstructs)
     EXPECT_EQ(expected, actual.as_tuple());
 }
 
-TEST(FactoryTuple, HomoAssignment)
-{
-    std::tuple<int, int, int> expected{2, 1, 3};
-    FactoryTuple<int, int, int> actual{
-        [&](auto& e) { return std::forward_as_tuple(std::get<0>(expected)); }
-      , [&](auto& e) { return std::forward_as_tuple(std::get<1>(expected)); }
-      , [&](auto& e) { return std::forward_as_tuple(std::get<2>(expected)); }
-        };
-    EXPECT_EQ(expected, actual.as_tuple());
-}
-
-TEST(FactoryTuple, HeteroAssignment)
-{
-    std::tuple<int, double, long double> expected{1, 3.14, 2.71828};
-    FactoryTuple<int, double, long double> actual{
-        [&](auto& e) { return std::forward_as_tuple(std::get<0>(expected)); }
-      , [&](auto& e) { return std::forward_as_tuple(std::get<1>(expected)); }
-      , [&](auto& e) { return std::forward_as_tuple(std::get<2>(expected)); }
-        };
-    EXPECT_EQ(expected, actual.as_tuple());
-}
-
-TEST(FactoryTuple, PaddedHeteroAssignment)
-{
-    std::tuple<int, char, float, char, char, double, int> expected{
-        1, 'a', 3.14, 'b', 'c', 2.71828, 0
-        };
-    FactoryTuple<int, char, float, char, char, double, int> actual{
-        [&](auto& e) { return std::forward_as_tuple(std::get<0>(expected)); }
-      , [&](auto& e) { return std::forward_as_tuple(std::get<1>(expected)); }
-      , [&](auto& e) { return std::forward_as_tuple(std::get<2>(expected)); }
-      , [&](auto& e) { return std::forward_as_tuple(std::get<3>(expected)); }
-      , [&](auto& e) { return std::forward_as_tuple(std::get<4>(expected)); }
-      , [&](auto& e) { return std::forward_as_tuple(std::get<5>(expected)); }
-      , [&](auto& e) { return std::forward_as_tuple(std::get<6>(expected)); }
-        };
-    EXPECT_EQ(expected, actual.as_tuple());
-}
-
-TEST(FactoryTuple, HomogeneousProduction)
+TEST(FactoryTuple, HomoProduction)
 {
     std::tuple<int, int, int> expected{2, 1, 3};
     FactoryTuple<int, int, int> actual{
@@ -73,13 +33,52 @@ TEST(FactoryTuple, HomogeneousProduction)
     EXPECT_EQ(expected, actual.as_tuple());
 }
 
-TEST(FactoryTuple, HeterogeneousProduction)
+TEST(FactoryTuple, HeteroProduction)
 {
     std::tuple<int, double, long double> expected{1, 3.14, 2.71828};
     FactoryTuple<int, double, long double> actual{
         [&](auto& e) { return std::make_tuple(1); }
       , [&](auto& e) { return std::make_tuple(3.14); }
       , [&](auto& e) { return std::make_tuple(2.71828); }
+        };
+    EXPECT_EQ(expected, actual.as_tuple());
+}
+
+TEST(FactoryTuple, HomoAssignment)
+{
+    std::tuple<int, int, int> expected{2, 1, 3};
+    FactoryTuple<int, int, int> actual{
+        [&](auto& e) { return std::tie(std::get<0>(expected)); }
+      , [&](auto& e) { return std::tie(std::get<1>(expected)); }
+      , [&](auto& e) { return std::tie(std::get<2>(expected)); }
+        };
+    EXPECT_EQ(expected, actual.as_tuple());
+}
+
+TEST(FactoryTuple, HeteroAssignment)
+{
+    std::tuple<int, double, long double> expected{1, 3.14, 2.71828};
+    FactoryTuple<int, double, long double> actual{
+        [&](auto& e) { return std::tie(std::get<0>(expected)); }
+      , [&](auto& e) { return std::tie(std::get<1>(expected)); }
+      , [&](auto& e) { return std::tie(std::get<2>(expected)); }
+        };
+    EXPECT_EQ(expected, actual.as_tuple());
+}
+
+TEST(FactoryTuple, PaddedHeteroAssignment)
+{
+    std::tuple<int, char, float, char, char, double, int> expected{
+        1, 'a', 3.14, 'b', 'c', 2.71828, 0
+        };
+    FactoryTuple<int, char, float, char, char, double, int> actual{
+        [&](auto& e) { return std::tie(std::get<0>(expected)); }
+      , [&](auto& e) { return std::tie(std::get<1>(expected)); }
+      , [&](auto& e) { return std::tie(std::get<2>(expected)); }
+      , [&](auto& e) { return std::tie(std::get<3>(expected)); }
+      , [&](auto& e) { return std::tie(std::get<4>(expected)); }
+      , [&](auto& e) { return std::tie(std::get<5>(expected)); }
+      , [&](auto& e) { return std::tie(std::get<6>(expected)); }
         };
     EXPECT_EQ(expected, actual.as_tuple());
 }
