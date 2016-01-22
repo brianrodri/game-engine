@@ -4,8 +4,10 @@
 #include <tuple>
 #include <utility>
 #include <experimental/array>
+#include <experimental/type_traits>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+
 
 
 TEST(FactoryTuple, EmptyTupleExists)
@@ -16,7 +18,7 @@ TEST(FactoryTuple, EmptyTupleExists)
 
 TEST(FactoryTuple, DefaultProduction)
 {
-    std::tuple<int, int> expected{0, 0};
+    auto expected = std::make_tuple(0, 0);
     FactoryTuple<int, int> actual{};
     EXPECT_EQ(2*sizeof(int), sizeof(FactoryTuple<int, int>));
     EXPECT_EQ(expected, actual.as_tuple());
@@ -24,7 +26,7 @@ TEST(FactoryTuple, DefaultProduction)
 
 TEST(FactoryTuple, HomoProduction)
 {
-    std::tuple<int, int, int> expected{2, 1, 3};
+    auto expected = std::make_tuple(2, 1, 3);
     FactoryTuple<int, int, int> actual{
         [&](auto& e) { return std::make_tuple(2); }
       , [&](auto& e) { return std::make_tuple(1); }
@@ -35,18 +37,18 @@ TEST(FactoryTuple, HomoProduction)
 
 TEST(FactoryTuple, HeteroProduction)
 {
-    std::tuple<int, double, long double> expected{1, 3.14, 2.71828};
-    FactoryTuple<int, double, long double> actual{
+    auto expected = std::make_tuple(1, 3, 2);
+    FactoryTuple<int, float, double> actual{
         [&](auto& e) { return std::make_tuple(1); }
-      , [&](auto& e) { return std::make_tuple(3.14); }
-      , [&](auto& e) { return std::make_tuple(2.71828); }
+      , [&](auto& e) { return std::make_tuple(3); }
+      , [&](auto& e) { return std::make_tuple(2); }
         };
     EXPECT_EQ(expected, actual.as_tuple());
 }
 
 TEST(FactoryTuple, HomoAssignment)
 {
-    std::tuple<int, int, int> expected{2, 1, 3};
+    auto expected = std::make_tuple(2, 1, 3);
     FactoryTuple<int, int, int> actual{
         [&](auto& e) { return std::tie(std::get<0>(expected)); }
       , [&](auto& e) { return std::tie(std::get<1>(expected)); }
@@ -57,8 +59,8 @@ TEST(FactoryTuple, HomoAssignment)
 
 TEST(FactoryTuple, HeteroAssignment)
 {
-    std::tuple<int, double, long double> expected{1, 3.14, 2.71828};
-    FactoryTuple<int, double, long double> actual{
+    auto expected = std::make_tuple(1, 3, 2);
+    FactoryTuple<int, float, double> actual{
         [&](auto& e) { return std::tie(std::get<0>(expected)); }
       , [&](auto& e) { return std::tie(std::get<1>(expected)); }
       , [&](auto& e) { return std::tie(std::get<2>(expected)); }
@@ -66,11 +68,9 @@ TEST(FactoryTuple, HeteroAssignment)
     EXPECT_EQ(expected, actual.as_tuple());
 }
 
-TEST(FactoryTuple, PaddedHeteroAssignment)
+TEST(FactoryTuple, PaddedAssignment)
 {
-    std::tuple<int, char, float, char, char, double, int> expected{
-        1, 'a', 3.14, 'b', 'c', 2.71828, 0
-        };
+    auto expected = std::make_tuple(1, 'a', 3, 'b', 'c', 2, 0);
     FactoryTuple<int, char, float, char, char, double, int> actual{
         [&](auto& e) { return std::tie(std::get<0>(expected)); }
       , [&](auto& e) { return std::tie(std::get<1>(expected)); }
@@ -85,7 +85,7 @@ TEST(FactoryTuple, PaddedHeteroAssignment)
 
 TEST(FactoryTuple, DependantProduction)
 {
-    std::tuple<std::string, std::string> expected{"down the pipe", "out the pipe"};
+    auto expected = std::make_tuple("down the pipe", "out the pipe");
     auto simple = [](auto& _) { return std::make_tuple("down the pipe"); };
     auto dependant = [](auto& e) {
         std::string bottle{e[0_c]};

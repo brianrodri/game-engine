@@ -1,17 +1,11 @@
-#ifndef _CPP1Z_GAME_ENGINE_FACTORY_TUPLE_H
-#define _CPP1Z_GAME_ENGINE_FACTORY_TUPLE_H
-#include <cstdlib>
+#pragma once
 #include <functional>
 #include <memory>
-#include <tuple>
-#include <type_traits>
 #include <utility>
 #include <experimental/array>
 #include <experimental/type_traits>
 #include <experimental/tuple>
-#include <experimental/string_view>
-
-namespace stx = std::experimental;
+#include "my_literals.h"
 
 
 //! Constructs its tuple through factories that use a ref to `this`
@@ -31,7 +25,7 @@ public:
     /**
      * Only exists when all `T`s are default construible.
      */
-    constexpr FactoryTuple()
+    constexpr FactoryTuple() noexcept
     {
         call_constructor_w(std::index_sequence_for<T...>{});
     }
@@ -46,13 +40,13 @@ public:
      */
     template<typename... F>
         //requires Function<F, Self&> && ...
-    constexpr FactoryTuple(F&&... f)
+    constexpr FactoryTuple(F&&... f) noexcept
     {
         call_constructor_w(std::index_sequence_for<T...>{}, std::forward<F>(f)...);
     }
 
     //! Destructor
-    ~FactoryTuple()
+    ~FactoryTuple() noexcept
     {
         call_destructor_w(std::index_sequence_for<T...>{});
     }
@@ -63,98 +57,102 @@ public:
     Self& operator=(Self const&) = delete;
     Self& operator=(Self&&) = delete;
 
-    constexpr auto as_tuple()
+    //! Converts elements to a tied tuple
+    constexpr auto as_tuple() noexcept
     {
         return tie(std::index_sequence_for<T...>{});
     }
 
-    constexpr auto as_tuple() const
+    //! Converts elements to a const tied tuple noexcept
+    constexpr auto as_tuple() const noexcept
     {
         return tie(std::index_sequence_for<T...>{});
     }
 
-    constexpr auto make_tuple() const
+    //! Creates a copy of the inner elements
+    constexpr auto make_tuple() const noexcept
     {
+        static_assert((std::experimental::is_copy_constructible_v<T> && ...));
         return copy(std::index_sequence_for<T...>{});
     }
 
-    template <typename I>
-    constexpr auto& operator[](I i)
+    template <size_t I>
+    constexpr auto& operator[](index_constant<I> i) noexcept
     {
         return id_to_ref(i);
     }
 
-    template <typename I>
-    constexpr const auto& operator[](I i) const
+    template <size_t I>
+    constexpr const auto& operator[](index_constant<I> i) const noexcept
     {
         return id_to_ref(i);
     }
 
 private:
     template <size_t... I>
-    constexpr auto tie(std::index_sequence<I...> i)
+    constexpr auto tie(std::index_sequence<I...> i) noexcept
     {
-        return std::tie(id_to_ref(std::integral_constant<size_t, I>{})...);
+        return std::tie(id_to_ref(index_c<I>)...);
     }
 
     template <size_t... I>
-    constexpr auto tie(std::index_sequence<I...> i) const
+    constexpr auto tie(std::index_sequence<I...> i) const noexcept
     {
-        return std::tie(id_to_ref(std::integral_constant<size_t, I>{})...);
+        return std::tie(id_to_ref(index_c<I>)...);
     }
 
     template <size_t... I>
-    constexpr auto copy(std::index_sequence<I...> i) const
+    constexpr auto copy(std::index_sequence<I...> i) const noexcept
     {
-        return Tuple{id_to_ref(std::integral_constant<size_t, I>{})...};
+        return Tuple{id_to_ref(index_c<I>)...};
     }
 
     template <size_t... I, typename... F>
-    constexpr void call_constructor_w(std::index_sequence<I...>, F&&... f)
+    constexpr void call_constructor_w(std::index_sequence<I...>, F&&... f) noexcept
     {
         static_assert(sizeof...(I) == sizeof...(F));
         (
             construct(
-                std::integral_constant<size_t, I>{}
+                index_c<I>
               , f(*this)
-              , std::make_index_sequence<stx::tuple_size_v<std::decay_t<std::result_of_t<F(Self&)>>>>{}
+              , std::make_index_sequence<std::experimental::tuple_size_v<std::result_of_t<F(Self&)>>>{}
                 ) // construct
           , ...
             );
     }
 
     template <size_t... I>
-    constexpr void call_constructor_w(std::index_sequence<I...>)
+    constexpr void call_constructor_w(std::index_sequence<I...>) noexcept
     {
-        (construct(std::integral_constant<size_t, I>{}), ...);
+        (construct(index_c<I>), ...);
     }
 
     template <size_t... I>
-    constexpr void call_destructor_w(std::index_sequence<I...>)
+    constexpr void call_destructor_w(std::index_sequence<I...>) noexcept
     {
-        (destruct(std::integral_constant<size_t, sizeof...(T) - I - 1>{}), ...);
+        (destruct(index_c<sizeof...(T) - I - 1>), ...);
     }
 
-    template <typename I, typename Yield, size_t... J>
-    constexpr void construct(I i, Yield&& y, std::index_sequence<J...>)
+    template <size_t I>
+    constexpr void construct(index_constant<I> i) noexcept
     {
-        using U = std::tuple_element_t<i, Tuple>;
-        static_assert(stx::is_constructible_v<U, std::tuple_element_t<J, Yield>...>);
-        U* ptr = &id_to_ref(i);
-        new(ptr) U{std::move(std::get<J>(std::forward<Yield>(y)))...};
-    }
-
-    template <typename I>
-    constexpr void construct(I i)
-    {
-        using U = std::tuple_element_t<i, Tuple>;
-        static_assert(stx::is_default_constructible_v<U>);
+        using U = std::tuple_element_t<I, Tuple>;
+        static_assert(std::experimental::is_default_constructible_v<U>);
         U* ptr = &id_to_ref(i);
         new(ptr) U{};
     }
 
-    template <typename I>
-    constexpr void destruct(I i)
+    template <size_t I, typename Yield, size_t... J>
+    constexpr void construct(index_constant<I> i, Yield&& y, std::index_sequence<J...>) noexcept
+    {
+        using U = std::tuple_element_t<I, Tuple>;
+        static_assert(std::experimental::is_constructible_v<U, std::decay_t<std::tuple_element_t<J, Yield>>...>);
+        U* ptr = &id_to_ref(i);
+        new(ptr) U(std::forward<std::decay_t<std::tuple_element_t<J, Yield>>>(std::get<J>(std::forward<Yield>(y)))...);
+    }
+
+    template <size_t I>
+    constexpr void destruct(index_constant<I> i) noexcept
     {
         using U = std::tuple_element_t<i, Tuple>;
         U* ptr = &id_to_ref(i);
@@ -162,28 +160,28 @@ private:
     }
 
     template <size_t I>
-    constexpr std::tuple_element_t<I, Tuple>& id_to_ref(std::integral_constant<size_t, I> i)
+    constexpr std::tuple_element_t<I, Tuple>& id_to_ref(index_constant<I> i) noexcept
     {
         using U = std::tuple_element_t<I, Tuple>;
         return *reinterpret_cast<U*>(reinterpret_cast<char*>(&m_memory) + id_to_off(i));
     }
 
     template <size_t I>
-    constexpr const std::tuple_element_t<I, Tuple>& id_to_ref(std::integral_constant<size_t, I> i) const
+    constexpr const std::tuple_element_t<I, Tuple>& id_to_ref(index_constant<I> i) const noexcept
     {
         using U = std::tuple_element_t<I, Tuple>;
         return *reinterpret_cast<const U*>(reinterpret_cast<const char*>(&m_memory) + id_to_off(i));
     }
 
     template <size_t U = sizeof...(T)>
-    static constexpr std::ptrdiff_t id_to_off(std::integral_constant<size_t, U> upto = {})
+    static constexpr std::ptrdiff_t id_to_off(index_constant<U> upto = {}) noexcept
     {
         constexpr size_t N = U + 1;
-        constexpr auto sz = stx::make_array(0, sizeof(T)...);
-        constexpr auto al = stx::make_array(
-                alignof(T)...
-              , stx::alignment_of_v<std::aligned_union_t<0, T..., char>>
-                );
+        constexpr auto sz = std::experimental::make_array(0, sizeof(T)...);
+        constexpr auto al = std::experimental::make_array(
+            alignof(T)...
+          , std::experimental::alignment_of_v<std::aligned_union_t<0, T..., char>>
+            );
         size_t retval{0};
         for (size_t i{0}; i != N; ++i) {
             retval = ((retval + sz[i] + al[i] - 1) / al[i]) * al[i];
@@ -199,13 +197,13 @@ namespace std {
 template <typename... T, size_t I>
 constexpr auto& get(FactoryTuple<T...>& o)
 {
-    return o[std::integral_constant<size_t, I>{}];
+    return o[index_c<I>];
 }
 
 template <typename... T, size_t I>
 constexpr const auto& get(const FactoryTuple<T...>& o)
 {
-    return o[std::integral_constant<size_t, I>{}];
+    return o[index_c<I>];
 }
 
 template <typename... T>
@@ -214,5 +212,3 @@ struct tuple_size<FactoryTuple<T...>> {
 };
 
 } // namespace std
-
-#endif
