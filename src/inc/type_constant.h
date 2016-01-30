@@ -10,7 +10,7 @@ template <typename H, typename... T>
 struct type_exists : std::experimental::disjunction<std::is_same<H, T>...> {};
 
 template <typename H, typename... T>
-static constexpr auto type_exists_v = type_exists<H, T...>::value;
+static constexpr auto type_exists_v = type_exists<H, T...>{};
 
 //! type_index
 namespace detail {
