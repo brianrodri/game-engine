@@ -1,5 +1,4 @@
 #include "FactoryTuple.h"
-#include "my_literals.h"
 #include <string>
 #include <tuple>
 #include <utility>
