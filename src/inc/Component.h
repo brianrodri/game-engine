@@ -1,37 +1,39 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-enum class Actions { NONE, UPDATE, RENDER, BOTH };
-
 struct BaseComponent {};
 
-template <Actions> struct Component;
-
-template<>
-struct Component<Actions::NONE> : BaseComponent {
-    static const Actions action_value = Actions::NONE; 
+//! A `Component` dedicated to holding data and absolutely nothing else.
+/**
+ * A special allocator is used for these POD types to help take advantage of
+ * their versatility as `memcpy`-able objects.
+ */
+struct PODComponent : BaseComponent {
 };
 
-template<>
-struct Component<Actions::UPDATE> : BaseComponent {
-    static const Actions action_value = Actions::UPDATE; 
+//! A `Component` dedicated to computation and absolutely nothing else.
+/**
+ * These components are well suited to threading, and should be given extra weight
+ * in thread balancing algorithms.
+ */
+struct ProcessorComponent : BaseComponent {
     virtual void update(float dt) = 0;
 };
 
-template<>
-struct Component<Actions::RENDER> : BaseComponent {
-    static const Actions action_value = Actions::RENDER; 
+//! A `Component` dedicated to rendering a scene and aboslutely nothing else.
+/**
+ * These components have higher priority than regular components in the render
+ * step of the engine cycle.
+ */
+struct PainterComponent : BaseComponent {
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const = 0;
 };
 
-template<>
-struct Component<Actions::BOTH> : BaseComponent {
-    static const Actions action_value = Actions::BOTH; 
+//! An updating, rendering, self-managing, and composable "action" encapsulation.
+/**
+ *
+ */
+struct Component : BaseComponent {
     virtual void update(float dt) = 0;
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const = 0;
 };
-
-using PODComponent = Component<Actions::NONE>;
-using ProcessorComponent = Component<Actions::UPDATE>;
-using PainterComponent = Component<Actions::RENDER>;
-using Component = Component<Actions::BOTH>;
