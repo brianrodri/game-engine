@@ -9,3 +9,5 @@ docs/search/*
 
 src/appinfo.h
 *.swp
+TODO
+.gitignore
