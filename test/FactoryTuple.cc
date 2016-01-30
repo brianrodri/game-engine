@@ -20,7 +20,7 @@ TEST(FactoryTuple, DefaultProduction)
     auto expected = std::make_tuple(0, 0);
     FactoryTuple<int, int> actual{};
     EXPECT_EQ(2*sizeof(int), sizeof(FactoryTuple<int, int>));
-    EXPECT_EQ(expected, actual.as_tuple());
+    EXPECT_EQ(expected, (decltype(expected)) actual);
 }
 
 TEST(FactoryTuple, HomoProduction)
@@ -31,7 +31,7 @@ TEST(FactoryTuple, HomoProduction)
       , [&](auto& e) { return std::make_tuple(1); }
       , [&](auto& e) { return std::make_tuple(3); }
         };
-    EXPECT_EQ(expected, actual.as_tuple());
+    EXPECT_EQ(expected, (decltype(expected)) actual);
 }
 
 TEST(FactoryTuple, HeteroProduction)
@@ -42,7 +42,7 @@ TEST(FactoryTuple, HeteroProduction)
       , [&](auto& e) { return std::make_tuple(3); }
       , [&](auto& e) { return std::make_tuple(2); }
         };
-    EXPECT_EQ(expected, actual.as_tuple());
+    EXPECT_EQ(expected, (decltype(expected)) actual);
 }
 
 TEST(FactoryTuple, HomoAssignment)
@@ -53,7 +53,7 @@ TEST(FactoryTuple, HomoAssignment)
       , [&](auto& e) { return std::tie(std::get<1>(expected)); }
       , [&](auto& e) { return std::tie(std::get<2>(expected)); }
         };
-    EXPECT_EQ(expected, actual.as_tuple());
+    EXPECT_EQ(expected, (decltype(expected)) actual);
 }
 
 TEST(FactoryTuple, HeteroAssignment)
@@ -64,7 +64,7 @@ TEST(FactoryTuple, HeteroAssignment)
       , [&](auto& e) { return std::tie(std::get<1>(expected)); }
       , [&](auto& e) { return std::tie(std::get<2>(expected)); }
         };
-    EXPECT_EQ(expected, actual.as_tuple());
+    EXPECT_EQ(expected, (decltype(expected)) actual);
 }
 
 TEST(FactoryTuple, PaddedAssignment)
@@ -79,12 +79,12 @@ TEST(FactoryTuple, PaddedAssignment)
       , [&](auto& e) { return std::tie(std::get<5>(expected)); }
       , [&](auto& e) { return std::tie(std::get<6>(expected)); }
         };
-    EXPECT_EQ(expected, actual.as_tuple());
+    EXPECT_EQ(expected, (decltype(expected)) actual);
 }
 
 TEST(FactoryTuple, DependantProduction)
 {
-    auto expected = std::make_tuple("down the pipe", "out the pipe");
+    auto expected = std::tuple<std::string, std::string>{"down the pipe", "out the pipe"};
     auto simple = [](auto& _) { return std::make_tuple("down the pipe"); };
     auto dependant = [](auto& e) {
         std::string bottle{e[0_c]};
@@ -92,5 +92,5 @@ TEST(FactoryTuple, DependantProduction)
         return std::make_tuple(std::move(bottle));
     };
     FactoryTuple<std::string, std::string> actual{simple, dependant};
-    EXPECT_EQ(expected, actual.as_tuple());
+    EXPECT_EQ(expected, (decltype(expected)) actual);
 }

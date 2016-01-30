@@ -34,3 +34,13 @@ using type_index = detail::type_index_impl<T, L...>;
 
 template <typename T, typename... L>
 static constexpr auto type_index_v = type_index<T, L...>{};
+
+template <typename T>
+static constexpr auto sizeof_c(type_constant<T>) {
+    return index_c<sizeof(T)>;
+}
+
+template <typename T>
+static constexpr auto alignof_c(type_constant<T>) {
+    return index_c<alignof(T)>;
+}

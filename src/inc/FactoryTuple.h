@@ -22,8 +22,6 @@ template <typename... T>
 class FactoryTuple {
     using Self = FactoryTuple<T...>;
     using Tuple = std::tuple<T...>;
-    using TiedTuple = std::tuple<T&...>;
-    using ConstTiedTuple = std::tuple<const T&...>;
 
 public:
     //! Default Ctor
@@ -51,9 +49,18 @@ public:
         callConstructorWith(std::index_sequence_for<T...>{}, std::forward<F>(f)...);
     }
 
-    constexpr operator std::tuple<T...>() const
+    //! Allows an explicit cast to a `std::tuple<U...>`
+    /**
+     * I made this to make testing easier mostly, but also because I feel this is the
+     * most expressive way of saying "treat this is a tuple," and it keeps well with
+     * comparisons to things
+     */
+    template <typename... U>
+    constexpr explicit operator std::tuple<U...>() const
     {
-        return tieImpl(std::index_sequence_for<T...>{});
+        static_assert(sizeof...(U) == sizeof...(T));
+        static_assert(std::experimental::conjunction_v<std::is_constructible<U, const T&>...>);
+        return std::tuple<U...>(tieImpl(std::index_sequence_for<T...>{}));
     }
 
     //! Destructor
@@ -101,7 +108,7 @@ private:
     constexpr auto tieImpl(std::index_sequence<I...> i) const noexcept
     {
         return std::make_tuple(
-            std::tuple_element_t<I, Tuple>(idxToCRef(index_c<I>)).. .
+            std::tuple_element_t<I, Tuple>(idxToCRef(index_c<I>))...
             );
     }
 
@@ -173,8 +180,8 @@ private:
     template <size_t U = sizeof...(T)>
     static constexpr std::ptrdiff_t idxToOff(index_constant<U> upto = {}) noexcept
     {
-        constexpr auto sz = std::experimental::make_array(0, sizeof(T)...);
-        constexpr auto al = std::experimental::make_array(
+        constexpr const auto sz = std::experimental::make_array(0, sizeof(T)...);
+        constexpr const auto al = std::experimental::make_array(
             alignof(T)...
           , std::experimental::alignment_of_v<std::aligned_union_t<0, T..., char>>
             );
