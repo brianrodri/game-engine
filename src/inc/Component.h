@@ -12,6 +12,10 @@
  * to classify the types of actions that a game needs done, and allow them to
  * achieve maximum efficiency through fine-tuning each of said categories.
  *
+ * To maximize the use in these Components, try to make them depend on each
+ * other such that they are as simplistic as possible.  Components are given
+ * a reference to others that will live 
+ *
  * Each category has its own benefits and quirks, which can be found under
  * their documentation.
  */
