@@ -3,18 +3,25 @@ README
 
 This is a fork of Michael Aaron Safyan's cpp-project-template, available at: https://code.google.com/p/cpp-project-template/.
 
- 1. Prerequisites
- 2. Building
- 3. Installing
- 4. Contributing
+ 1. Introduction
+ 2. Prerequisites
+ 3. Building
+ 4. Installing
+ 5. Contributing
+
+INTRODUCTION
+============
+
+
 
 PREREQUISITES
-================
+=============
 
 This project requires:
   * Cross-platform Make (CMake) v2.6.2+
   * GNU Make or equivalent.
-  * GCC or an alternative, reasonably conformant C++ compiler.
+  * GCC-6 or a Library TS 1 & 2 implementing compiler
+  * Boost
 
 BUILDING
 ========

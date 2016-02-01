@@ -48,7 +48,8 @@ LIST (APPEND CMAKE_PREFIX_PATH "${MAINFOLDER}/tools")
 LIST (APPEND CMAKE_PREFIX_PATH "${MAINFOLDER}/thirdparty")
 SET (CMAKE_MODULE_PATH "${MAINFOLDER}/tools/share/cmake")
 INCLUDE_DIRECTORIES("${MAINFOLDER}/include")
-INCLUDE_DIRECTORIES("${MAINFOLDER}/thirdparty/GSL")
+INCLUDE_DIRECTORIES("${MAINFOLDER}/thirdparty")
+INCLUDE_DIRECTORIES(${SFML_INCLUDE_DIR})
 
 #
 # Configure Files
@@ -75,9 +76,15 @@ ENDFOREACH (CONFIGINPUT ${CONFIGINPUTS})
 # Add Build Targets
 #
 
+# Add libraries here. Example: ${Boost_LIBRARIES}
+FIND_PACKAGE (Boost)
+FIND_PACKAGE (SFML COMPONENTS system window graphics network audio REQUIRED)
+SET (PROJECT_LIBRARIES "${Boost_LIBRARIES};${SFML_LIBRARIES}")
+
 # Add thirdparty directories first!
 ADD_SUBDIRECTORY(thirdparty/gmock-1.7.0)
 INCLUDE_DIRECTORIES("${MAINFOLDER}/thirdparty/GSL/include")
+INCLUDE_DIRECTORIES("${MAINFOLDER}/thirdparty/aetee/include")
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(test)
 

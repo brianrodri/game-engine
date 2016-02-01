@@ -7,6 +7,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+using aetee::operator""_c;
 
 
 TEST(FactoryTuple, EmptyTupleExists)

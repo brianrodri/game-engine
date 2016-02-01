@@ -1,6 +1,7 @@
 bin/*
 lib/*
 build/*
+tools/*
 
 docs/*.png
 docs/*.css

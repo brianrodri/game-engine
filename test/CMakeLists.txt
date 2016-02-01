@@ -1,5 +1,10 @@
 FILE (GLOB_RECURSE test_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
-SET (test_LIBS ${Boost_LIBRARIES})
+
+# Add libraries here. Example: ${Boost_LIBRARIES}
+FIND_PACKAGE (Boost)
+FIND_PACKAGE (SFML COMPONENTS system window graphics network audio REQUIRED)
+
+SET (test_LIBS ${PROJECT_LIBRARIES})
 SET (test_BIN ${PROJECT_NAME}-unittests)
 
 INCLUDE_DIRECTORIES("${gmock_SOURCE_DIR}/include"
@@ -7,10 +12,12 @@ INCLUDE_DIRECTORIES("${gmock_SOURCE_DIR}/include"
                     "${gtest_SOURCE_DIR}/include"
                     # This directory is needed to build directly from Google
                     # Test sources.
-                    "${gtest_SOURCE_DIR}")
-
-INCLUDE_DIRECTORIES("../src")
-INCLUDE_DIRECTORIES("../src/inc")
+                    "${gtest_SOURCE_DIR}"
+                    "./../src/inc"
+                    "./../src/inc/Components"
+                    "./../src/inc/PainterComponents"
+                    "./../src/inc/ProcessorComponents"
+                    "./../src/inc/Ethertee")
 
 SET (test_SRCS
   ${test_SRCS}

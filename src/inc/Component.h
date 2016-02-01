@@ -1,5 +1,4 @@
 #pragma once
-#include <boost/variant.hpp>
 #include <SFML/Graphics.hpp>
 
 //! The Component structure
@@ -19,12 +18,7 @@
  * Each category has its own benefits and quirks, which can be found under
  * their documentation.
  */
-struct BaseComponent {
-    BaseComponent(const BaseComponent&) = delete;
-    BaseComponent(BaseComponent&&) = delete;
-    BaseComponent& operator=(const BaseComponent&) = delete;
-    BaseComponent& operator=(BaseComponent&&) = delete;
-};
+struct BaseComponent { };
 
 
 //! `PODComponent` holds data and does absolutely nothing else.
@@ -83,5 +77,3 @@ struct Component : BaseComponent {
     virtual void update(float dt) = 0;
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const = 0;
 };
-
-using GenericComponent = boost::variant<PODComponent, ProcessorComponent, PainterComponent, Component>;
