@@ -5,7 +5,7 @@
 #
 SET (CMAKE_C_COMPILER "/usr/local/bin/gcc-6")
 SET (CMAKE_CXX_COMPILER "/usr/local/bin/g++-6")
-SET (CMAKE_CXX_FLAGS " -std=c++1z")
+SET (CMAKE_CXX_FLAGS " -std=c++1z -Wnarrowing")
 SET (CMAKE_BUILD_TYPE "Debug")
 
 #
