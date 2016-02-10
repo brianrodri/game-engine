@@ -5,11 +5,19 @@
 struct PositionC : BaseComponent {
     sf::Vector2f value;
 
+    PositionC() = default;
+    PositionC(const PositionC&) = default;
+    PositionC(PositionC&&) = default;
+    PositionC& operator=(const PositionC&) = default;
+    PositionC& operator=(PositionC&&) = default;
+
+    //! Explicit constructor w/ coordinates
     PositionC(float x, float y) : value{x, y}
     {
     }
 
-    PositionC(sf::Vector2f vec) : value{vec}
+    //! Explicit constructor w/ pre-made vector
+    PositionC(const sf::Vector2f& vec) : value{vec}
     {
     }
 } /*struct PositionC*/;

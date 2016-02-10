@@ -5,11 +5,19 @@
 struct VelocityC : BaseComponent {
     sf::Vector2f value;
 
+    VelocityC() = default;
+    VelocityC(const VelocityC&) = default;
+    VelocityC(VelocityC&&) = default;
+    VelocityC& operator=(const VelocityC&) = default;
+    VelocityC& operator=(VelocityC&&) = default;
+
+    //! Explicit constructor w/ coordinates
     VelocityC(float x, float y) : value{x, y}
     {
     }
 
-    VelocityC(sf::Vector2f vec) : value{vec}
+    //! Explicit constructor w/ pre-made vector
+    VelocityC(const sf::Vector2f& vec) : value{vec}
     {
     }
 } /*struct VelocityC*/;

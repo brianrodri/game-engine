@@ -5,11 +5,13 @@
 #include "FactoryTuple.h"
 #include <aetee/aetee.h>
 
+
+
 template <typename... C>
 class Entity : public FactoryTuple<C...> {
     static_assert((std::experimental::is_base_of_v<BaseComponent, C> && ...));
 
-    struct isRenderableFunctor {
+    struct RenderabilityFunctor {
         template <size_t I>
         auto operator()(aetee::index_constant_t<I>) const
         {
@@ -21,7 +23,7 @@ class Entity : public FactoryTuple<C...> {
         }
     };
 
-    struct isUpdatableFunctor {
+    struct UpdatabilityFunctor {
         template <size_t I>
         auto operator()(aetee::index_constant_t<I>) const
         {
@@ -43,12 +45,12 @@ public:
     {
     }
 
-    void update(float dt = {})
+    void update(float dt)
     {
         aetee::for_each(
             aetee::filter(
                 aetee::index_sequence_c<sizeof...(C)>
-              , isUpdatableFunctor{}
+              , UpdatabilityFunctor{}
                 )
           , [=](auto i) { (*this)[i].update(dt); }
             );
@@ -59,7 +61,7 @@ public:
         aetee::for_each(
             aetee::filter(
                 aetee::index_sequence_c<sizeof...(C)>
-              , isRenderableFunctor{}
+              , RenderabilityFunctor{}
                 )
           , [&](auto i) { (*this)[i].draw(target, {states}); }
             );

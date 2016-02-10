@@ -3,16 +3,16 @@
 #include "Component.h"
 
 //! Calls its input functor whenever updated
-struct EchoC : ProcessorComponent {
+struct MimicC : ProcessorComponent {
     std::function<void(float)> functor;
 
     template <typename F>
-    EchoC(F&& f) : functor{std::forward<F>(f)} {};
+    MimicC(F&& f) : functor{std::forward<F>(f)} {};
 
     virtual void update(float dt) override
     {
         functor(dt);
     }
-};
+} /*struct MimicC*/;
 
 #endif
