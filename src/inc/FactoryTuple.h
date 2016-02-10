@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HEADER_GAME_ENGINE_SRC_INC_FACTORY_TUPLE_H_INCLUDED
+#define HEADER_GAME_ENGINE_SRC_INC_FACTORY_TUPLE_H_INCLUDED
 #include <functional>
 #include <memory>
 #include <utility>
@@ -7,7 +8,7 @@
 #include <experimental/tuple>
 #include <aetee/aetee.h>
 
-//! Constructs its tuple through factories that use a ref to `this`
+//! Allows construction of elements through callables that take a ref to `this`
 /**
  *      A `FactoryTuple` is a special type of tuple that allows its members to
  *  access each other for aid in their construction.  This allows the creation
@@ -19,6 +20,7 @@ class FactoryTuple {
     using Self = FactoryTuple<T...>;
     static constexpr const size_t Len = aetee::offsetof_(aetee::type_sequence_c<T...>);
     static constexpr const size_t Align = aetee::alignof_(aetee::type_sequence_c<T...>);
+    template <size_t I> using TypeAt = aetee::type_at_t<I, T...>;
 
 public:
     //! Default Ctor
@@ -35,7 +37,7 @@ public:
     constexpr FactoryTuple(F&&... f)
     {
         static_assert(aetee::arity_c<F...> == aetee::arity_c<T...>);
-        factoryConstruct(aetee::index_sequence_c_for<F...>, std::forward<F>(f)...);
+        factoryConstruct(aetee::index_sequence_c_for<T...>, std::forward<F>(f)...);
     }
 
     //! Destructor
@@ -50,32 +52,20 @@ public:
     Self& operator=(Self const&) = delete;
     Self& operator=(Self&&) = delete;
 
-    //! Returns a tuple containing references to each member of this
-    constexpr auto as_tuple()
-    {
-        return tie(aetee::index_sequence_c_for<T...>);
-    }
-
-    //! Returns a tuple containing const references to each member of this
-    constexpr auto as_tuple() const
-    {
-        return tie(aetee::index_sequence_c_for<T...>);
-    }
-
     //! Allows compile-time access through an index into the typelist
     template <size_t I>
     constexpr auto& operator[](aetee::index_constant_t<I> i) 
     {
-        char * raw = reinterpret_cast<char *>(&m_memory) + aetee::offsetof_(aetee::type_sequence_c<T...>, i);
-        return *reinterpret_cast<aetee::type_at_t<I, T...> *>(raw);
+        char * raw = reinterpret_cast<char*>(&m_memory) + aetee::offsetof_(aetee::type_sequence_c<T...>, i);
+        return *reinterpret_cast<TypeAt<I>*>(raw);
     }
 
     //! Allows constant compile-time access through an index into the typelist
     template <size_t I>
     constexpr const auto& operator[](aetee::index_constant_t<I> i) const 
     {
-        const char * raw = reinterpret_cast<const char *>(&m_memory) + aetee::offsetof_(aetee::type_sequence_c<T...>, i);
-        return *reinterpret_cast<const aetee::type_at_t<I, T...> *>(raw);
+        const char * raw = reinterpret_cast<const char*>(&m_memory) + aetee::offsetof_(aetee::type_sequence_c<T...>, i);
+        return *reinterpret_cast<const TypeAt<I>*>(raw);
     }
 
     //! Allows compile-time access through an element of the typelist
@@ -92,13 +82,23 @@ public:
         return operator[](aetee::type_index_c<U, T...>);
     }
 
+    //! Returns a tuple containing references to each member of this
+    constexpr auto as_tuple()
+    {
+        return tie(aetee::index_sequence_c_for<T...>);
+    }
+
+    //! Returns a tuple containing const references to each member of this
+    constexpr auto as_tuple() const
+    {
+        return tie(aetee::index_sequence_c_for<T...>);
+    }
+
 private:
     template <size_t I, typename... A>
     constexpr void explicitConstruct(aetee::index_constant_t<I> i, A&&... args)
     {
-        using U = aetee::type_at_t<I, T...>;
-        U *location = &operator[](i);
-        new(location) U(std::forward<A>(args)...);
+        new(&operator[](i)) TypeAt<I>(std::forward<A>(args)...);
     }
 
     template <size_t... I>
@@ -110,7 +110,7 @@ private:
     template <size_t... I, typename... F>
     constexpr void factoryConstruct(aetee::index_sequence_t<I...>, F&&... f)
     {
-        (factoryConstruct(aetee::index_c<I>, aetee::index_sequence_c<std::tuple_size<std::result_of_t<F(Self&)>>::value>, f(*this)), ...);
+        (factoryConstruct(aetee::index_c<I>, aetee::indices_of_c<std::result_of_t<F(Self&)>>, f(*this)), ...);
     }
 
     template <size_t I, size_t... J, typename Yield>
@@ -122,8 +122,7 @@ private:
     template <size_t... I>
     constexpr void destruct(aetee::index_sequence_t<I...>)
     {
-        using namespace aetee;
-        (operator[](index_c<I>).~type_at_t<I, T...>(), ...);
+        (operator[](aetee::index_c<I>).~TypeAt<I>(), ...);
     }
 
     template <size_t... I>
@@ -158,3 +157,5 @@ struct tuple_size<FactoryTuple<T...>> {
 } /*struct tuple_size*/;
 
 } /*namespace std*/;
+
+#endif

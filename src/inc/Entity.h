@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HEADER_GAME_ENGINE_SRC_INC_ENTITY_H_INCLUDED
+#define HEADER_GAME_ENGINE_SRC_INC_ENTITY_H_INCLUDED
 #include <experimental/type_traits>
 #include "Component.h"
 #include "FactoryTuple.h"
@@ -64,3 +65,5 @@ public:
             );
     }
 };
+
+#endif

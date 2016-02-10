@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HEADER_GAME_ENGINE_SRC_INC_COMPONENTS_TILE_H_INCLUDED
+#define HEADER_GAME_ENGINE_SRC_INC_COMPONENTS_TILE_H_INCLUDED
 #include "Component.h"
 #include <SFML/Graphics.hpp>
 
@@ -6,18 +7,18 @@
 /**
  *
  */
-typedef struct TileComponent : RenderComponent {
+typedef struct TileC : RenderComponent {
     //!
     /**
      *
      */
-    RENC_Tile(const sf::Texture& txt, sf::FloatRect bounds) = default;
+    TileC(const sf::Texture& txt, sf::FloatRect bounds) = default;
 
     //!
     /**
      *
      */
-    ~RENC_Tile();
+    ~TileC();
 
     //!
     /**
@@ -30,3 +31,5 @@ typedef struct TileComponent : RenderComponent {
 private:
     //std::reference_wrapper<const sf::Texture> text;
 };
+
+#endif
