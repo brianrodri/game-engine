@@ -48,7 +48,7 @@ public:
     {
         aetee::for_each(
             aetee::filter(
-                aetee::index_sequence_c<sizeof...(C)>
+                aetee::index_sequence_c_for<C...>
               , UpdatabilityFunctor{}
                 )
           , [=](auto i) { (*this)[i].update(dt); }
@@ -59,7 +59,7 @@ public:
     {
         aetee::for_each(
             aetee::filter(
-                aetee::index_sequence_c<sizeof...(C)>
+                aetee::index_sequence_c_for<C...>
               , RenderabilityFunctor{}
                 )
           , [&](auto i) { (*this)[i].draw(target, {states}); }

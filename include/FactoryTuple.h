@@ -17,12 +17,12 @@
 template <typename... T>
 class FactoryTuple {
     using Self = FactoryTuple<T...>;
+    template <size_t I> using TypeAt = aetee::type_at_t<I, T...>;
     static constexpr const size_t Len = aetee::offsetof_(aetee::type_sequence_c<T...>);
     static constexpr const size_t Align = aetee::alignof_(aetee::type_sequence_c<T...>);
-    template <size_t I> using TypeAt = aetee::type_at_t<I, T...>;
 
 public:
-    //! Default Ctor
+    //! Default constructor
     /**
      * Only exists when all `T`s are default constructible.
      */
@@ -31,7 +31,13 @@ public:
         defaultConstruct(aetee::index_sequence_c_for<T...>);
     }
 
-    //! Factory Ctor
+    //! Factory constructor
+    /**
+     * Initializes each `T` through the tuple returned by a call to f(*this).
+     * The tuple may store references to earlier-constructed `T`s if so
+     * desired, allowing complex dependencies to live next to each other in
+     * memory through a single instance of FactoryTuple.
+     */
     template <typename... F>
     constexpr FactoryTuple(F&&... f)
     {
@@ -109,7 +115,7 @@ private:
     template <size_t... I, typename... F>
     constexpr void factoryConstruct(aetee::index_sequence_t<I...>, F&&... f)
     {
-        (factoryConstruct(aetee::index_c<I>, aetee::indices_of_c<std::result_of_t<F(Self&)>>, f(*this)), ...);
+        (factoryConstruct(aetee::index_c<I>, aetee::index_sequence_c_for<std::result_of_t<F(Self&)>>, f(*this)), ...);
     }
 
     template <size_t I, size_t... J, typename Yield>
