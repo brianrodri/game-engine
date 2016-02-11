@@ -1,4 +1,4 @@
-#include "Entity.h"
+#include "StaticCompSetC.h"
 #include "MimicC.h"
 #include "PositionC.h"
 #include "SimpleMotionC.h"
@@ -13,11 +13,12 @@
 using namespace aetee;
 
 
-TEST(Entity, ReactsToUpdates)
+
+TEST(StaticCompSetC, ReactsToUpdates)
 {
     int expected{3}, actual{0};
     // Test...
-    Entity<MimicC> sample{
+    StaticCompSetC<MimicC> sample{
         [&](auto&_) { return tupify([&](...){ actual += 1; }); }
         };
     sample.update(1), sample.update(1), sample.update(1);
@@ -25,11 +26,11 @@ TEST(Entity, ReactsToUpdates)
     EXPECT_EQ(expected, actual);
 }
 
-TEST(Entity, UpdateInOrder)
+TEST(StaticCompSetC, UpdatesInOrder)
 {
     int expected{16}, actual{0};
     // Test...
-    Entity<MimicC, MimicC, MimicC> sample
+    StaticCompSetC<MimicC, MimicC, MimicC> sample
       { [&](auto&_) { return tupify([&](...){ actual += 2; }); }
       , [&](auto&_) { return tupify([&](...){ actual += actual; }); }
       , [&](auto&_) { return tupify([&](...){ actual *= actual; }); }
@@ -39,12 +40,12 @@ TEST(Entity, UpdateInOrder)
     EXPECT_EQ(expected, actual);
 }
 
-// N.B.  THIS IS THE MAIN MOTIVATION BEHIND THE USAGE OF FACTORYTUPLE
-TEST(Entity, ReferenceEarlierMembers)
+// N.B. THIS IS THE MAIN MOTIVATION BEHIND THE USAGE OF FACTORYTUPLE
+TEST(StaticCompSetC, ReferenceEarlierMembers)
 {
     sf::Vector2f expected{0, 0}, initial{3, 4};
     // Test...
-    Entity<PositionC, VelocityC, SimpleMotionC> sample
+    StaticCompSetC<PositionC, VelocityC, SimpleMotionC> sample
       { [&](auto& e) { return tupify(initial); }
       , [&](auto& e) { return tupify(-initial);  }
       , [&](auto& e) { return std::tie(e[0_c], e[1_c]); }

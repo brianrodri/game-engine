@@ -199,33 +199,6 @@ unittests/fast:
 	cd /Users/brian/Dropbox/projects/cpp/game-engine && $(MAKE) -f test/CMakeFiles/unittests.dir/build.make test/CMakeFiles/unittests.dir/build
 .PHONY : unittests/fast
 
-Entity.o: Entity.cpp.o
-
-.PHONY : Entity.o
-
-# target to build an object file
-Entity.cpp.o:
-	cd /Users/brian/Dropbox/projects/cpp/game-engine && $(MAKE) -f test/CMakeFiles/game-engine-unittests.dir/build.make test/CMakeFiles/game-engine-unittests.dir/Entity.cpp.o
-.PHONY : Entity.cpp.o
-
-Entity.i: Entity.cpp.i
-
-.PHONY : Entity.i
-
-# target to preprocess a source file
-Entity.cpp.i:
-	cd /Users/brian/Dropbox/projects/cpp/game-engine && $(MAKE) -f test/CMakeFiles/game-engine-unittests.dir/build.make test/CMakeFiles/game-engine-unittests.dir/Entity.cpp.i
-.PHONY : Entity.cpp.i
-
-Entity.s: Entity.cpp.s
-
-.PHONY : Entity.s
-
-# target to generate assembly for a file
-Entity.cpp.s:
-	cd /Users/brian/Dropbox/projects/cpp/game-engine && $(MAKE) -f test/CMakeFiles/game-engine-unittests.dir/build.make test/CMakeFiles/game-engine-unittests.dir/Entity.cpp.s
-.PHONY : Entity.cpp.s
-
 FactoryTuple.o: FactoryTuple.cpp.o
 
 .PHONY : FactoryTuple.o
@@ -253,6 +226,33 @@ FactoryTuple.cpp.s:
 	cd /Users/brian/Dropbox/projects/cpp/game-engine && $(MAKE) -f test/CMakeFiles/game-engine-unittests.dir/build.make test/CMakeFiles/game-engine-unittests.dir/FactoryTuple.cpp.s
 .PHONY : FactoryTuple.cpp.s
 
+StaticCompSetC.o: StaticCompSetC.cpp.o
+
+.PHONY : StaticCompSetC.o
+
+# target to build an object file
+StaticCompSetC.cpp.o:
+	cd /Users/brian/Dropbox/projects/cpp/game-engine && $(MAKE) -f test/CMakeFiles/game-engine-unittests.dir/build.make test/CMakeFiles/game-engine-unittests.dir/StaticCompSetC.cpp.o
+.PHONY : StaticCompSetC.cpp.o
+
+StaticCompSetC.i: StaticCompSetC.cpp.i
+
+.PHONY : StaticCompSetC.i
+
+# target to preprocess a source file
+StaticCompSetC.cpp.i:
+	cd /Users/brian/Dropbox/projects/cpp/game-engine && $(MAKE) -f test/CMakeFiles/game-engine-unittests.dir/build.make test/CMakeFiles/game-engine-unittests.dir/StaticCompSetC.cpp.i
+.PHONY : StaticCompSetC.cpp.i
+
+StaticCompSetC.s: StaticCompSetC.cpp.s
+
+.PHONY : StaticCompSetC.s
+
+# target to generate assembly for a file
+StaticCompSetC.cpp.s:
+	cd /Users/brian/Dropbox/projects/cpp/game-engine && $(MAKE) -f test/CMakeFiles/game-engine-unittests.dir/build.make test/CMakeFiles/game-engine-unittests.dir/StaticCompSetC.cpp.s
+.PHONY : StaticCompSetC.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -268,12 +268,12 @@ help:
 	@echo "... check"
 	@echo "... install/local"
 	@echo "... game-engine-unittests"
-	@echo "... Entity.o"
-	@echo "... Entity.i"
-	@echo "... Entity.s"
 	@echo "... FactoryTuple.o"
 	@echo "... FactoryTuple.i"
 	@echo "... FactoryTuple.s"
+	@echo "... StaticCompSetC.o"
+	@echo "... StaticCompSetC.i"
+	@echo "... StaticCompSetC.s"
 .PHONY : help
 
 

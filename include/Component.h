@@ -1,6 +1,17 @@
 #pragma once
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
+#include <memory>
+#include <aetee/type_c.h>
+
+// Forward Declarations
+struct BaseComponent;
+struct PODComponent;
+struct ProcessorComponent;
+struct PainterComponent;
+struct Component;
+
+
 
 //! The Component structure
 /**
@@ -19,8 +30,8 @@
  * Each category has its own benefits and quirks, which can be found under
  * their documentation.
  */
-struct BaseComponent { };
-
+struct BaseComponent {
+};
 
 //! `PODComponent` holds data and does absolutely nothing else.
 /**

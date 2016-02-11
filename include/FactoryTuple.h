@@ -103,6 +103,7 @@ private:
     template <size_t I, typename... A>
     constexpr void explicitConstruct(aetee::index_constant_t<I> i, A&&... args)
     {
+        static_assert(std::is_constructible<TypeAt<I>, A...>::value);
         new(&operator[](i)) TypeAt<I>(std::forward<A>(args)...);
     }
 
