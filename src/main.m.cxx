@@ -2,5 +2,5 @@
 
 int main(int argc, char *argv[])
 {
-    std::cout << "haha fuck you\n";
+    std::cout << "Hi Brian! :)\n";
 }

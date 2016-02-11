@@ -1,14 +1,14 @@
-#include <tuple>
-#include <functional>
-#include <aetee/aetee.h>
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <SFML/Graphics.hpp>
 #include "Entity.h"
 #include "MimicC.h"
-#include "SimpleMotionC.h"
 #include "PositionC.h"
+#include "SimpleMotionC.h"
 #include "VelocityC.h"
+#include <functional>
+#include <tuple>
+#include <aetee/aetee.h>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include <SFML/Graphics.hpp>
 
 using namespace aetee;
 

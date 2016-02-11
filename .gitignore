@@ -3,6 +3,9 @@ lib/*
 build/*
 tools/*
 
+**/CMakeFiles
+**/CMakeScripts
+
 docs/*.png
 docs/*.css
 docs/*.js
