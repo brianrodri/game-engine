@@ -1,13 +1,12 @@
-FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
+FILE (GLOB_RECURSE project_SRCS *.cpp *.h *.hpp)
 
 # Add libraries here. Example: ${Boost_LIBRARIES}
-SET (project_LIBS ${PROJECT_LIBRARIES})
+SET (project_LIBS "${PROJECT_LIBRARIES}")
 SET (project_BIN ${PROJECT_NAME})
 
-INCLUDE_DIRECTORIES("./inc ./inc/Components ./inc/PainterComponents ./inc/PODComponents ./inc/ProcessorComponents ./inc/Ethertee")
-ADD_EXECUTABLE(${project_BIN} ${project_SRCS})
+ADD_LIBRARY(${project_LIB} ${project_SRCS})
 
-TARGET_LINK_LIBRARIES(${project_BIN} ${project_LIBS})
+ADD_EXECUTABLE(${project_BIN} main.m.cxx)
+TARGET_LINK_LIBRARIES(${project_BIN} ${project_LIBS} ${project_LIB})
 SET_TARGET_PROPERTIES(${project_BIN} PROPERTIES VERSION "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERSION_MINOR}" OUTPUT_NAME ${project_BIN} CLEAN_DIRECT_OUTPUT 1)
-
 INSTALL(TARGETS ${project_BIN} DESTINATION bin)

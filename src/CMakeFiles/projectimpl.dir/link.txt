@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libprojectimpl.a  CMakeFiles/projectimpl.dir/MimicC.cpp.o CMakeFiles/projectimpl.dir/PositionC.cpp.o CMakeFiles/projectimpl.dir/SimpleMotionC.cpp.o CMakeFiles/projectimpl.dir/VelocityC.cpp.o
+/usr/bin/ranlib ../lib/libprojectimpl.a
