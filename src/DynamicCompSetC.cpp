@@ -1,28 +1,35 @@
-#include "DynamicCompSetC.h"
+#include "DynamicSetC.h"
 
 
-BaseComponent& DynamicCompSetC::operator[](size_t i)
+BaseComponent& DynamicSetC::operator[](size_t i)
 {
-    return *members[i];
+    return *members[i].get();
 }
 
-const BaseComponent& DynamicCompSetC::operator[](size_t i) const
+const BaseComponent& DynamicSetC::operator[](size_t i) const
 {
-    return *members[i];
+    return *members[i].get();
 }
 
-void DynamicCompSetC::update(float dt)
+void DynamicSetC::update(float dt)
 {
-    constexpr auto canUpdateFn = BaseComponent::UpdateChecker{};
     for (auto& ptr : members) {
-        if (canUpdateFn(ptr)) { ptr->update(dt); }
+        ProcessorComponent* dptr = dynamic_cast<ProcessorComponent*>(ptr.get());
+        if (dptr != nullptr) { dptr->update(dt); }
     }
 }
 
-void DynamicCompSetC::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void DynamicSetC::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    constexpr auto canRenderFn = BaseComponent::RenderChecker{};
     for (auto& ptr : members) {
-        if (canRenderFn(ptr)) { ptr->draw(target, states); }
+        PainterComponent* dptr = dynamic_cast<PainterComponent*>(ptr.get());
+        if (dptr != nullptr) { dptr->draw(target, states); }
     }
+}
+
+std::unique_ptr<BaseComponent> DynamicSetC::detach()
+{
+    std::unique_ptr<BaseComponent> leaf{std::move(members.back())};
+    members.pop_back();
+    return leaf;
 }

@@ -31,7 +31,9 @@ struct Component;
  * their documentation.
  */
 struct BaseComponent {
-};
+    virtual ~BaseComponent() = default;
+} /*struct BaseComponent*/;
+
 
 //! `PODComponent` holds data and does absolutely nothing else.
 /**
@@ -47,7 +49,8 @@ struct BaseComponent {
  * HINT: Use static storage wisely!
  */
 struct PODComponent : BaseComponent {
-};
+    virtual ~PODComponent() = default;
+} /*struct PODComponent*/;
 
 
 //! `ProcessorComponent` performs computations and does absolutely nothing else.
@@ -61,8 +64,9 @@ struct PODComponent : BaseComponent {
  *    - Auto-Saver
  */
 struct ProcessorComponent : BaseComponent {
+    virtual ~ProcessorComponent() = default;
     virtual void update(float dt) = 0;
-};
+} /*struct ProcessorComponent*/;
 
 
 //! `PainterComponent` renders a scene and does aboslutely nothing else.
@@ -76,8 +80,9 @@ struct ProcessorComponent : BaseComponent {
  *    - HUD Display
  */
 struct PainterComponent : BaseComponent {
+    virtual ~PainterComponent() = default;
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const = 0;
-};
+} /*struct PainterComponent*/;
 
 
 //! An updating, rendering, self-managing, and composable "action" encapsulation.
@@ -85,7 +90,32 @@ struct PainterComponent : BaseComponent {
  * Everything else!  Prefer to create components that capture some kind of
  * action, or perhaps something that can be intuitively acted upon.
  */
-struct Component : BaseComponent {
-    virtual void update(float dt) = 0;
-    virtual void draw(sf::RenderTarget&, sf::RenderStates) const = 0;
-};
+struct Component : ProcessorComponent, PainterComponent {
+    virtual ~Component() = default;
+} /*struct Component*/;
+
+//! Helper class that determines whether a Component may be updated
+struct ComponentUpdateChecker {
+    template <typename C> constexpr auto operator()(aetee::type_constant_t<C>) const
+    {
+        return std::disjunction<std::is_base_of<ProcessorComponent, C>>{};
+    }
+
+    ProcessorComponent* operator()(BaseComponent* ptr) const
+    {
+        return dynamic_cast<ProcessorComponent*>(ptr);
+    }
+} /*struct updateChecker*/;
+
+//! Helper class that determines whether a Component may be rendered
+struct ComponentRenderChecker {
+    template <typename C> constexpr auto operator()(aetee::type_constant_t<C>) const
+    {
+        return std::disjunction<std::is_base_of<PainterComponent, C>>{};
+    }
+
+    PainterComponent* operator()(BaseComponent* ptr) const
+    {
+        return dynamic_cast<PainterComponent*>(ptr);
+    }
+} /*struct renderChecker*/;
