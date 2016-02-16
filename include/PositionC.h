@@ -8,8 +8,10 @@ struct PositionC : PODComponent {
     //! Explicit construction
     PositionC(float x, float y);
     PositionC(const sf::Vector2f& vec);
+
     //! Destructor behavior
     virtual ~PositionC() = default;
+
     //! Default behavior
     PositionC() = default;
     PositionC(const PositionC&) = default;

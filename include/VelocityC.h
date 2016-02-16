@@ -16,4 +16,5 @@ struct VelocityC : PODComponent {
     VelocityC(VelocityC&&) = default;
     VelocityC& operator=(const VelocityC&) = default;
     VelocityC& operator=(VelocityC&&) = default;
+
 } /*struct VelocityC*/;
