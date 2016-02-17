@@ -27,32 +27,22 @@ public:
     }
 
     template <size_t I>
-    auto& operator[](aetee::index_constant_t<I> i)
+    auto& operator[](aetee::idx_constant_t<I> i)
     {
         return members[i];
     }
 
     template <size_t I>
-    const auto& operator[](aetee::index_constant_t<I> i) const
+    const auto& operator[](aetee::idx_constant_t<I> i) const
     {
         return members[i];
-    }
-
-    auto& as_tuple()
-    {
-        return members.as_tuple();
-    }
-
-    const auto& as_tuple() const
-    {
-        return members.as_tuple();
     }
 
     virtual void update(float dt) override
     {
         aetee::for_each(
             aetee::filter(
-                aetee::index_sequence_c_for<C...>
+                aetee::idx_sequence_c_for<C...>
               , [](auto i) {
                     return std::is_base_of<ProcessorComponent, aetee::type_at_t<i, C...>>{};
                 })
@@ -64,7 +54,7 @@ public:
     {
         aetee::for_each(
             aetee::filter(
-                aetee::index_sequence_c_for<C...>
+                aetee::idx_sequence_c_for<C...>
               , [](auto i) {
                     return std::is_base_of<PainterComponent, aetee::type_at_t<i, C...>>{};
                 })

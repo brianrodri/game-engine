@@ -2,6 +2,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <memory>
+#include <aetee/int_c.h>
 #include <aetee/type_c.h>
 
 // Forward Declarations
@@ -10,7 +11,6 @@ struct PODComponent;
 struct ProcessorComponent;
 struct PainterComponent;
 struct Component;
-
 
 
 //! The Component structure
@@ -32,6 +32,7 @@ struct Component;
  */
 struct BaseComponent {
     virtual ~BaseComponent() = default;
+
 } /*struct BaseComponent*/;
 
 
@@ -50,6 +51,8 @@ struct BaseComponent {
  */
 struct PODComponent : BaseComponent {
     virtual ~PODComponent() = default;
+    static constexpr std::false_type Updates = {};
+    static constexpr std::false_type Renders = {};
 } /*struct PODComponent*/;
 
 
@@ -66,6 +69,8 @@ struct PODComponent : BaseComponent {
 struct ProcessorComponent : BaseComponent {
     virtual ~ProcessorComponent() = default;
     virtual void update(float dt) = 0;
+    static constexpr std::true_type Updates = {};
+    static constexpr std::false_type Renders = {};
 } /*struct ProcessorComponent*/;
 
 
@@ -82,6 +87,8 @@ struct ProcessorComponent : BaseComponent {
 struct PainterComponent : BaseComponent {
     virtual ~PainterComponent() = default;
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const = 0;
+    static constexpr std::false_type Updates = {};
+    static constexpr std::true_type Renders = {};
 } /*struct PainterComponent*/;
 
 
@@ -92,7 +99,12 @@ struct PainterComponent : BaseComponent {
  */
 struct Component : ProcessorComponent, PainterComponent {
     virtual ~Component() = default;
+    static constexpr std::true_type Updates = {};
+    static constexpr std::true_type Renders = {};
 } /*struct Component*/;
+
+struct component_traits;
+
 
 //! Helper class that determines whether a Component may be updated
 struct ComponentUpdateChecker {
