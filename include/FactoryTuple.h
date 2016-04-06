@@ -1,11 +1,12 @@
 #pragma once
 #include <functional>
 #include <memory>
+#include <tuple>
 #include <utility>
-#include <experimental/array>
-#include <experimental/type_traits>
-#include <experimental/tuple>
-#include <aetee/aetee.h>
+#include <aetee/int_c.h>
+#include <aetee/traits/alignof.h>
+#include <aetee/traits/offsetof.h>
+#include <aetee/axioms/reverse.h>
 
 //! Allows construction of elements through callables that take a ref to `this`
 /**
@@ -16,18 +17,20 @@
  */
 template <typename... T>
 class FactoryTuple {
+
     using Self = FactoryTuple<T...>;
-    static constexpr const auto Len = aetee::offsetof_(aetee::type_sequence_c<T...>);
-    static constexpr const auto Align = aetee::alignof_(aetee::type_sequence_c<T...>);
+    static constexpr const auto Len = aetee::offsetof_(aetee::type_c_sequence<T...>);
+    static constexpr const auto Align = aetee::alignof_(aetee::type_c_sequence<T...>);
 
 public:
+
     //! Default constructor
     /**
      * Only exists when all `T`s are default constructible.
      */
     constexpr FactoryTuple()
     {
-        defaultConstruct(aetee::idx_sequence_c_for<T...>);
+        defaultConstruct(aetee::idx_c_sequence_for<T...>);
     }
 
     //! Factory constructor
@@ -41,13 +44,13 @@ public:
     constexpr FactoryTuple(F&&... f)
     {
         static_assert(aetee::arity_c<F...> == aetee::arity_c<T...>);
-        factoryConstruct(aetee::idx_sequence_c_for<T...>, std::forward<F>(f)...);
+        factoryConstruct(aetee::idx_c_sequence_for<T...>, std::forward<F>(f)...);
     }
 
     //! Destructor
     ~FactoryTuple() 
     {
-        destruct(aetee::reverse(aetee::idx_sequence_c_for<T...>));
+        destruct(aetee::reverse(aetee::idx_c_sequence_for<T...>));
     }
 
     //! FactoryTuple must remain in-place to maintain valid references
@@ -61,8 +64,8 @@ public:
     constexpr auto& operator[](aetee::idx_constant_t<I> i) 
     {
         using U = aetee::type_at_t<I, T...>;
-        char * raw = reinterpret_cast<char*>(&m_memory) + aetee::offsetof_(aetee::type_sequence_c<T...>, i);
-        return *reinterpret_cast<U*>(raw);
+        char * memberPtr = reinterpret_cast<char*>(&m_memory) + aetee::offsetof_(aetee::type_c_sequence<T...>, i);
+        return *reinterpret_cast<U*>(memberPtr);
     }
 
     //! Allows constant compile-time access through an index into the typelist
@@ -70,8 +73,8 @@ public:
     constexpr const auto& operator[](aetee::idx_constant_t<I> i) const 
     {
         using U = aetee::type_at_t<I, T...>;
-        const char * raw = reinterpret_cast<const char*>(&m_memory) + aetee::offsetof_(aetee::type_sequence_c<T...>, i);
-        return *reinterpret_cast<const U*>(raw);
+        const char * memberPtr = reinterpret_cast<const char*>(&m_memory) + aetee::offsetof_(aetee::type_c_sequence<T...>, i);
+        return *reinterpret_cast<const U*>(memberPtr);
     }
 
     //! Allows compile-time access through an element of the typelist
@@ -91,16 +94,17 @@ public:
     //! Returns a tuple containing references to each member of this
     constexpr auto as_tuple()
     {
-        return tie(aetee::idx_sequence_c_for<T...>);
+        return tie(aetee::idx_c_sequence_for<T...>);
     }
 
     //! Returns a tuple containing const references to each member of this
     constexpr auto as_tuple() const
     {
-        return tie(aetee::idx_sequence_c_for<T...>);
+        return tie(aetee::idx_c_sequence_for<T...>);
     }
 
 private:
+
     template <size_t I, typename... A>
     constexpr void constructOne(aetee::idx_constant_t<I> i, A&&... args)
     {
@@ -125,7 +129,7 @@ private:
     template <size_t... I, typename... F>
     constexpr void factoryConstruct(aetee::idx_sequence_t<I...>, F&&... f)
     {
-        (factoryConstructOne(aetee::idx_c<I>, aetee::idx_sequence_c_of<std::result_of_t<F(Self&)>>, f(*this)), ...);
+        (factoryConstructOne(aetee::idx_c<I>, aetee::idx_c_sequence_of<std::result_of_t<F(Self&)>>, f(*this)), ...);
     }
 
     template <size_t I, size_t... J, typename Yield>
@@ -152,10 +156,14 @@ private:
         return std::tie(operator[](aetee::idx_c<I>)...);
     }
 
-    std::aligned_storage_t<Len, Align> m_memory;
+    std::aligned_storage_t<Len, Align>  m_memory;
+
 } /*class FactoryTuple*/;
 
 namespace std {
+
+template <typename... T>
+class tuple_size<FactoryTuple<T...>> : public std::integral_constant<size_t, sizeof...(T)> {};
 
 template <size_t I, typename... T>
     constexpr auto& get(FactoryTuple<T...>& o) { return o[aetee::idx_c<I>]; }
@@ -165,10 +173,5 @@ template <typename U, typename... T>
     constexpr auto& get(FactoryTuple<T...>& o) { return o[aetee::type_c<U>]; }
 template <typename U, typename... T>
     constexpr const auto& get(const FactoryTuple<T...>& o) { return o[aetee::type_c<U>]; }
-
-template <typename... T>
-struct tuple_size<FactoryTuple<T...>> {
-    static constexpr auto value = aetee::arity_c<T...>;
-} /*struct tuple_size*/;
 
 } /*namespace std*/;

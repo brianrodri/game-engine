@@ -53,6 +53,13 @@ INCLUDE_DIRECTORIES("${MAINFOLDER}/include")
 INCLUDE_DIRECTORIES(${SFML_INCLUDE_DIR})
 
 #
+# Locate Project Prerequisites
+#
+FIND_PACKAGE (Boost)
+FIND_PACKAGE (SFML COMPONENTS system window graphics network audio REQUIRED)
+SET (PROJECT_LIBRARIES "${SFML_LIBRARIES}")
+
+#
 # Configure Files
 #
 FILE (GLOB_RECURSE CONFIGINPUTS1 include/*.in.h.cmake)
@@ -76,11 +83,6 @@ ENDFOREACH (CONFIGINPUT ${CONFIGINPUTS})
 #
 # Add Build Targets
 #
-
-# Add libraries here. Example: ${Boost_LIBRARIES}
-FIND_PACKAGE (Boost)
-FIND_PACKAGE (SFML COMPONENTS system window graphics network audio REQUIRED)
-SET (PROJECT_LIBRARIES "${SFML_LIBRARIES}")
 
 # Add thirdparty directories first!
 ADD_SUBDIRECTORY(thirdparty/gmock-1.7.0)

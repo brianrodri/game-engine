@@ -31,7 +31,7 @@ TEST(FactoryTuple, DefaultProduction)
     EXPECT_EQ(expected, actual.as_tuple());
 }
 
-TEST(FactoryTuple, HomoProduction)
+TEST(FactoryTuple, HomogeneousProduction)
 {
     std::tuple<int, int, int> expected
       { 2, 1, 3 };
@@ -43,7 +43,7 @@ TEST(FactoryTuple, HomoProduction)
     EXPECT_EQ(expected, actual.as_tuple());
 }
 
-TEST(FactoryTuple, HeteroProduction)
+TEST(FactoryTuple, HeterogeneousProduction)
 {
     std::tuple<int, float, double> expected
       { 1, 3, 2 };
@@ -55,7 +55,7 @@ TEST(FactoryTuple, HeteroProduction)
     EXPECT_EQ(expected, actual.as_tuple());
 }
 
-TEST(FactoryTuple, HomoAssignment)
+TEST(FactoryTuple, HomogeneousAssignment)
 {
     std::tuple<int, int, int> expected
       { 2, 1, 3 };
@@ -67,7 +67,7 @@ TEST(FactoryTuple, HomoAssignment)
     EXPECT_EQ(expected, actual.as_tuple());
 }
 
-TEST(FactoryTuple, HeteroAssignment)
+TEST(FactoryTuple, HeterogeneousAssignment)
 {
     std::tuple<int, float, double> expected
       { 1, 3, 2 };
@@ -110,3 +110,4 @@ TEST(FactoryTuple, DependantProduction)
     FactoryTuple<std::string, std::string> actual{simple, dependant};
     EXPECT_EQ(expected, actual.as_tuple());
 }
+
