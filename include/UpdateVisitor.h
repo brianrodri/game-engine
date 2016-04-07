@@ -17,7 +17,10 @@ struct UpdateVisitorResolverFunctor {
 
 //! Specialized behavior, call update when it exists
 template <typename C>
-struct UpdateVisitorResolverFunctor<C, decltype(std::declval<C&>().update(std::declval<float>()))> {
+struct UpdateVisitorResolverFunctor
+  < C
+  , decltype(std::declval<C&>().update(std::declval<float>()))
+    > {
 
     void operator()(C& visitee, float dt) const
     {
@@ -36,7 +39,7 @@ public:
     template <typename C>
     void operator()(C& visitee) const
     {
-        return detail::UpdateVisitorResolverFunctor<C>{}(visitee, m_dt);
+        detail::UpdateVisitorResolverFunctor<C>{}(visitee, m_dt);
     }
 
 private:

@@ -7,16 +7,19 @@
 #include <aetee/int_c.h>
 #include <aetee/hof/for_each.h>
 
-//! Designed to compose several _related_ components as one functioning component
+/**
+ * `Designed to compose several _related_ components as one functioning component. ComponentTuple` is built upon
+ * `FactoryTuple`, which takes a series of **functions** as arguments
+ */
 template <typename... C>
-class ComponentTuple final : Component {
+class ComponentTuple : Component {
     static_assert(std::conjunction<std::is_base_of<Component, C>...>::value);
 
 public:
 
     //! Default behavior
     ComponentTuple() = default;
-    ~ComponentTuple() = default;
+    virtual ~ComponentTuple() = default;
 
     //! Can not be moved in any way due to possible complexities
     ComponentTuple(const ComponentTuple&) = delete;
@@ -58,16 +61,12 @@ public:
 
     void update(float dt)
     {
-        aetee::for_each(m_componentTuple, [=](auto& elem) {
-            UpdateVisitor{dt}(elem);
-        });
+        aetee::for_each(m_componentTuple, UpdateVisitor{dt});
     }
 
     void draw(sf::RenderTarget& tar, sf::RenderStates stt) const
     {
-        aetee::for_each(m_componentTuple, [&](const auto& elem) {
-            DrawVisitor{tar, stt}(elem);
-        });
+        aetee::for_each(m_componentTuple, DrawVisitor{tar, stt});
     }
 
 private:

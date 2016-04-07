@@ -1,7 +1,0 @@
-!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
-DrawVisitor	/Users/brian/Dropbox/projects/cpp/game-engine/src/DrawVisitor.h	/^DrawVisitor::DrawVisitor(sf::RenderTarget& targetIn, sf::RenderStates states) : m_target{targetIn}, m_states{states}$/;"	f	language:C++	class:DrawVisitor
-DrawVisitor::DrawVisitor	/Users/brian/Dropbox/projects/cpp/game-engine/src/DrawVisitor.h	/^DrawVisitor::DrawVisitor(sf::RenderTarget& targetIn, sf::RenderStates states) : m_target{targetIn}, m_states{states}$/;"	f	language:C++	class:DrawVisitor
-MimicComp::update	/Users/brian/Dropbox/projects/cpp/game-engine/src/MimicComp.cpp	/^void MimicComp::update(float dt)$/;"	f	language:C++	class:MimicComp
-update	/Users/brian/Dropbox/projects/cpp/game-engine/src/MimicComp.cpp	/^void MimicComp::update(float dt)$/;"	f	language:C++	class:MimicComp
-UpdateVisitor	/Users/brian/Dropbox/projects/cpp/game-engine/src/UpdateVisitor.cpp	/^UpdateVisitor::UpdateVisitor(float dtIn) : m_dt{dtIn}$/;"	f	language:C++	class:UpdateVisitor
-UpdateVisitor::UpdateVisitor	/Users/brian/Dropbox/projects/cpp/game-engine/src/UpdateVisitor.cpp	/^UpdateVisitor::UpdateVisitor(float dtIn) : m_dt{dtIn}$/;"	f	language:C++	class:UpdateVisitor

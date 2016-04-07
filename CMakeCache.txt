@@ -188,6 +188,15 @@ DOXYGEN_DOT_EXECUTABLE:FILEPATH=DOXYGEN_DOT_EXECUTABLE-NOTFOUND
 //Doxygen documentation generation tool (http://www.doxygen.org)
 DOXYGEN_EXECUTABLE:FILEPATH=/usr/local/bin/doxygen
 
+//jsoncpp include dir
+JSONCPP_INCLUDE_DIR:PATH=/usr/local/include
+
+//Path to a file.
+JSONCPP_INCLUDE_PREFIX:PATH=/usr/local/include/json
+
+//jsoncpp library
+JSONCPP_LIBRARY:FILEPATH=/usr/local/lib/libjsoncpp.dylib
+
 //Path to a program.
 PYTHON_EXECUTABLE:FILEPATH=/usr/local/bin/python
 
@@ -324,7 +333,7 @@ CMAKE_C_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS_RELWITHDEBINFO
 CMAKE_C_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //Path to cache edit program executable.
-CMAKE_EDIT_COMMAND:INTERNAL=/usr/local/Cellar/cmake/3.4.3/bin/ccmake
+CMAKE_EDIT_COMMAND:INTERNAL=/usr/local/Cellar/cmake/3.5.1/bin/ccmake
 //Executable file format
 CMAKE_EXECUTABLE_FORMAT:INTERNAL=Unknown
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS
@@ -422,6 +431,12 @@ FIND_PACKAGE_MESSAGE_DETAILS_Doxygen:INTERNAL=[/usr/local/bin/doxygen][v1.8.11()
 FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/usr/local/bin/python][v2.7.11()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//Details about finding jsoncpp
+FIND_PACKAGE_MESSAGE_DETAILS_jsoncpp:INTERNAL=[/usr/local/include][/usr/local/lib/libjsoncpp.dylib][v()]
+//ADVANCED property for variable: JSONCPP_INCLUDE_DIR
+JSONCPP_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: JSONCPP_LIBRARY
+JSONCPP_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PYTHON_EXECUTABLE
 PYTHON_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: SFML_AUDIO_LIBRARY_DEBUG

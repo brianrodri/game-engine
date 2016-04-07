@@ -15,6 +15,6 @@ struct MimicComp : Component {
     void update(float dt);
 
     //! The functor!
-    std::function<void()> functor;
+    std::function<void(float)> functor;
 
 } /*class MimicComp*/;

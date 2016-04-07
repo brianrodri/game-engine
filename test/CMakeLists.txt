@@ -1,6 +1,6 @@
 FILE (GLOB_RECURSE test_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
 
-SET (test_LIBS ${PROJECT_LIBRARIES} ${project_LIB} ${SFML_LIBRARIES})
+SET (test_LIBS ${PROJECT_LIBRARIES} ${project_LIB} ${SFML_LIBRARIES} ${JSON_LIBRARIES})
 SET (test_BIN ${PROJECT_NAME}-unittests)
 
 INCLUDE_DIRECTORIES("${gmock_SOURCE_DIR}/include"

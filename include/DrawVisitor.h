@@ -15,7 +15,10 @@ class DrawVisitorResolverFunctor {
 };
 
 template <typename C>
-struct DrawVisitorResolverFunctor<C, decltype(std::declval<const C&>().draw(std::declval<sf::RenderTarget&>(), std::declval<sf::RenderStates>()))> {
+struct DrawVisitorResolverFunctor
+  < C
+  , decltype(std::declval<const C&>().draw(std::declval<sf::RenderTarget&>(), std::declval<sf::RenderStates>()))
+    > {
 
     void operator()(const C& visitee, sf::RenderTarget& target, sf::RenderStates states) const
     {
@@ -36,7 +39,7 @@ public:
     void operator()(const C& visitee) const
     {
         static_assert(std::is_base_of<Component, C>::value);
-        return detail::DrawVisitorResolverFunctor<C>{}(visitee, m_target, m_states);
+        detail::DrawVisitorResolverFunctor<C>{}(visitee, m_target, m_states);
     }
 
 private:

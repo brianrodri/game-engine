@@ -3,5 +3,5 @@
 
 void MimicComp::update(float dt)
 {
-    functor();
+    functor(dt);
 }

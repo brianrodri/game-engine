@@ -1,14 +1,12 @@
 #include "ComponentTuple.h"
 #include "MimicComp.h"
-#include "PositionComp.h"
-#include "SimpleMotionComp.h"
-#include "VelocityComp.h"
-#include <functional>
-#include <tuple>
+#include "PhysicsComps.h"
 #include <aetee/aetee.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
+#include <functional>
+#include <tuple>
 
 using namespace aetee;
 
@@ -17,7 +15,7 @@ TEST(ComponentTuple, ReactsToUpdates)
 {
     int expected{3}, actual{0};
     ComponentTuple<MimicComp> sample
-      { [&](auto&_) { return tupify([&]() { actual += 1; }); }
+      { [&](auto&_) { return tupify([&](...) { actual += 1; }); }
         };
     sample.update(1), sample.update(1), sample.update(1);
 }
@@ -27,9 +25,9 @@ TEST(ComponentTuple, UpdatesInOrder)
     int expected{16}, actual{0};
 
     ComponentTuple<MimicComp, MimicComp, MimicComp> sample
-      { [&](auto&_) { return tupify([&](){ actual += 2; }); }
-      , [&](auto&_) { return tupify([&](){ actual += actual; }); }
-      , [&](auto&_) { return tupify([&](){ actual *= actual; }); }
+      { [&](auto&_) { return tupify([&](...){ actual += 2; }); }
+      , [&](auto&_) { return tupify([&](...){ actual += actual; }); }
+      , [&](auto&_) { return tupify([&](...){ actual *= actual; }); }
         };
     sample.update(1);
 
