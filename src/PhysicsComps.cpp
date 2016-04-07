@@ -25,12 +25,20 @@ AccelerationComp::AccelerationComp(const sf::Vector2f& src) : value{src}
 {
 }
 
-SimpleMotionComp::SimpleMotionComp(PositionComp& p_, VelocityComp& v_) : pos{p_}, vel{v_}
+MotionComp::MotionComp(
+    gsl::not_null<PositionComp*> posPtr
+  , gsl::not_null<VelocityComp*> velPtr
+  , AccelerationComp* accPtr
+    )
+  : pos{posPtr}
+  , vel{velPtr}
+  , acc{accPtr}
 {
 }
 
-void SimpleMotionComp::update(float dt)
+void MotionComp::update(float dt)
 {
-    pos.value += (vel.value * dt);
+    if (acc) { vel->value += (acc->value * dt); }
+    pos->value += (vel->value * dt);
 }
 

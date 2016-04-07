@@ -39,10 +39,10 @@ TEST(ComponentTuple, ReferenceEarlierMembers)
 {
     sf::Vector2f expected{0, 0}, initial{3, 4};
 
-    ComponentTuple<PositionComp, VelocityComp, SimpleMotionComp> sample
+    ComponentTuple<PositionComp, VelocityComp, MotionComp> sample
       { [&](auto& e) { return tupify(initial); }
       , [&](auto& e) { return tupify(-initial);  }
-      , [&](auto& e) { return std::tie(e[0_c], e[1_c]); }
+      , [&](auto& e) { return tupify(&e[0_c], &e[1_c]); }
         };
     sample.update(3), sample.update(-4), sample.update(2);
 

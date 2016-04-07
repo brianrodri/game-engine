@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include <GSL/gsl.h>
 #include <SFML/System/Vector2.hpp>
 
 struct PositionComp : Component {
@@ -32,16 +33,16 @@ struct AccelerationComp : Component {
 
 } /*struct VelocityComp*/;
 
-class SimpleMotionComp : Component {
-public:
+class MotionComp : Component {
 
-    SimpleMotionComp(PositionComp&, VelocityComp&);
+public:
+    MotionComp(gsl::not_null<PositionComp*>, gsl::not_null<VelocityComp*>, AccelerationComp* = nullptr);
     void update(float);
 
 private:
+    PositionComp*  pos;
+    VelocityComp*  vel;
+    AccelerationComp*  acc;
 
-    PositionComp& pos;
-    VelocityComp& vel;
-
-} /*struct SimpleMotionComp*/;
+} /*class MotionComp*/;
 

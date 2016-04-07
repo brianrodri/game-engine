@@ -61,7 +61,7 @@ public:
 
     //! Allows compile-time access through an index into the typelist
     template <size_t I>
-    constexpr auto& operator[](aetee::idx_constant_t<I> i) 
+    constexpr auto& operator[](aetee::idx_t<I> i) 
     {
         using U = aetee::type_at_t<I, T...>;
         char * memberPtr = reinterpret_cast<char*>(&m_memory) + aetee::offsetof_(aetee::type_c_sequence<T...>, i);
@@ -70,7 +70,7 @@ public:
 
     //! Allows constant compile-time access through an index into the typelist
     template <size_t I>
-    constexpr const auto& operator[](aetee::idx_constant_t<I> i) const 
+    constexpr const auto& operator[](aetee::idx_t<I> i) const 
     {
         using U = aetee::type_at_t<I, T...>;
         const char * memberPtr = reinterpret_cast<const char*>(&m_memory) + aetee::offsetof_(aetee::type_c_sequence<T...>, i);
@@ -79,14 +79,14 @@ public:
 
     //! Allows compile-time access through an element of the typelist
     template <typename U>
-    constexpr auto& operator[](aetee::type_constant_t<U> t) 
+    constexpr auto& operator[](aetee::type_t<U> t) 
     {
         return operator[](aetee::type_idx_c<U, T...>);
     }
 
     //! Allows constant compile-time access through an element of the typelist
     template <typename U>
-    constexpr const auto& operator[](aetee::type_constant_t<U> t) const 
+    constexpr const auto& operator[](aetee::type_t<U> t) const 
     {
         return operator[](aetee::type_idx_c<U, T...>);
     }
@@ -106,7 +106,7 @@ public:
 private:
 
     template <size_t I, typename... A>
-    constexpr void constructOne(aetee::idx_constant_t<I> i, A&&... args)
+    constexpr void constructOne(aetee::idx_t<I> i, A&&... args)
     {
         using U = aetee::type_at_t<I, T...>;
         static_assert(std::is_constructible<U, A...>::value);
@@ -114,44 +114,44 @@ private:
     }
 
     template <size_t I>
-    constexpr void destructOne(aetee::idx_constant_t<I> i)
+    constexpr void destructOne(aetee::idx_t<I> i)
     {
         using U = aetee::type_at_t<I, T...>;
         operator[](i).~U();
     }
 
     template <size_t... I>
-    constexpr void defaultConstruct(aetee::idx_sequence_t<I...>)
+    constexpr void defaultConstruct(aetee::idx_c_sequence_t<I...>)
     {
         (constructOne(aetee::idx_c<I>), ...);
     }
 
     template <size_t... I, typename... F>
-    constexpr void factoryConstruct(aetee::idx_sequence_t<I...>, F&&... f)
+    constexpr void factoryConstruct(aetee::idx_c_sequence_t<I...>, F&&... f)
     {
         (factoryConstructOne(aetee::idx_c<I>, aetee::idx_c_sequence_of<std::result_of_t<F(Self&)>>, f(*this)), ...);
     }
 
     template <size_t I, size_t... J, typename Yield>
-    constexpr void factoryConstructOne(aetee::idx_constant_t<I> i, aetee::idx_sequence_t<J...> js, Yield&& y)
+    constexpr void factoryConstructOne(aetee::idx_t<I> i, aetee::idx_c_sequence_t<J...> js, Yield&& y)
     {
         constructOne(i, std::get<J>(std::forward<Yield>(y))...);
     }
 
     template <size_t... I>
-    constexpr void destruct(aetee::idx_sequence_t<I...>)
+    constexpr void destruct(aetee::idx_c_sequence_t<I...>)
     {
         (destructOne(aetee::idx_c<I>), ...);
     }
 
     template <size_t... I>
-    constexpr auto tie(aetee::idx_sequence_t<I...>)
+    constexpr auto tie(aetee::idx_c_sequence_t<I...>)
     {
         return std::tie(operator[](aetee::idx_c<I>)...);
     }
 
     template <size_t... I>
-    constexpr auto tie(aetee::idx_sequence_t<I...>) const
+    constexpr auto tie(aetee::idx_c_sequence_t<I...>) const
     {
         return std::tie(operator[](aetee::idx_c<I>)...);
     }

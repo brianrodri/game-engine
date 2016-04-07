@@ -35,26 +35,26 @@ public:
 
     //! Access through compile time indices
     template <size_t I>
-    auto& operator[](aetee::idx_constant_t<I> i)
+    auto& operator[](aetee::idx_t<I> i)
     {
         return m_componentTuple[i];
     }
 
     //! Access through compile time indices
     template <size_t I>
-    const auto& operator[](aetee::idx_constant_t<I> i) const
+    const auto& operator[](aetee::idx_t<I> i) const
     {
         return m_componentTuple[i];
     }
 
     template <typename K>
-    auto& operator[](aetee::type_constant_t<K> k)
+    auto& operator[](aetee::type_t<K> k)
     {
         return m_componentTuple[k];
     }
 
     template <typename K>
-    const auto& operator[](aetee::type_constant_t<K> k) const
+    const auto& operator[](aetee::type_t<K> k) const
     {
         return m_componentTuple[k];
     }
