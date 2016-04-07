@@ -44,6 +44,18 @@ public:
         return m_componentTuple[i];
     }
 
+    template <typename K>
+    auto& operator[](aetee::type_constant_t<K> k)
+    {
+        return m_componentTuple[k];
+    }
+
+    template <typename K>
+    const auto& operator[](aetee::type_constant_t<K> k) const
+    {
+        return m_componentTuple[k];
+    }
+
     void update(float dt)
     {
         aetee::for_each(m_componentTuple, [=](auto& elem) {

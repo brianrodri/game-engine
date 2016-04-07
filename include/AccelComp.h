@@ -4,8 +4,10 @@
 
 struct AccelComp : Component {
 
-    //! Explicit construction
+    //! Explicit through components
     AccelComp(float x, float y);
+
+    //! Constructs directly from a 2D vector value
     AccelComp(const sf::Vector2f& vec);
 
     //! Member value

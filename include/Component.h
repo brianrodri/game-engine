@@ -3,6 +3,8 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <memory>
 
-struct Component { virtual ~Component() = default; };
+struct Component {
+    virtual ~Component() = default;
+};
 
 using ComponentPtr = std::unique_ptr<Component>;

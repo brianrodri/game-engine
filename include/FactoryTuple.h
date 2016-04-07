@@ -163,7 +163,7 @@ private:
 namespace std {
 
 template <typename... T>
-class tuple_size<FactoryTuple<T...>> : public std::integral_constant<size_t, sizeof...(T)> {};
+class tuple_size<FactoryTuple<T...>> : public std::integral_constant<std::size_t, sizeof...(T)> { };
 
 template <size_t I, typename... T>
     constexpr auto& get(FactoryTuple<T...>& o) { return o[aetee::idx_c<I>]; }
