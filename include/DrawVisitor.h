@@ -1,11 +1,12 @@
 #pragma once
-#include "Component.h"
-#include <type_traits>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <functional>
 #include <utility>
 
 namespace detail {
 
-template <typename C, typename = void>
+template<typename C, typename = void>
 class DrawVisitorResolverFunctor {
 
     void operator()(const C& visitee, sf::RenderTarget& target, sf::RenderStates states) const
@@ -14,7 +15,7 @@ class DrawVisitorResolverFunctor {
 
 };
 
-template <typename C>
+template<typename C>
 struct DrawVisitorResolverFunctor
   < C
   , decltype(std::declval<const C&>().draw(std::declval<sf::RenderTarget&>(), std::declval<sf::RenderStates>()))
@@ -35,11 +36,10 @@ public:
 
     DrawVisitor(sf::RenderTarget& targetIn, sf::RenderStates statesIn);
 
-    template <typename C>
+    template<typename C>
     void operator()(const C& visitee) const
     {
-        static_assert(std::is_base_of<Component, C>::value);
-        detail::DrawVisitorResolverFunctor<C>{}(visitee, m_target, m_states);
+        detail::DrawVisitorResolverFunctor<C>{}(visitee, m_target.get(), m_states);
     }
 
 private:

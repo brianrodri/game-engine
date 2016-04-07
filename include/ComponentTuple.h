@@ -1,6 +1,5 @@
 #pragma once
 #include <experimental/type_traits>
-#include "Component.h"
 #include "DrawVisitor.h"
 #include "FactoryTuple.h"
 #include "UpdateVisitor.h"
@@ -11,9 +10,8 @@
  * `Designed to compose several _related_ components as one functioning component. ComponentTuple` is built upon
  * `FactoryTuple`, which takes a series of **functions** as arguments
  */
-template <typename... C>
-class ComponentTuple : Component {
-    static_assert(std::conjunction<std::is_base_of<Component, C>...>::value);
+template<typename... C>
+class ComponentTuple {
 
 public:
 
@@ -28,32 +26,32 @@ public:
     ComponentTuple& operator=(ComponentTuple&&) = delete;
 
     //! Explicit construction w/ factories
-    template <typename... F>
+    template<typename... F>
     constexpr ComponentTuple(F&&... f) : m_componentTuple{std::forward<F>(f)...}
     {
     }
 
     //! Access through compile time indices
-    template <size_t I>
+    template<size_t I>
     auto& operator[](aetee::idx_t<I> i)
     {
         return m_componentTuple[i];
     }
 
     //! Access through compile time indices
-    template <size_t I>
+    template<size_t I>
     const auto& operator[](aetee::idx_t<I> i) const
     {
         return m_componentTuple[i];
     }
 
-    template <typename K>
+    template<typename K>
     auto& operator[](aetee::type_t<K> k)
     {
         return m_componentTuple[k];
     }
 
-    template <typename K>
+    template<typename K>
     const auto& operator[](aetee::type_t<K> k) const
     {
         return m_componentTuple[k];

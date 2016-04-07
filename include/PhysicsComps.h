@@ -1,9 +1,7 @@
 #pragma once
-#include "Component.h"
-#include <GSL/gsl.h>
 #include <SFML/System/Vector2.hpp>
 
-struct PositionComp : Component {
+struct PositionComp {
 
     //! Explicit construction
     PositionComp(float x, float y);
@@ -13,7 +11,7 @@ struct PositionComp : Component {
 
 } /*struct PositionComp*/;
 
-struct VelocityComp : Component {
+struct VelocityComp {
 
     //! Explicit constructor w/ coordinates
     VelocityComp(float, float);
@@ -23,7 +21,7 @@ struct VelocityComp : Component {
 
 } /*struct VelocityComp*/;
 
-struct AccelerationComp : Component {
+struct AccelerationComp {
 
     //! Explicit constructor w/ coordinates
     AccelerationComp(float, float);
@@ -33,7 +31,7 @@ struct AccelerationComp : Component {
 
 } /*struct VelocityComp*/;
 
-class MotionComp : Component {
+class MotionComp {
 
 public:
     MotionComp(gsl::not_null<PositionComp*>, gsl::not_null<VelocityComp*>, AccelerationComp* = nullptr);

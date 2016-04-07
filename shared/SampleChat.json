@@ -1,6 +1,6 @@
 {
     "type": "Scene"
-  , "sequence": [ "a", "b", "c", "d" ]
+  , "sequence": [ "a", "b", "c", "d", "e", "d" ]
   , "data":
       { 
       , "a": [ "Bazfee: Hello foobar!" ]

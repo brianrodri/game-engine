@@ -15,7 +15,7 @@
  *  of tuples of complex types w/ their dependencies kept close together
  *  in-memory, and with minimal memory hoop-jumping as possible.
  */
-template <typename... T>
+template<typename... T>
 class FactoryTuple {
 
     using Self = FactoryTuple<T...>;
@@ -40,7 +40,7 @@ public:
      * desired, allowing complex dependencies to live next to each other in
      * memory through a single instance of FactoryTuple.
      */
-    template <typename... F>
+    template<typename... F>
     constexpr FactoryTuple(F&&... f)
     {
         static_assert(aetee::arity_c<F...> == aetee::arity_c<T...>);
@@ -60,7 +60,7 @@ public:
     Self& operator=(Self&&) = delete;
 
     //! Allows compile-time access through an index into the typelist
-    template <size_t I>
+    template<size_t I>
     constexpr auto& operator[](aetee::idx_t<I> i) 
     {
         using U = aetee::type_at_t<I, T...>;
@@ -69,7 +69,7 @@ public:
     }
 
     //! Allows constant compile-time access through an index into the typelist
-    template <size_t I>
+    template<size_t I>
     constexpr const auto& operator[](aetee::idx_t<I> i) const 
     {
         using U = aetee::type_at_t<I, T...>;
@@ -78,14 +78,14 @@ public:
     }
 
     //! Allows compile-time access through an element of the typelist
-    template <typename U>
+    template<typename U>
     constexpr auto& operator[](aetee::type_t<U> t) 
     {
         return operator[](aetee::type_idx_c<U, T...>);
     }
 
     //! Allows constant compile-time access through an element of the typelist
-    template <typename U>
+    template<typename U>
     constexpr const auto& operator[](aetee::type_t<U> t) const 
     {
         return operator[](aetee::type_idx_c<U, T...>);
@@ -105,7 +105,7 @@ public:
 
 private:
 
-    template <size_t I, typename... A>
+    template<size_t I, typename... A>
     constexpr void constructOne(aetee::idx_t<I> i, A&&... args)
     {
         using U = aetee::type_at_t<I, T...>;
@@ -113,44 +113,44 @@ private:
         new(&operator[](i)) U(std::forward<A>(args)...);
     }
 
-    template <size_t I>
+    template<size_t I>
     constexpr void destructOne(aetee::idx_t<I> i)
     {
         using U = aetee::type_at_t<I, T...>;
         operator[](i).~U();
     }
 
-    template <size_t... I>
+    template<size_t... I>
     constexpr void defaultConstruct(aetee::idx_c_sequence_t<I...>)
     {
         (constructOne(aetee::idx_c<I>), ...);
     }
 
-    template <size_t... I, typename... F>
+    template<size_t... I, typename... F>
     constexpr void factoryConstruct(aetee::idx_c_sequence_t<I...>, F&&... f)
     {
         (factoryConstructOne(aetee::idx_c<I>, aetee::idx_c_sequence_of<std::result_of_t<F(Self&)>>, f(*this)), ...);
     }
 
-    template <size_t I, size_t... J, typename Yield>
+    template<size_t I, size_t... J, typename Yield>
     constexpr void factoryConstructOne(aetee::idx_t<I> i, aetee::idx_c_sequence_t<J...> js, Yield&& y)
     {
         constructOne(i, std::get<J>(std::forward<Yield>(y))...);
     }
 
-    template <size_t... I>
+    template<size_t... I>
     constexpr void destruct(aetee::idx_c_sequence_t<I...>)
     {
         (destructOne(aetee::idx_c<I>), ...);
     }
 
-    template <size_t... I>
+    template<size_t... I>
     constexpr auto tie(aetee::idx_c_sequence_t<I...>)
     {
         return std::tie(operator[](aetee::idx_c<I>)...);
     }
 
-    template <size_t... I>
+    template<size_t... I>
     constexpr auto tie(aetee::idx_c_sequence_t<I...>) const
     {
         return std::tie(operator[](aetee::idx_c<I>)...);
@@ -162,16 +162,16 @@ private:
 
 namespace std {
 
-template <typename... T>
+template<typename... T>
 class tuple_size<FactoryTuple<T...>> : public std::integral_constant<std::size_t, sizeof...(T)> { };
 
-template <size_t I, typename... T>
+template<size_t I, typename... T>
     constexpr auto& get(FactoryTuple<T...>& o) { return o[aetee::idx_c<I>]; }
-template <size_t I, typename... T>
+template<size_t I, typename... T>
     constexpr const auto& get(const FactoryTuple<T...>& o) { return o[aetee::idx_c<I>]; }
-template <typename U, typename... T>
+template<typename U, typename... T>
     constexpr auto& get(FactoryTuple<T...>& o) { return o[aetee::type_c<U>]; }
-template <typename U, typename... T>
+template<typename U, typename... T>
     constexpr const auto& get(const FactoryTuple<T...>& o) { return o[aetee::type_c<U>]; }
 
 } /*namespace std*/;

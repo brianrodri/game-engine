@@ -2,18 +2,19 @@
 #include <functional>
 
 //! Calls its input function whenever updated
-struct MimicComp {
+struct CopyistComp {
 
     //! Constructs a Mimic Component from some arbitrary callable object
     template<typename F>
-    MimicComp(F&& f) : functor{std::forward<F>(f)}
+    CopyistComp(F&& f) : functor{std::forward<F>(f)}
     {
     }
 
     //! Delegates to functor
-    void update(float dt);
+    void draw(sf::RenderTarget&, sf::RenderStates) const;
 
     //! The functor!
-    std::function<void(float)> functor;
+    std::function<void(sf::RenderTarget&, sf::RenderStates)> functor;
 
-} /*class MimicComp*/;
+} /*class CopyistComp*/;
+
