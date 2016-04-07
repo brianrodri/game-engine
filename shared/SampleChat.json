@@ -1,0 +1,12 @@
+{
+    "type": "Scene"
+  , "sequence": [ "a", "b", "c", "d" ]
+  , "data":
+      { 
+      , "a": [ "Bazfee: Hello foobar!" ]
+      , "b": [ "Foobar: Oh, hey Baz!  How've you been?" ]
+      , "c": [ "Bazfee: Oh, you know how it is.  Black & yellow black & yellow black & yellow" ]
+      , "d": [ "Foobar: Yeah...  I ball so hard motherfuckers want to fine me, man!" ]
+      , "e": [ "Bazfee: Bruh.  That shit cray." ]
+    }
+}
