@@ -8,12 +8,57 @@
 #include <aetee/traits/offsetof.h>
 #include <aetee/axioms/reverse.h>
 
-//! Allows construction of elements through callables that take a ref to `this`
 /**
- *      A `FactoryTuple` is a special type of tuple that allows its members to
- *  access each other for aid in their construction.  This allows the creation
- *  of tuples of complex types w/ their dependencies kept close together
- *  in-memory, and with minimal memory hoop-jumping as possible.
+ * @brief   A `FactoryTuple` is a variant of `std::tuple` which allows its
+ *          members to access earlier members during construction.  
+ *
+ * @tparam  `T...` types that the tuple will attempt to construct
+ *
+ *  This allows the creation of complex types that maintain close spatial
+ *  locality with the types they depend upon.  To access the members of the
+ *  struct, FactoryTuple is constructed with **factory functions**, which take
+ *  as an argument the FactoryTuple itself and return the arguments required to
+ *  construct its correspondant element *as a tuple*.
+ *
+ *  N.B.:  It is undefined behavior to access and use elements that have yet to
+ *  be constructed!
+ *
+ *  Code is clearer than words, so here is some code that demonstrates its
+ *  behavior:
+ *
+ *  ```cpp
+ *  FactoryTuple<int, char, std::string> sampleTuple
+ *    { [](auto& underConstructionTup) { return std::make_tuple(5); }
+ *    , [](auto& underConstructionTup) { return std::make_tuple('c'); }
+ *    , [](auto& underConstructionTup) {
+ *          return std::make_tuple(
+ *              std::string
+ *                { std::get<0>(underConstructionTup)
+ *                , std::get<1>(underConstructionTup)
+ *              }
+ *          );
+ *      }
+ *  };
+ *
+ *  std::cout << std::get<2>(sampleTuple) << '\n';
+ *  ```
+ *  Outputs: ccccc
+ *
+ *      The memory layout of the `std::tuple` follows struct-like memory
+ *  offsets.  More mathematically, the memory offset of each member of the
+ *  struct follows the following recurrence relation:
+ *
+ *  offset[0] = 0
+ *  offset[i] = (offset[i-1] + sizeof[i-1] + alignof[i] - 1) / alignof[i] * alignof[i]
+ *
+ *      Since references are so important to the concept of a FactoryTuple, I've
+ *  made the design decision to *delete copy and move semantics*.  This way,
+ *  there is never any need to worry about the invalidation of references.
+ *
+ *      I may consider adding a function `rebind` which gives the programmer a
+ *  chance to reset the references that each member requires.  Until then, a
+ *  FactoryTuple must stay rooted in whatever memory location it was constructed
+ *  upon.
  */
 template<typename... T>
 class FactoryTuple {
@@ -24,42 +69,58 @@ class FactoryTuple {
 
 public:
 
-    //! Default constructor
     /**
-     * Only exists when all `T`s are default constructible.
+     * @brief  Default constructs each of the members `T...`
+     *
+     *  WARNING:  This command will only exist when each `T...` can be *default
+     *  constructed*!
      */
     constexpr FactoryTuple()
     {
         defaultConstruct(aetee::idx_c_sequence_for<T...>);
     }
 
-    //! Factory constructor
     /**
-     * Initializes each `T` through the tuple returned by a call to f(*this).
-     * The tuple may store references to earlier-constructed `T`s if so
-     * desired, allowing complex dependencies to live next to each other in
-     * memory through a single instance of FactoryTuple.
+     * @brief Initializes each `T...` through the tuple returned by `F(*this)`
+     *
+     * @tparam  F...     A series of functions that accept *this as an argument
+     *                   and return the required types to properly construct its
+     *                   correspondant `T...`
+     * @param fs
+     *
+     *      Initializes each `T` through the tuple returned by a call to
+     *  f(*this).  The tuple may store references to earlier-constructed `T`s if
+     *  so desired, allowing complex dependencies to live next to each other in
+     *  memory through a single instance of FactoryTuple.
+     *
+     *      Each `T...` is constructed **in the same order as the type list**.
      */
     template<typename... F>
-    constexpr FactoryTuple(F&&... f)
+    constexpr FactoryTuple(F&&... fs)
     {
         static_assert(aetee::arity_c<F...> == aetee::arity_c<T...>);
-        factoryConstruct(aetee::idx_c_sequence_for<T...>, std::forward<F>(f)...);
+        factoryConstruct(aetee::idx_c_sequence_for<T...>, std::forward<F>(fs)...);
     }
 
-    //! Destructor
+    //! Each `T...` is destructed **in the reverse order of their listing**.
     ~FactoryTuple() 
     {
         destruct(aetee::reverse(aetee::idx_c_sequence_for<T...>));
     }
 
-    //! FactoryTuple must remain in-place to maintain valid references
+    // FactoryTuple must remain in-place to maintain valid references
     FactoryTuple(Self const&) = delete;
     FactoryTuple(Self&&) = delete;
     Self& operator=(Self const&) = delete;
     Self& operator=(Self&&) = delete;
 
-    //! Allows compile-time access through an index into the typelist
+    /**
+     * @brief   Grants compile-time access to a member through the aetee idx_c
+     *
+     * @tparam  I   The index into the tuple to be chosen.
+     *
+     * @return  The member of type `T...`[i] at offset[i].
+     */
     template<size_t I>
     constexpr auto& operator[](aetee::idx_t<I> i) 
     {
@@ -68,7 +129,14 @@ public:
         return *reinterpret_cast<U*>(memberPtr);
     }
 
-    //! Allows constant compile-time access through an index into the typelist
+    /**
+     * @brief   Grants const compile-time access to a member through the aetee
+     *          idx_c
+     *
+     * @tparam  I   The index into the tuple to be chosen.
+     *
+     * @return  The member of type `T...`[i] at offset[i].
+     */
     template<size_t I>
     constexpr const auto& operator[](aetee::idx_t<I> i) const 
     {
@@ -77,14 +145,27 @@ public:
         return *reinterpret_cast<const U*>(memberPtr);
     }
 
-    //! Allows compile-time access through an element of the typelist
+    /**
+     * @brief   Grants compile-time access to a member through a direct type
+     *
+     * @tparam  U   The type to be fetched from the tuple
+     *
+     * @return  The first member of type U in the list `T...`
+     */
     template<typename U>
     constexpr auto& operator[](aetee::type_t<U> t) 
     {
         return operator[](aetee::type_idx_c<U, T...>);
     }
 
-    //! Allows constant compile-time access through an element of the typelist
+    /**
+     * @brief   Grants const compile-time access to a member through a direct
+     *          type
+     *
+     * @tparam  U   The type to be fetched from the tuple
+     *
+     * @return  The first member of type U in the list `T...`
+     */
     template<typename U>
     constexpr const auto& operator[](aetee::type_t<U> t) const 
     {
@@ -92,15 +173,15 @@ public:
     }
 
     //! Returns a tuple containing references to each member of this
-    constexpr auto as_tuple()
+    constexpr auto tie()
     {
-        return tie(aetee::idx_c_sequence_for<T...>);
+        return tieImpl(aetee::idx_c_sequence_for<T...>);
     }
 
     //! Returns a tuple containing const references to each member of this
-    constexpr auto as_tuple() const
+    constexpr auto tie() const
     {
-        return tie(aetee::idx_c_sequence_for<T...>);
+        return tieImpl(aetee::idx_c_sequence_for<T...>);
     }
 
 private:
@@ -145,13 +226,13 @@ private:
     }
 
     template<size_t... I>
-    constexpr auto tie(aetee::idx_c_sequence_t<I...>)
+    constexpr auto tieImpl(aetee::idx_c_sequence_t<I...>)
     {
         return std::tie(operator[](aetee::idx_c<I>)...);
     }
 
     template<size_t... I>
-    constexpr auto tie(aetee::idx_c_sequence_t<I...>) const
+    constexpr auto tieImpl(aetee::idx_c_sequence_t<I...>) const
     {
         return std::tie(operator[](aetee::idx_c<I>)...);
     }
