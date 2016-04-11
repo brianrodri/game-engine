@@ -1,12 +1,19 @@
 #pragma once
+#include <algorithm>
+#include <array>
 #include <functional>
 #include <memory>
 #include <tuple>
 #include <utility>
-#include <aetee/int_c.h>
-#include <aetee/traits/alignof.h>
-#include <aetee/traits/offsetof.h>
-#include <aetee/axioms/reverse.h>
+#include <boost/hana.hpp>
+#include <boost/hana/ext/std/tuple.hpp>
+
+namespace hana = boost::hana;
+using hana::literals::operator""_c;
+
+namespace detail {
+
+}
 
 /**
  * @brief   A `FactoryTuple` is a variant of `std::tuple` which allows its
@@ -63,9 +70,19 @@
 template<typename... T>
 class FactoryTuple {
 
+    #define idx_tuple_c (hana::to_tuple(hana::range_c<std::size_t, 0, sizeof...(T)>))
+    #define type_tuple_c (hana::tuple_t<T...>)
+    #define typeIdx_map_c (hana::unpack(hana::zip_with(hana::make_pair, type_tuple_c, idx_tuple_c), hana::make_map))
+
+    //! Forward declarations of implementation details
+    struct accessOneFunctor;
+    struct constAccessOneFunctor;
+    struct constructOneFunctor;
+    struct destructOneFunctor;
+    struct factoryConstructOneFunctor;
+    struct offsetOfFunctor;
+
     using Self = FactoryTuple<T...>;
-    static constexpr const auto Len = aetee::offsetof_(aetee::type_c_sequence<T...>);
-    static constexpr const auto Align = aetee::alignof_(aetee::type_c_sequence<T...>);
 
 public:
 
@@ -77,7 +94,7 @@ public:
      */
     constexpr FactoryTuple()
     {
-        defaultConstruct(aetee::idx_c_sequence_for<T...>);
+        hana::for_each(idx_tuple_c, constructOneFunctor{this});
     }
 
     /**
@@ -98,14 +115,16 @@ public:
     template<typename... F>
     constexpr FactoryTuple(F&&... fs)
     {
-        static_assert(aetee::arity_c<F...> == aetee::arity_c<T...>);
-        factoryConstruct(aetee::idx_c_sequence_for<T...>, std::forward<F>(fs)...);
+        hana::for_each(
+            hana::zip(idx_tuple_c, hana::make_tuple(std::forward<F>(fs)...))
+          , hana::fuse(factoryConstructOneFunctor{this})
+        );
     }
 
     //! Each `T...` is destructed **in the reverse order of their listing**.
     ~FactoryTuple() 
     {
-        destruct(aetee::reverse(aetee::idx_c_sequence_for<T...>));
+        hana::for_each(hana::reverse(idx_tuple_c), destructOneFunctor{this});
     }
 
     // FactoryTuple must remain in-place to maintain valid references
@@ -115,18 +134,16 @@ public:
     Self& operator=(Self&&) = delete;
 
     /**
-     * @brief   Grants compile-time access to a member through the aetee idx_c
+     * @brief   Grants compile-time access to a member through the size_c
      *
      * @tparam  I   The index into the tuple to be chosen.
      *
      * @return  The member of type `T...`[i] at offset[i].
      */
-    template<size_t I>
-    constexpr auto& operator[](aetee::idx_t<I> i) 
+    template<typename X, X I>
+    constexpr auto& operator[](hana::integral_constant<X, I>)
     {
-        using U = aetee::type_at_t<I, T...>;
-        char * memberPtr = reinterpret_cast<char*>(&m_memory) + aetee::offsetof_(aetee::type_c_sequence<T...>, i);
-        return *reinterpret_cast<U*>(memberPtr);
+        return accessOneFunctor{this}(hana::size_c<I>);
     }
 
     /**
@@ -137,12 +154,10 @@ public:
      *
      * @return  The member of type `T...`[i] at offset[i].
      */
-    template<size_t I>
-    constexpr const auto& operator[](aetee::idx_t<I> i) const 
+    template<typename X, X I>
+    constexpr const auto& operator[](hana::integral_constant<X, I>) const 
     {
-        using U = aetee::type_at_t<I, T...>;
-        const char * memberPtr = reinterpret_cast<const char*>(&m_memory) + aetee::offsetof_(aetee::type_c_sequence<T...>, i);
-        return *reinterpret_cast<const U*>(memberPtr);
+        return constAccessOneFunctor{this}(hana::size_c<I>);
     }
 
     /**
@@ -153,9 +168,9 @@ public:
      * @return  The first member of type U in the list `T...`
      */
     template<typename U>
-    constexpr auto& operator[](aetee::type_t<U> t) 
+    constexpr auto& operator[](hana::type<U> t) 
     {
-        return operator[](aetee::type_idx_c<U, T...>);
+        return accessOneFunctor{this}(typeIdx_map_c[t]);
     }
 
     /**
@@ -167,76 +182,35 @@ public:
      * @return  The first member of type U in the list `T...`
      */
     template<typename U>
-    constexpr const auto& operator[](aetee::type_t<U> t) const 
+    constexpr const auto& operator[](hana::type<U> t) const 
     {
-        return operator[](aetee::type_idx_c<U, T...>);
+        return constAccessOneFunctor{this}(typeIdx_map_c[t]);
     }
 
     //! Returns a tuple containing references to each member of this
     constexpr auto tie()
     {
-        return tieImpl(aetee::idx_c_sequence_for<T...>);
+        return hana::transform(idx_tuple_c, refWrapOneFunctor{this});
     }
 
     //! Returns a tuple containing const references to each member of this
-    constexpr auto tie() const
+    constexpr auto ctie() const
     {
-        return tieImpl(aetee::idx_c_sequence_for<T...>);
+        return hana::transform(idx_tuple_c, constRefWrapOneFunctor{this});
+    }
+
+    //! Returns a copy of the tuple
+    constexpr auto to_tuple() const
+    {
+        return hana::tuple<T...>{this->ctie()};
     }
 
 private:
 
-    template<size_t I, typename... A>
-    constexpr void constructOne(aetee::idx_t<I> i, A&&... args)
-    {
-        using U = aetee::type_at_t<I, T...>;
-        static_assert(std::is_constructible<U, A...>::value);
-        new(&operator[](i)) U(std::forward<A>(args)...);
-    }
+    #include "FactoryTupleImpl.h"
 
-    template<size_t I>
-    constexpr void destructOne(aetee::idx_t<I> i)
-    {
-        using U = aetee::type_at_t<I, T...>;
-        operator[](i).~U();
-    }
-
-    template<size_t... I>
-    constexpr void defaultConstruct(aetee::idx_c_sequence_t<I...>)
-    {
-        (constructOne(aetee::idx_c<I>), ...);
-    }
-
-    template<size_t... I, typename... F>
-    constexpr void factoryConstruct(aetee::idx_c_sequence_t<I...>, F&&... f)
-    {
-        (factoryConstructOne(aetee::idx_c<I>, aetee::idx_c_sequence_of<std::result_of_t<F(Self&)>>, f(*this)), ...);
-    }
-
-    template<size_t I, size_t... J, typename Yield>
-    constexpr void factoryConstructOne(aetee::idx_t<I> i, aetee::idx_c_sequence_t<J...> js, Yield&& y)
-    {
-        constructOne(i, std::get<J>(std::forward<Yield>(y))...);
-    }
-
-    template<size_t... I>
-    constexpr void destruct(aetee::idx_c_sequence_t<I...>)
-    {
-        (destructOne(aetee::idx_c<I>), ...);
-    }
-
-    template<size_t... I>
-    constexpr auto tieImpl(aetee::idx_c_sequence_t<I...>)
-    {
-        return std::tie(operator[](aetee::idx_c<I>)...);
-    }
-
-    template<size_t... I>
-    constexpr auto tieImpl(aetee::idx_c_sequence_t<I...>) const
-    {
-        return std::tie(operator[](aetee::idx_c<I>)...);
-    }
-
+    static constexpr const std::size_t Len = offsetOfFunctor{}(hana::tuple_t<T...>);
+    static constexpr const std::size_t Align = std::max({std::size_t{1}, alignof(T)...});
     std::aligned_storage_t<Len, Align>  m_memory;
 
 } /*class FactoryTuple*/;
@@ -247,12 +221,12 @@ template<typename... T>
 class tuple_size<FactoryTuple<T...>> : public std::integral_constant<std::size_t, sizeof...(T)> { };
 
 template<size_t I, typename... T>
-    constexpr auto& get(FactoryTuple<T...>& o) { return o[aetee::idx_c<I>]; }
+    constexpr auto& get(FactoryTuple<T...>& o) { return o[hana::size_c<I>]; }
 template<size_t I, typename... T>
-    constexpr const auto& get(const FactoryTuple<T...>& o) { return o[aetee::idx_c<I>]; }
+    constexpr const auto& get(const FactoryTuple<T...>& o) { return o[hana::size_c<I>]; }
 template<typename U, typename... T>
-    constexpr auto& get(FactoryTuple<T...>& o) { return o[aetee::type_c<U>]; }
+    constexpr auto& get(FactoryTuple<T...>& o) { return o[hana::size_c<U>]; }
 template<typename U, typename... T>
-    constexpr const auto& get(const FactoryTuple<T...>& o) { return o[aetee::type_c<U>]; }
+    constexpr const auto& get(const FactoryTuple<T...>& o) { return o[hana::size_c<U>]; }
 
 } /*namespace std*/;

@@ -1,4 +1,5 @@
 #pragma once
+#include <GSL/gsl.h>
 #include <SFML/System/Vector2.hpp>
 
 struct PositionComp {

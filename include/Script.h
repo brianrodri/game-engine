@@ -11,27 +11,25 @@
  * optional set of choices will use it to choose an option out of a simple list.
  * Again, derive from this class to create more interesting Scripts.
  */
-struct Script {
 
-    //! An empty script 
-    Script();
+struct SimpleScript {
 
-    //! I encourage derived classes!  >:)
-    virtual ~Script();
+    SimpleScript();
 
-    //! Creates a replica of the script.
+
+    //! Creates a replica of `this` script.
     /**
-     * Allows a base-script to exist and the transcription of more for
-     * convenience.
-     *
-     * @param   src     The script to base this Script's state upon
+     *  Allows a base-script to exist and the transcription of more for
+     *  convenience.
      */
-    Script(const Script&);
+    SimpleScript(const SimpleScript&);
 
-    //! Advances to the next script.
     /**
-     * When the current state points to an optional set of choices, the input
-     * value will be used to decide the next state.
+     * @brief Advances to next state
+     *
+     * @param input
+     *
+     * @return 
      */
     std::string advance(int input = 0);
 

@@ -1,5 +1,7 @@
 #pragma once
 #include <functional>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
 
 //! Calls its input function whenever updated
 struct CopyistComp {

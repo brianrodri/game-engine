@@ -1,10 +1,11 @@
 #pragma once
 #include <experimental/type_traits>
-#include "DrawVisitor.h"
 #include "FactoryTuple.h"
-#include "UpdateVisitor.h"
-#include <aetee/int_c.h>
-#include <aetee/hof/for_each.h>
+#include "GameVisitors.h"
+//#include <hana/int_c.h>
+//#include <hana/hof/for_each.h>
+#include <boost/hana.hpp>
+#include <boost/hana/ext/std/tuple.hpp>
 
 /**
  * `Designed to compose several _related_ components as one functioning component. ComponentTuple` is built upon
@@ -32,39 +33,39 @@ public:
     }
 
     //! Access through compile time indices
-    template<size_t I>
-    auto& operator[](aetee::idx_t<I> i)
+    template<typename Idx>
+    auto& operator[](Idx&& i)
     {
-        return m_componentTuple[i];
+        return m_componentTuple[std::forward<Idx>(i)];
     }
 
     //! Access through compile time indices
-    template<size_t I>
-    const auto& operator[](aetee::idx_t<I> i) const
+    template<typename Idx>
+    const auto& operator[](Idx&& i) const
     {
-        return m_componentTuple[i];
-    }
-
-    template<typename K>
-    auto& operator[](aetee::type_t<K> k)
-    {
-        return m_componentTuple[k];
-    }
-
-    template<typename K>
-    const auto& operator[](aetee::type_t<K> k) const
-    {
-        return m_componentTuple[k];
+        return m_componentTuple[std::forward<Idx>(i)];
     }
 
     void update(float dt)
     {
-        aetee::for_each(m_componentTuple, UpdateVisitor{dt});
+        UpdateVisitor updater{dt};
+        hana::for_each(m_componentTuple.tie(), updater);
     }
 
     void draw(sf::RenderTarget& tar, sf::RenderStates stt) const
     {
-        aetee::for_each(m_componentTuple, DrawVisitor{tar, stt});
+        DrawVisitor drawer{tar, stt};
+        hana::for_each(m_componentTuple.ctie(), drawer);
+    }
+
+    constexpr auto tie()
+    {
+        return m_componentTuple.tie();
+    }
+
+    constexpr auto ctie() const
+    {
+        return m_componentTuple.ctie();
     }
 
 private:

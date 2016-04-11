@@ -1,7 +1,7 @@
 #include "CopyistComp.h"
 
 
-CopyistComp::draw(sf::RenderTarget& tar, sf::RenderStates stt) const
+void CopyistComp::draw(sf::RenderTarget& tar, sf::RenderStates stt) const
 {
     functor(tar, stt);
 }

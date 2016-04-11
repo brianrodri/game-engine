@@ -4,9 +4,9 @@ GameContext::GameContext()
 {
 }
 
-void GameContext::addDataSource(DataType type, std::istream&& src)
+void GameContext::addDataSource(DataType type, std::istream src)
 {
-    m_dataSources[static_cast<int>(type)].emplace_back(std::move(src));
+    //m_dataSources[static_cast<int>(type)].emplace_back(src);
 }
 
 void GameContext::generate()
