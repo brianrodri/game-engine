@@ -215,9 +215,9 @@ public:
 
 
     //! Returns a copy of the tuple
-    constexpr boost::hana::tuple<T...> to_tuple() const
+    constexpr std::tuple<T...> to_tuple() const
     {
-        return {ctie()};
+        return tupleCopyFunctor{this}(std::index_sequence_for<T...>());
     }
 
 private:

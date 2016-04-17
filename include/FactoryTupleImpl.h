@@ -164,3 +164,18 @@ public:
 
 } /*class destructOneFunctor*/;
 
+class tupleCopyFunctor {
+
+    const Self * that;
+
+public:
+
+    constexpr tupleCopyFunctor(const Self * thisIn) : that{thisIn} { }
+
+    template <size_t... I>
+    constexpr std::tuple<T...> operator()(std::index_sequence<I...>) const
+    {
+        return { T{that->operator[](boost::hana::size_c<I>)}... };
+    }
+
+} /*class tupleCopyFunctor*/;
