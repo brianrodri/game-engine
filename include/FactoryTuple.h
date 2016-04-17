@@ -35,22 +35,19 @@
  *  behavior:
  *
  *  ```cpp
- *  FactoryTuple<int, char, std::string> sampleTuple
- *    { [](auto& underConstructionTup) { return std::make_tuple(5); }
- *    , [](auto& underConstructionTup) { return std::make_tuple('c'); }
+ *  std::tuple<int, char, std::string> expected{3, 'a', "aaa"s};
+ *  FactoryTuple<int, char, std::string> actual{
+ *      [](auto& underConstructionTup) { return std::make_tuple(3); }
+ *    , [](auto& underConstructionTup) { return std::make_tuple('a'); }
  *    , [](auto& underConstructionTup) {
  *          return std::make_tuple(
- *              std::string
- *                { std::get<0>(underConstructionTup)
- *                , std::get<1>(underConstructionTup)
- *              }
+ *              underConstructionTup[0_c], underConstructionTup[1_c]
  *          );
  *      }
  *  };
  *
- *  std::cout << std::get<2>(sampleTuple) << '\n';
+ *  EXPECT_EQ(expected, actual.to_tuple());
  *  ```
- *  Outputs: ccccc
  *
  *      The memory layout of the `std::tuple` follows struct-like memory
  *  offsets.  More mathematically, the memory offset of each member of the
@@ -97,6 +94,7 @@ public:
         boost::hana::for_each(idxTuple_mac, constructOneFunctor{this});
     }
 
+
     /**
      * @brief Initializes each `T...` through the tuple returned by `F(*this)`
      *
@@ -121,17 +119,20 @@ public:
         );
     }
 
+
     //! Each `T...` is destructed **in the reverse order of their listing**.
     ~FactoryTuple() 
     {
         boost::hana::for_each(boost::hana::reverse(idxTuple_mac), destructOneFunctor{this});
     }
 
+
     // FactoryTuple must remain in-place to maintain valid references
     FactoryTuple(Self const&) = delete;
     FactoryTuple(Self&&) = delete;
     Self& operator=(Self const&) = delete;
     Self& operator=(Self&&) = delete;
+
 
     /**
      * @brief   Grants compile-time access to a member through the size_c
@@ -145,6 +146,7 @@ public:
     {
         return accessOneFunctor{this}(boost::hana::size_c<I>);
     }
+
 
     /**
      * @brief   Grants const compile-time access to a member through the aetee
@@ -160,6 +162,7 @@ public:
         return constAccessOneFunctor{this}(boost::hana::size_c<I>);
     }
 
+
     /**
      * @brief   Grants compile-time access to a member through a direct type
      *
@@ -172,6 +175,7 @@ public:
     {
         return accessOneFunctor{this}(typeToIdxMap_mac[t]);
     }
+
 
     /**
      * @brief   Grants const compile-time access to a member through a direct
@@ -187,11 +191,13 @@ public:
         return constAccessOneFunctor{this}(typeToIdxMap_mac[t]);
     }
 
+
     //! Returns a tuple containing references to each member of this
     constexpr auto tie()
     {
         return boost::hana::transform(idxTuple_mac, refWrapOneFunctor{this});
     }
+
 
     //! Returns a tuple containing const references to each member of this
     constexpr auto ctie() const
@@ -199,10 +205,11 @@ public:
         return boost::hana::transform(idxTuple_mac, constRefWrapOneFunctor{this});
     }
 
+
     //! Returns a copy of the tuple
     constexpr boost::hana::tuple<T...> to_tuple() const
     {
-        return {this->ctie()};
+        return {ctie()};
     }
 
 private:

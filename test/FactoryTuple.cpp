@@ -10,6 +10,7 @@
 
 namespace hana = boost::hana;
 using hana::literals::operator""_c;
+using namespace std::literals::string_literals;
 
 
 template <typename... T, typename R>
@@ -30,7 +31,7 @@ TEST(FactoryTuple, DefaultProduction)
 {
     std::tuple<int, int> expected{};
     FactoryTuple<int, int> actual{};
-    EXPECT_EQ(2*sizeof(int), sizeof(FactoryTuple<int, int>));
+    EXPECT_EQ(2*sizeof(int), sizeof(actual));
     EXPECT_EQ(expected, actual.to_tuple());
 }
 
@@ -43,6 +44,7 @@ TEST(FactoryTuple, HomogeneousProduction)
       , [&](auto& e) { return std::make_tuple(1); }
       , [&](auto& e) { return std::make_tuple(3); }
         };
+    EXPECT_EQ(3*sizeof(int), sizeof(actual));
     EXPECT_EQ(expected, actual.to_tuple());
 }
 
@@ -98,7 +100,23 @@ TEST(FactoryTuple, PaddedAssignment)
     EXPECT_EQ(expected, actual.to_tuple());
 }
 
-TEST(FactoryTuple, DependantProduction)
+TEST(FactoryTuple, DependantProductionSimple1)
+{
+    std::tuple<int, char, std::string> expected{3, 'a', "aaa"s};
+    FactoryTuple<int, char, std::string> actual{
+        [](auto& underConstructionTup) { return std::make_tuple(3); }
+      , [](auto& underConstructionTup) { return std::make_tuple('a'); }
+      , [](auto& underConstructionTup) {
+            return std::make_tuple(
+                underConstructionTup[0_c], underConstructionTup[1_c]
+            );
+        }
+    };
+
+    EXPECT_EQ(expected, actual.to_tuple());
+}
+
+TEST(FactoryTuple, DependantProductionSimple2)
 {
     std::tuple<std::string, std::string> expected
       { "down the pipe", "out the pipe" };
