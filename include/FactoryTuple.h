@@ -5,15 +5,16 @@
 #include <memory>
 #include <tuple>
 #include <utility>
-#include <boost/hana.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
+#include <boost/hana/fold.hpp>
+#include <boost/hana/for_each.hpp>
+#include <boost/hana/fuse.hpp>
+#include <boost/hana/map.hpp>
+#include <boost/hana/prepend.hpp>
+#include <boost/hana/reverse.hpp>
+#include <boost/hana/slice.hpp>
+#include <boost/hana/zip.hpp>
 
-namespace hana = boost::hana;
-using hana::literals::operator""_c;
-
-namespace detail {
-
-}
 
 /**
  * @brief   A `FactoryTuple` is a variant of `std::tuple` which allows its
@@ -70,9 +71,8 @@ namespace detail {
 template<typename... T>
 class FactoryTuple {
 
-    #define idx_tuple_c (hana::to_tuple(hana::range_c<std::size_t, 0, sizeof...(T)>))
-    #define type_tuple_c (hana::tuple_t<T...>)
-    #define typeIdx_map_c (hana::unpack(hana::zip_with(hana::make_pair, type_tuple_c, idx_tuple_c), hana::make_map))
+    #define idxTuple_mac (boost::hana::to_tuple(boost::hana::range_c<std::size_t, 0, sizeof...(T)>))
+    #define typeToIdxMap_mac (boost::hana::unpack(boost::hana::zip_with(boost::hana::make_pair, boost::hana::tuple_t<T...>, idxTuple_mac), boost::hana::make_map))
 
     //! Forward declarations of implementation details
     struct accessOneFunctor;
@@ -94,7 +94,7 @@ public:
      */
     constexpr FactoryTuple()
     {
-        hana::for_each(idx_tuple_c, constructOneFunctor{this});
+        boost::hana::for_each(idxTuple_mac, constructOneFunctor{this});
     }
 
     /**
@@ -115,16 +115,16 @@ public:
     template<typename... F>
     constexpr FactoryTuple(F&&... fs)
     {
-        hana::for_each(
-            hana::zip(idx_tuple_c, hana::make_tuple(std::forward<F>(fs)...))
-          , hana::fuse(factoryConstructOneFunctor{this})
+        boost::hana::for_each(
+            boost::hana::zip(idxTuple_mac, std::forward_as_tuple(std::forward<F>(fs)...))
+          , boost::hana::fuse(factoryConstructOneFunctor{this})
         );
     }
 
     //! Each `T...` is destructed **in the reverse order of their listing**.
     ~FactoryTuple() 
     {
-        hana::for_each(hana::reverse(idx_tuple_c), destructOneFunctor{this});
+        boost::hana::for_each(boost::hana::reverse(idxTuple_mac), destructOneFunctor{this});
     }
 
     // FactoryTuple must remain in-place to maintain valid references
@@ -141,9 +141,9 @@ public:
      * @return  The member of type `T...`[i] at offset[i].
      */
     template<typename X, X I>
-    constexpr auto& operator[](hana::integral_constant<X, I>)
+    constexpr auto& operator[](boost::hana::integral_constant<X, I>)
     {
-        return accessOneFunctor{this}(hana::size_c<I>);
+        return accessOneFunctor{this}(boost::hana::size_c<I>);
     }
 
     /**
@@ -155,9 +155,9 @@ public:
      * @return  The member of type `T...`[i] at offset[i].
      */
     template<typename X, X I>
-    constexpr const auto& operator[](hana::integral_constant<X, I>) const 
+    constexpr const auto& operator[](boost::hana::integral_constant<X, I>) const 
     {
-        return constAccessOneFunctor{this}(hana::size_c<I>);
+        return constAccessOneFunctor{this}(boost::hana::size_c<I>);
     }
 
     /**
@@ -168,9 +168,9 @@ public:
      * @return  The first member of type U in the list `T...`
      */
     template<typename U>
-    constexpr auto& operator[](hana::type<U> t) 
+    constexpr auto& operator[](boost::hana::type<U> t) 
     {
-        return accessOneFunctor{this}(typeIdx_map_c[t]);
+        return accessOneFunctor{this}(typeToIdxMap_mac[t]);
     }
 
     /**
@@ -182,51 +182,37 @@ public:
      * @return  The first member of type U in the list `T...`
      */
     template<typename U>
-    constexpr const auto& operator[](hana::type<U> t) const 
+    constexpr const auto& operator[](boost::hana::type<U> t) const 
     {
-        return constAccessOneFunctor{this}(typeIdx_map_c[t]);
+        return constAccessOneFunctor{this}(typeToIdxMap_mac[t]);
     }
 
     //! Returns a tuple containing references to each member of this
     constexpr auto tie()
     {
-        return hana::transform(idx_tuple_c, refWrapOneFunctor{this});
+        return boost::hana::transform(idxTuple_mac, refWrapOneFunctor{this});
     }
 
     //! Returns a tuple containing const references to each member of this
     constexpr auto ctie() const
     {
-        return hana::transform(idx_tuple_c, constRefWrapOneFunctor{this});
+        return boost::hana::transform(idxTuple_mac, constRefWrapOneFunctor{this});
     }
 
     //! Returns a copy of the tuple
-    constexpr auto to_tuple() const
+    constexpr boost::hana::tuple<T...> to_tuple() const
     {
-        return hana::tuple<T...>{this->ctie()};
+        return {this->ctie()};
     }
 
 private:
 
     #include "FactoryTupleImpl.h"
 
-    static constexpr const std::size_t Len = offsetOfFunctor{}(hana::tuple_t<T...>);
+    static constexpr const std::size_t Len = offsetOfFunctor{}(boost::hana::tuple_t<T...>);
     static constexpr const std::size_t Align = std::max({std::size_t{1}, alignof(T)...});
     std::aligned_storage_t<Len, Align>  m_memory;
 
 } /*class FactoryTuple*/;
 
-namespace std {
-
-template<typename... T>
-class tuple_size<FactoryTuple<T...>> : public std::integral_constant<std::size_t, sizeof...(T)> { };
-
-template<size_t I, typename... T>
-    constexpr auto& get(FactoryTuple<T...>& o) { return o[hana::size_c<I>]; }
-template<size_t I, typename... T>
-    constexpr const auto& get(const FactoryTuple<T...>& o) { return o[hana::size_c<I>]; }
-template<typename U, typename... T>
-    constexpr auto& get(FactoryTuple<T...>& o) { return o[hana::size_c<U>]; }
-template<typename U, typename... T>
-    constexpr const auto& get(const FactoryTuple<T...>& o) { return o[hana::size_c<U>]; }
-
-} /*namespace std*/;
+#include "FactoryTupleStdImpl.h"

@@ -3,7 +3,8 @@ struct offsetFoldFunctor {
     template <typename O, typename SzAl>
     constexpr auto operator()(O o, SzAl szalPair) const
     {
-        return (o + szalPair[0_c] + szalPair[1_c] - hana::size_c<1>) / szalPair[1_c] *
+        using boost::hana::literals::operator""_c;
+        return (o + szalPair[0_c] + szalPair[1_c] - boost::hana::size_c<1>) / szalPair[1_c] *
             szalPair[1_c];
     }
 
@@ -12,10 +13,10 @@ struct offsetFoldFunctor {
 
 struct offsetOfFunctor {
 
-    template<typename Tup, std::size_t N = hana::length(Tup{})>
-    constexpr std::size_t operator()(Tup&& tup, hana::size_t<N> n = {})
+    template<typename Tup, std::size_t N = boost::hana::length(Tup{})>
+    constexpr std::size_t operator()(Tup&& tup, boost::hana::size_t<N> n = {})
     {
-        using namespace hana;
+        using namespace boost::hana;
         return fold(
             slice_c<1, N + 1>(
                 zip(
@@ -44,10 +45,10 @@ public:
     constexpr accessOneFunctor(Self * thisIn) : that{thisIn} { }
 
     template <size_t I>
-    constexpr auto& operator()(hana::size_t<I> i) const
+    constexpr auto& operator()(boost::hana::size_t<I> i) const
     {
         using U = std::tuple_element_t<I, std::tuple<T...>>;
-        char * memberPtr = reinterpret_cast<char*>(&that->m_memory) + offsetOfFunctor{}(hana::tuple_t<T...>, i);
+        char * memberPtr = reinterpret_cast<char*>(&that->m_memory) + offsetOfFunctor{}(boost::hana::tuple_t<T...>, i);
         return *reinterpret_cast<U*>(memberPtr);
     }
 
@@ -64,7 +65,7 @@ public:
     constexpr refWrapOneFunctor(Self * thisIn) : that{thisIn}, accessor{thisIn} { }
 
     template <size_t I>
-    constexpr auto operator()(hana::size_t<I> i) const
+    constexpr auto operator()(boost::hana::size_t<I> i) const
     {
         return std::ref(accessor(i));
     }
@@ -81,10 +82,10 @@ public:
     constexpr constAccessOneFunctor(const Self * thisIn) : that{thisIn} { }
 
     template <size_t I>
-    constexpr const auto& operator()(hana::size_t<I> i) const
+    constexpr const auto& operator()(boost::hana::size_t<I> i) const
     {
         using U = std::tuple_element_t<I, std::tuple<T...>>;
-        const char * memberPtr = reinterpret_cast<const char*>(&that->m_memory) + offsetOfFunctor{}(hana::tuple_t<T...>, i);
+        const char * memberPtr = reinterpret_cast<const char*>(&that->m_memory) + offsetOfFunctor{}(boost::hana::tuple_t<T...>, i);
         return *reinterpret_cast<const U*>(memberPtr);
     }
 
@@ -101,7 +102,7 @@ public:
     constexpr constRefWrapOneFunctor(const Self * thisIn) : that{thisIn}, accessor{thisIn} { }
 
     template <size_t I>
-    constexpr auto operator()(hana::size_t<I> i) const
+    constexpr auto operator()(boost::hana::size_t<I> i) const
     {
         return std::cref(accessor(i));
     }
@@ -118,7 +119,7 @@ public:
     constexpr constructOneFunctor(Self * thisIn) : that{thisIn} { }
 
     template<size_t I, typename... A>
-    constexpr void operator()(hana::size_t<I> i, A&&... args) const
+    constexpr void operator()(boost::hana::size_t<I> i, A&&... args) const
     {
         using U = std::tuple_element_t<I, std::tuple<T...>>;
         static_assert(std::is_constructible<U, A...>::value);
@@ -138,9 +139,9 @@ public:
     constexpr factoryConstructOneFunctor(Self * thisIn) : that{thisIn}, ctor{thisIn} { }
 
     template<size_t N, typename F>
-    constexpr void operator()(hana::size_t<N> n, F&& f)
+    constexpr void operator()(boost::hana::size_t<N> n, F&& f)
     {
-        hana::unpack(f(*that), hana::partial(ctor, n));
+        boost::hana::unpack(f(*that), boost::hana::partial(ctor, n));
     }
 
 } /*class factoryConstructOneFunctor*/;
@@ -155,7 +156,7 @@ public:
     constexpr destructOneFunctor(Self * thisIn) : that{thisIn} { }
 
     template<size_t I>
-    constexpr void operator()(hana::size_t<I> i) const
+    constexpr void operator()(boost::hana::size_t<I> i) const
     {
         using U = std::tuple_element_t<I, std::tuple<T...>>;
         accessOneFunctor{that}(i).~U();
