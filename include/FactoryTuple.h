@@ -114,7 +114,9 @@ public:
     constexpr FactoryTuple(F&&... fs)
     {
         boost::hana::for_each(
-            boost::hana::zip(idxTuple_mac, std::forward_as_tuple(std::forward<F>(fs)...))
+            boost::hana::zip(
+                idxTuple_mac, std::forward_as_tuple(std::forward<F>(fs)...)
+            )
           , boost::hana::fuse(factoryConstructOneFunctor{this})
         );
     }
@@ -123,7 +125,10 @@ public:
     //! Each `T...` is destructed **in the reverse order of their listing**.
     ~FactoryTuple() 
     {
-        boost::hana::for_each(boost::hana::reverse(idxTuple_mac), destructOneFunctor{this});
+        boost::hana::for_each(
+            boost::hana::reverse(idxTuple_mac)
+          , destructOneFunctor{this}
+        );
     }
 
 
@@ -141,10 +146,10 @@ public:
      *
      * @return  The member of type `T...`[i] at offset[i].
      */
-    template<typename X, X I>
-    constexpr auto& operator[](boost::hana::integral_constant<X, I>)
+    template<typename I, I v>
+    constexpr auto& operator[](boost::hana::integral_constant<I, v>)
     {
-        return accessOneFunctor{this}(boost::hana::size_c<I>);
+        return accessOneFunctor{this}(boost::hana::size_c<v>);
     }
 
 
@@ -156,10 +161,10 @@ public:
      *
      * @return  The member of type `T...`[i] at offset[i].
      */
-    template<typename X, X I>
-    constexpr const auto& operator[](boost::hana::integral_constant<X, I>) const 
+    template<typename I, I v>
+    constexpr const auto& operator[](boost::hana::integral_constant<I, v>) const 
     {
-        return constAccessOneFunctor{this}(boost::hana::size_c<I>);
+        return constAccessOneFunctor{this}(boost::hana::size_c<v>);
     }
 
 
@@ -202,7 +207,10 @@ public:
     //! Returns a tuple containing const references to each member of this
     constexpr auto ctie() const
     {
-        return boost::hana::transform(idxTuple_mac, constRefWrapOneFunctor{this});
+        return boost::hana::transform(
+            idxTuple_mac
+          , constRefWrapOneFunctor{this}
+        );
     }
 
 

@@ -49,13 +49,13 @@ public:
     void update(float dt)
     {
         UpdateVisitor updater{dt};
-        hana::for_each(m_componentTuple.tie(), updater);
+        boost::hana::for_each(m_componentTuple.tie(), updater);
     }
 
     void draw(sf::RenderTarget& tar, sf::RenderStates stt) const
     {
         DrawVisitor drawer{tar, stt};
-        hana::for_each(m_componentTuple.ctie(), drawer);
+        boost::hana::for_each(m_componentTuple.ctie(), drawer);
     }
 
     constexpr auto tie()

@@ -7,6 +7,8 @@
 #include <functional>
 #include <tuple>
 
+namespace hana = boost::hana;
+using hana::literals::operator""_c;
 
 
 TEST(ComponentTuple, ReactsToUpdates)
