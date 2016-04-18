@@ -4,16 +4,26 @@ GameContext::GameContext()
 {
 }
 
-void GameContext::addDataSource(DataType type, std::istream src)
+GameSettings GameContext::generateSettings()
 {
-    //m_dataSources[static_cast<int>(type)].emplace_back(src);
+    return {};
 }
 
-void GameContext::generate()
+void GameContext::addDataSource(DataType type, std::istream src)
 {
-    for (std::istream& src : m_dataSources[0]) { loadEquipment(src); }
-    for (std::istream& src : m_dataSources[1]) { loadLevelMaps(src); }
-    for (std::istream& src : m_dataSources[2]) { loadConversations(src); }
+    switch (type) {
+        case DataType::EquipmentData:
+            loadEquipment(src);
+            break;
+
+        case DataType::LevelMap:
+            loadLevelMaps(src);
+            break;
+
+        case DataType::Conversation:
+            loadConversations(src);
+            break;
+    }
 }
 
 void GameContext::loadEquipment(std::istream& src)

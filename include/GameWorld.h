@@ -5,7 +5,7 @@ class GameWorld {
 
 public:
 
-    GameWorld(GameContext& context);
+    GameWorld(GameContext& context, GameSettings& settings);
 
     void run();
 

@@ -19,7 +19,7 @@
 #include "GameWorld.h"
 
 
-GameWorld::GameWorld(GameContext& context)
+GameWorld::GameWorld(GameContext& context, GameSettings& settings)
 {
 }
 

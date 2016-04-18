@@ -1,4 +1,5 @@
 #pragma once
+#include "GameSettings.h"
 #include <iostream>
 #include <array>
 #include <vector>
@@ -19,12 +20,10 @@ public:
     //! Adds a file which can be relied on for a type of Data
     void addDataSource(DataType type, std::istream src);
 
-    //! Generates data from the
-    void generate();
+    //! Generates settings from context accumulated in lifetime of this
+    GameSettings generateSettings();
 
 private:
-
-    std::array<std::vector<std::istream>, static_cast<int>(DataType::Count)>  m_dataSources;
 
     void loadEquipment(std::istream& src);
     void loadLevelMaps(std::istream& src);
