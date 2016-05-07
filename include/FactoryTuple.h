@@ -214,10 +214,17 @@ public:
     }
 
 
-    //! Returns a copy of the tuple
-    constexpr std::tuple<T...> to_tuple() const
+    //! Returns a copy of the tuple as a std::tuple
+    constexpr auto to_tuple() const
     {
         return tupleCopyFunctor{this}(std::index_sequence_for<T...>());
+    }
+
+
+    //! Returns a copy of the tuple as a boost::hana::tuple
+    constexpr auto to_htuple() const
+    {
+        return hanaTupleCopyFunctor{this}(std::index_sequence_for<T...>());
     }
 
 private:

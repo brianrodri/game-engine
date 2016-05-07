@@ -27,3 +27,7 @@ GameSettings& GameSettings::operator=(GameSettings&& src)
     return *this;
 }
 
+sf::Vector2u GameSettings::getWindowDim() const
+{
+    return {800, 600};
+}

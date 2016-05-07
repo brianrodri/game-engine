@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 
 
 class GameSettings {
@@ -13,6 +14,9 @@ public:
 
     GameSettings& operator=(const GameSettings&);
     GameSettings& operator=(GameSettings&&);
+
+
+    sf::Vector2u getWindowDim() const;
 
 private:
 

@@ -1,18 +1,21 @@
 #pragma once
 #include <experimental/type_traits>
 #include "FactoryTuple.h"
-#include "GameVisitors.h"
+#include "ComponentVisitors.h"
 //#include <hana/int_c.h>
 //#include <hana/hof/for_each.h>
 #include <boost/hana.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
+#include "Component.h"
 
 /**
  * `Designed to compose several _related_ components as one functioning component. ComponentTuple` is built upon
  * `FactoryTuple`, which takes a series of **functions** as arguments
  */
 template<typename... C>
-class ComponentTuple {
+class ComponentTuple : public Component {
+
+    static_assert(std::conjunction<std::is_base_of<Component, C>...>::value);
 
 public:
 

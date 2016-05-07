@@ -4,32 +4,40 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 
 int main(int argc, char ** argv)
 {
-    // Try to initialize our context with files/input
     GameContext context{};
-    try { /* ... */ } catch (std::exception& ex) {
+    try {
+        // TODO
+
+    } catch (std::exception& ex) {
         std::cerr << "Could not initialize context: \n" << ex.what() << '\n';
         return 1;
     } 
 
-    // Try to generate the context through our initialization
     GameSettings settings{};
-    try { settings = context.generateSettings(); } catch (std::domain_error& ex) {
-        std::cerr << "Could not generate context: \n" << ex.what() << '\n';
+    try {
+        settings = context.generateSettings();
+
+    } catch (std::exception& ex) {
+        std::cerr << "Could not generate settings: \n" << ex.what() << '\n';
         return 1;
     }
 
-    // Now allow our GameWorld to run until it either ends naturally or crashes
-    // through some exception
+    sf::Clock timer{};
     try {
-        GameWorld world{context, settings}; world.run(); 
+        GameWorld world{context, settings};
+        world.run(); 
+
     } catch (std::exception& ex) {
         std::cerr << "Unhandled exception!!\n" << ex.what() << '\n';
+        return 1;
     }
 
+    std::cout << timer.getElapsedTime().asMilliseconds() << "ms\n";
     return 0;
 }
 

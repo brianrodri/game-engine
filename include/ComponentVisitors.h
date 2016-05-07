@@ -10,11 +10,10 @@ namespace detail {
 template<typename C, typename = void>
 class DrawVisitorResolverFunctor {
 
-    void operator()(const C& visitee, sf::RenderTarget& target, sf::RenderStates states) const
-    {
-    }
+    void operator()(const C& visitee, sf::RenderTarget& target, sf::RenderStates states) const { }
 
 };
+
 
 template<typename C>
 struct DrawVisitorResolverFunctor
@@ -34,11 +33,10 @@ struct DrawVisitorResolverFunctor
 template<typename C, typename = void>
 struct UpdateVisitorResolverFunctor {
 
-    void operator()(C& visitee, float dt)
-    {
-    }
+    void operator()(C& visitee, float dt) { }
 
 } /*struct UpdateVisitorResolverFunctor*/;
+
 
 //! Specialized behavior, call update when it exists
 template<typename C>
@@ -55,6 +53,7 @@ struct UpdateVisitorResolverFunctor
 } /*struct UpdateVisitorResolverFunctor*/;
 
 } /*namespace detail*/;
+
 
 class UpdateVisitor {
 
@@ -80,6 +79,7 @@ private:
 
 } /*struct UpdateVisitor*/;
 
+
 class DrawVisitor {
 
 public:
@@ -104,5 +104,3 @@ private:
     sf::RenderStates m_states;
 
 } /*class DrawVisitor*/;
-
-

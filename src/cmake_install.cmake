@@ -38,6 +38,9 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
       )
     if(EXISTS "${file}" AND
        NOT IS_SYMLINK "${file}")
+      execute_process(COMMAND /usr/bin/install_name_tool
+        -delete_rpath "/usr/local/lib"
+        "${file}")
       if(CMAKE_INSTALL_DO_STRIP)
         execute_process(COMMAND "/usr/bin/strip" "${file}")
       endif()

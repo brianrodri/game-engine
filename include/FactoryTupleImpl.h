@@ -179,3 +179,20 @@ public:
     }
 
 } /*class tupleCopyFunctor*/;
+
+class hanaTupleCopyFunctor {
+
+    const Self * that;
+
+public:
+
+    constexpr hanaTupleCopyFunctor(const Self * thisIn) : that{thisIn} { }
+
+    template <size_t... I>
+    constexpr boost::hana::tuple<T...> operator()(std::index_sequence<I...>) const
+    {
+        return { T{that->operator[](boost::hana::size_c<I>)}... };
+    }
+
+} /*class tupleCopyFunctor*/;
+
